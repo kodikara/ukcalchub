@@ -76,58 +76,64 @@ export function CookieConsent({ measurementId }: CookieConsentProps) {
 
       {consent ? null : (
         <div className="fixed inset-x-0 bottom-4 z-50 px-4 sm:bottom-6">
-          <div className="container-shell">
-            <div className="rounded-[1.75rem] border border-white/10 bg-[#0f1626]/92 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.55)] backdrop-blur-xl sm:p-6">
-              <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-3xl space-y-3">
-                  <div className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-300">Privacy choices</div>
-                  <h2 className="text-2xl font-bold tracking-tight text-white">Use a small, respectful cookie setup</h2>
-                  <p className="text-sm leading-6 text-slate-300 sm:text-[0.95rem]">
-                    UK Calculator Hub uses essential site storage to remember your privacy choice. Optional analytics
-                    helps us understand which calculators people use, but it stays off unless you allow it.
+          <div className="mx-auto w-full max-w-5xl">
+            <div className="rounded-[1.5rem] border border-cyan-400/20 bg-[#121a2c]/95 p-4 shadow-[0_24px_80px_rgba(2,6,23,0.55)] ring-1 ring-cyan-400/10 backdrop-blur-xl sm:p-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-3xl space-y-2">
+                  <div className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-cyan-300">Privacy choices</div>
+                  <h2 className="text-xl font-bold tracking-tight text-white sm:text-[1.35rem]">
+                    Optional analytics, your choice
+                  </h2>
+                  <p className="text-sm leading-6 text-slate-200">
+                    We only use analytics if you allow it. Essential site storage is used only to remember this choice.
                   </p>
                   <p className="text-sm leading-6 text-slate-400">
-                    Read more in the <Link href="/privacy-policy" className="text-cyan-300 hover:text-cyan-200">privacy policy</Link>.
+                    Read more in the{" "}
+                    <Link href="/privacy-policy" className="font-medium text-cyan-300 hover:text-cyan-200">
+                      privacy policy
+                    </Link>
+                    .
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+                <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap lg:justify-end">
                   <button
                     type="button"
                     onClick={() => applyConsent(false)}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 text-sm font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/8"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 text-sm font-semibold text-slate-50 transition hover:border-white/20 hover:bg-white/10"
                   >
-                    Reject analytics
+                    Reject
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowSettings((current) => !current)}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 text-sm font-semibold text-cyan-200 transition hover:border-cyan-400/35 hover:bg-cyan-400/14"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/12 px-4 text-sm font-semibold text-cyan-100 transition hover:border-cyan-400/45 hover:bg-cyan-400/18"
                   >
-                    Manage choices
+                    Cookie settings
                   </button>
                   <button
                     type="button"
                     onClick={() => applyConsent(true)}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-5 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(34,211,238,0.2)] transition hover:-translate-y-0.5"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-4 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(34,211,238,0.2)] transition hover:-translate-y-0.5"
                   >
-                    Accept analytics
+                    Accept
                   </button>
                 </div>
               </div>
 
               {showSettings ? (
-                <div className="mt-5 rounded-[1.35rem] border border-white/10 bg-white/5 p-4">
+                <div className="mt-4 rounded-[1.25rem] border border-white/10 bg-[#0d1322] p-4">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="space-y-1">
                       <div className="text-sm font-semibold text-white">Analytics cookies</div>
                       <p className="text-sm leading-6 text-slate-400">
-                        Helps us measure visits and improve the calculators. Disabled by default until you opt in.
+                        Helps us measure visits and improve the calculators. Leave this off if you do not want
+                        analytics tracking.
                       </p>
                     </div>
 
-                    <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-200">
-                      <span>{analyticsEnabled ? "On" : "Off"}</span>
+                    <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-100">
+                      <span className="min-w-20 text-right">{analyticsEnabled ? "Enabled" : "Disabled"}</span>
                       <button
                         type="button"
                         role="switch"
