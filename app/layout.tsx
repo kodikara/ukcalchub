@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
-import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -51,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <body className="shell">
-        {googleAnalyticsId ? <GoogleAnalytics measurementId={googleAnalyticsId} /> : null}
+        <CookieConsent measurementId={googleAnalyticsId} />
         <div className="relative min-h-screen">
           <Header />
           <main>{children}</main>
