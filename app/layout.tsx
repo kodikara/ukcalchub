@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     title: "UK Salary & Cost Calculators | Simple UK Money Tools",
     description: siteConfig.description,
   },
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   verification: {
     google: googleVerification,
   },
