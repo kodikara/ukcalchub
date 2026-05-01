@@ -1,33 +1,50 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { ReactNode } from "react";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "UK Calculator Hub | Salary, Pension, Rent and Mortgage Tools",
-  description: "Simple UK calculators for salary, rent, mortgage, pension, hourly pay and cost of living.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteConfig.url,
+    title: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    locale: "en_GB",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    description: siteConfig.description,
+  },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html
-      lang="en-GB"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en-GB">
+      <body className="shell">
+        <div className="relative min-h-screen">
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }
