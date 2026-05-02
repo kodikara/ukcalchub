@@ -27,10 +27,11 @@ export default function EditorialPolicyPage() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold tracking-tight text-white">Who is behind the site</h2>
         <p>
-          UK Calculator Hub is built and maintained by {founderProfile.name}. The site is focused on turning common UK
-          money questions into clear, practical calculators and plain-English explainers. That means the site aims to
-          be transparent and genuinely useful, but it does not claim to replace a qualified accountant, mortgage
-          adviser, tax adviser or financial planner.
+          UK Calculator Hub is built and maintained by {founderProfile.name}. His background is in engineering and
+          structured problem solving rather than regulated financial advice, which is why the site is deliberately
+          open about assumptions, source links and limits. The goal is to turn common UK money questions into clear,
+          practical calculators and plain-English explainers without pretending to be a substitute for a qualified
+          accountant, mortgage adviser, tax adviser or financial planner.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link

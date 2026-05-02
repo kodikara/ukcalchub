@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -22,6 +21,7 @@ import {
 import { taxCodeOptions } from "@/lib/taxCodes";
 import { formatCurrency, formatPercent } from "@/lib/format";
 import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
+import { decimalField, enumField, stringField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -102,13 +102,27 @@ const relatedLinks = [
   },
 ] as const;
 
+type TakeHomeState = {
+  annualSalary: number;
+  pensionPercent: number;
+  pensionMethod: PensionMethod;
+  studentLoanPlan: StudentLoanPlan;
+  taxRegion: TaxRegion;
+  taxCode: string;
+};
+
+const takeHomeFields = {
+  annualSalary: decimalField(36_000, "salary"),
+  pensionPercent: decimalField(5, "pension"),
+  pensionMethod: enumField<PensionMethod>("netPay", ["netPay", "salarySacrifice"], "pensionMethod"),
+  studentLoanPlan: enumField<StudentLoanPlan>("plan2", ["none", "plan1", "plan2", "plan4", "plan5"], "loan"),
+  taxRegion: enumField<TaxRegion>("rUK", ["rUK", "scotland"], "region"),
+  taxCode: stringField("1257L", "code"),
+} as const;
+
 export function TakeHomePayCalculator() {
-  const [annualSalary, setAnnualSalary] = useState(36_000);
-  const [pensionPercent, setPensionPercent] = useState(5);
-  const [pensionMethod, setPensionMethod] = useState<PensionMethod>("netPay");
-  const [studentLoanPlan, setStudentLoanPlan] = useState<StudentLoanPlan>("plan2");
-  const [taxRegion, setTaxRegion] = useState<TaxRegion>("rUK");
-  const [taxCode, setTaxCode] = useState("1257L");
+  const { state, setField } = useShareableCalculatorState<TakeHomeState>(takeHomeFields);
+  const { annualSalary, pensionPercent, pensionMethod, studentLoanPlan, taxRegion, taxCode } = state;
 
   const breakdown = calculateSalary({
     annualSalary,
@@ -176,7 +190,7 @@ export function TakeHomePayCalculator() {
             step="1000"
             inputMode="decimal"
             value={annualSalary}
-            onChange={(event) => setAnnualSalary(Number(event.target.value))}
+            onChange={(event) => setField("annualSalary", Number(event.target.value))}
           />
           <InputField
             label="Pension percentage"
@@ -188,13 +202,13 @@ export function TakeHomePayCalculator() {
             suffix="%"
             inputMode="decimal"
             value={pensionPercent}
-            onChange={(event) => setPensionPercent(Number(event.target.value))}
+            onChange={(event) => setField("pensionPercent", Number(event.target.value))}
           />
           <SelectField
             label="Pension method"
             hint="Affects the net pay estimate"
             value={pensionMethod}
-            onChange={(event) => setPensionMethod(event.target.value as PensionMethod)}
+            onChange={(event) => setField("pensionMethod", event.target.value as PensionMethod)}
           >
             <option value="netPay">Net pay arrangement</option>
             <option value="salarySacrifice">Salary sacrifice</option>
@@ -203,7 +217,7 @@ export function TakeHomePayCalculator() {
             label="Student loan plan"
             hint="Choose your repayment plan if relevant"
             value={studentLoanPlan}
-            onChange={(event) => setStudentLoanPlan(event.target.value as StudentLoanPlan)}
+            onChange={(event) => setField("studentLoanPlan", event.target.value as StudentLoanPlan)}
           >
             <option value="none">None</option>
             <option value="plan1">Plan 1</option>
@@ -215,7 +229,7 @@ export function TakeHomePayCalculator() {
             label="Tax region"
             hint="Income tax bands"
             value={taxRegion}
-            onChange={(event) => setTaxRegion(event.target.value as TaxRegion)}
+            onChange={(event) => setField("taxRegion", event.target.value as TaxRegion)}
           >
             <option value="rUK">England, Wales and Northern Ireland</option>
             <option value="scotland">Scotland</option>
@@ -224,7 +238,7 @@ export function TakeHomePayCalculator() {
             label="Tax code"
             hint="Default 1257L for many employees"
             value={taxCode}
-            onChange={(event) => setTaxCode(event.target.value)}
+            onChange={(event) => setField("taxCode", event.target.value)}
           >
             {taxCodeOptions.map((option) => (
               <option key={option.value} value={option.value}>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
@@ -13,6 +12,7 @@ import { StatCard } from "@/components/StatCard";
 import { calculateMortgageAffordability } from "@/lib/calculations/mortgage";
 import { formatCurrency, formatPercent } from "@/lib/format";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
+import { decimalField, integerField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -94,13 +94,27 @@ const relatedLinks = [
   },
 ] as const;
 
+type MortgageState = {
+  annualIncome: number;
+  secondIncome: number;
+  deposit: number;
+  monthlyDebtPayments: number;
+  interestRate: number;
+  termYears: number;
+};
+
+const mortgageFields = {
+  annualIncome: decimalField(55_000, "income"),
+  secondIncome: decimalField(0, "secondIncome"),
+  deposit: decimalField(30_000, "deposit"),
+  monthlyDebtPayments: decimalField(250, "debt"),
+  interestRate: decimalField(4.9, "rate"),
+  termYears: integerField(30, "term"),
+} as const;
+
 export function MortgageAffordabilityCalculator() {
-  const [annualIncome, setAnnualIncome] = useState(55_000);
-  const [secondIncome, setSecondIncome] = useState(0);
-  const [deposit, setDeposit] = useState(30_000);
-  const [monthlyDebtPayments, setMonthlyDebtPayments] = useState(250);
-  const [interestRate, setInterestRate] = useState(4.9);
-  const [termYears, setTermYears] = useState(30);
+  const { state, setField } = useShareableCalculatorState<MortgageState>(mortgageFields);
+  const { annualIncome, secondIncome, deposit, monthlyDebtPayments, interestRate, termYears } = state;
 
   const result = calculateMortgageAffordability({
     annualIncome,
@@ -135,7 +149,7 @@ export function MortgageAffordabilityCalculator() {
             step="1000"
             inputMode="decimal"
             value={annualIncome}
-            onChange={(event) => setAnnualIncome(Number(event.target.value))}
+            onChange={(event) => setField("annualIncome", Number(event.target.value))}
           />
           <InputField
             label="Second income"
@@ -146,7 +160,7 @@ export function MortgageAffordabilityCalculator() {
             step="1000"
             inputMode="decimal"
             value={secondIncome}
-            onChange={(event) => setSecondIncome(Number(event.target.value))}
+            onChange={(event) => setField("secondIncome", Number(event.target.value))}
           />
           <InputField
             label="Deposit"
@@ -156,7 +170,7 @@ export function MortgageAffordabilityCalculator() {
             step="1000"
             inputMode="decimal"
             value={deposit}
-            onChange={(event) => setDeposit(Number(event.target.value))}
+            onChange={(event) => setField("deposit", Number(event.target.value))}
           />
           <InputField
             label="Monthly debt payments"
@@ -167,7 +181,7 @@ export function MortgageAffordabilityCalculator() {
             step="50"
             inputMode="decimal"
             value={monthlyDebtPayments}
-            onChange={(event) => setMonthlyDebtPayments(Number(event.target.value))}
+            onChange={(event) => setField("monthlyDebtPayments", Number(event.target.value))}
           />
           <InputField
             label="Interest rate"
@@ -178,7 +192,7 @@ export function MortgageAffordabilityCalculator() {
             suffix="%"
             inputMode="decimal"
             value={interestRate}
-            onChange={(event) => setInterestRate(Number(event.target.value))}
+            onChange={(event) => setField("interestRate", Number(event.target.value))}
           />
           <InputField
             label="Mortgage term"
@@ -188,7 +202,7 @@ export function MortgageAffordabilityCalculator() {
             max="40"
             inputMode="numeric"
             value={termYears}
-            onChange={(event) => setTermYears(Number(event.target.value))}
+            onChange={(event) => setField("termYears", Number(event.target.value))}
           />
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
             This is a simplified planning estimate using an income multiple and an affordability payment check, not a lender decision.

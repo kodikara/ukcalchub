@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
@@ -23,6 +22,7 @@ import { SourceLinks } from "@/components/SourceLinks";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { taxCodeOptions } from "@/lib/taxCodes";
 import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
+import { booleanField, decimalField, enumField, stringField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -113,15 +113,31 @@ const relatedLinks = [
   },
 ] as const;
 
+type SalaryCalculatorState = {
+  annualSalary: number;
+  pensionPercent: number;
+  pensionMethod: PensionMethod;
+  studentLoanPlan: StudentLoanPlan;
+  hasPostgraduateLoan: boolean;
+  taxRegion: TaxRegion;
+  taxCode: string;
+  period: ResultPeriod;
+};
+
+const salaryCalculatorFields = {
+  annualSalary: decimalField(45_000, "salary"),
+  pensionPercent: decimalField(5, "pension"),
+  pensionMethod: enumField<PensionMethod>("netPay", ["netPay", "salarySacrifice"], "pensionMethod"),
+  studentLoanPlan: enumField<StudentLoanPlan>("plan2", ["none", "plan1", "plan2", "plan4", "plan5"], "loan"),
+  hasPostgraduateLoan: booleanField(false, "pg"),
+  taxRegion: enumField<TaxRegion>("rUK", ["rUK", "scotland"], "region"),
+  taxCode: stringField("1257L", "code"),
+  period: enumField<ResultPeriod>("monthly", ["yearly", "monthly", "weekly"], "view"),
+} as const;
+
 export function SalaryCalculator() {
-  const [annualSalary, setAnnualSalary] = useState(45_000);
-  const [pensionPercent, setPensionPercent] = useState(5);
-  const [pensionMethod, setPensionMethod] = useState<PensionMethod>("netPay");
-  const [studentLoanPlan, setStudentLoanPlan] = useState<StudentLoanPlan>("plan2");
-  const [hasPostgraduateLoan, setHasPostgraduateLoan] = useState(false);
-  const [taxRegion, setTaxRegion] = useState<TaxRegion>("rUK");
-  const [taxCode, setTaxCode] = useState("1257L");
-  const [period, setPeriod] = useState<ResultPeriod>("monthly");
+  const { state, setField } = useShareableCalculatorState<SalaryCalculatorState>(salaryCalculatorFields);
+  const { annualSalary, pensionPercent, pensionMethod, studentLoanPlan, hasPostgraduateLoan, taxRegion, taxCode, period } = state;
 
   const breakdown = calculateSalary({
     annualSalary,
@@ -184,7 +200,7 @@ export function SalaryCalculator() {
             step="1000"
             inputMode="decimal"
             value={annualSalary}
-            onChange={(event) => setAnnualSalary(Number(event.target.value))}
+            onChange={(event) => setField("annualSalary", Number(event.target.value))}
           />
           <InputField
             label="Pension contribution percentage"
@@ -196,13 +212,13 @@ export function SalaryCalculator() {
             suffix="%"
             inputMode="decimal"
             value={pensionPercent}
-            onChange={(event) => setPensionPercent(Number(event.target.value))}
+            onChange={(event) => setField("pensionPercent", Number(event.target.value))}
           />
           <SelectField
             label="Pension method"
             hint="Changes how deductions affect take-home pay"
             value={pensionMethod}
-            onChange={(event) => setPensionMethod(event.target.value as PensionMethod)}
+            onChange={(event) => setField("pensionMethod", event.target.value as PensionMethod)}
           >
             <option value="netPay">Net pay arrangement</option>
             <option value="salarySacrifice">Salary sacrifice</option>
@@ -211,7 +227,7 @@ export function SalaryCalculator() {
             label="Student loan plan"
             hint="Undergraduate repayment plan"
             value={studentLoanPlan}
-            onChange={(event) => setStudentLoanPlan(event.target.value as StudentLoanPlan)}
+            onChange={(event) => setField("studentLoanPlan", event.target.value as StudentLoanPlan)}
           >
             <option value="none">None</option>
             <option value="plan1">Plan 1</option>
@@ -223,13 +239,13 @@ export function SalaryCalculator() {
             label="Also repay a postgraduate loan"
             hint="Adds a separate 6% deduction above the postgraduate threshold."
             checked={hasPostgraduateLoan}
-            onChange={setHasPostgraduateLoan}
+            onChange={(value) => setField("hasPostgraduateLoan", value)}
           />
           <SelectField
             label="Tax region"
             hint="Income tax bands"
             value={taxRegion}
-            onChange={(event) => setTaxRegion(event.target.value as TaxRegion)}
+            onChange={(event) => setField("taxRegion", event.target.value as TaxRegion)}
           >
             <option value="rUK">England, Wales and Northern Ireland</option>
             <option value="scotland">Scotland</option>
@@ -238,7 +254,7 @@ export function SalaryCalculator() {
             label="Tax code"
             hint="Choose a common UK tax code"
             value={taxCode}
-            onChange={(event) => setTaxCode(event.target.value)}
+            onChange={(event) => setField("taxCode", event.target.value)}
           >
             {taxCodeOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -250,7 +266,7 @@ export function SalaryCalculator() {
             <label className="mb-3 block text-[0.82rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Result view</label>
             <div className="pill-toggle">
               {(["yearly", "monthly", "weekly"] as ResultPeriod[]).map((value) => (
-                <button key={value} type="button" data-active={period === value} onClick={() => setPeriod(value)}>
+                <button key={value} type="button" data-active={period === value} onClick={() => setField("period", value)}>
                   {value[0].toUpperCase() + value.slice(1)}
                 </button>
               ))}

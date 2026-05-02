@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -15,6 +15,7 @@ import { calculateRentAffordability } from "@/lib/calculations/rent";
 import { calculateSalary, type StudentLoanPlan, valueForPeriod } from "@/lib/calculations/salary";
 import { formatCurrency, formatPercent } from "@/lib/format";
 import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
+import { decimalField, enumField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -73,15 +74,31 @@ const statusTone = {
   Risky: "rose" as const,
 };
 
+type SalaryRentState = {
+  annualSalary: number;
+  pensionPercent: number;
+  studentLoanPlan: StudentLoanPlan;
+  rent: number;
+  bills: number;
+  food: number;
+  transport: number;
+  other: number;
+};
+
+const salaryRentFields = {
+  annualSalary: decimalField(36_000, "salary"),
+  pensionPercent: decimalField(5, "pension"),
+  studentLoanPlan: enumField<StudentLoanPlan>("plan2", ["none", "plan1", "plan2", "plan4", "plan5"], "loan"),
+  rent: decimalField(950, "rent"),
+  bills: decimalField(240, "bills"),
+  food: decimalField(320, "food"),
+  transport: decimalField(160, "transport"),
+  other: decimalField(220, "other"),
+} as const;
+
 export function SalaryRentAffordabilityCalculator() {
-  const [annualSalary, setAnnualSalary] = useState(36_000);
-  const [pensionPercent, setPensionPercent] = useState(5);
-  const [studentLoanPlan, setStudentLoanPlan] = useState<StudentLoanPlan>("plan2");
-  const [rent, setRent] = useState(950);
-  const [bills, setBills] = useState(240);
-  const [food, setFood] = useState(320);
-  const [transport, setTransport] = useState(160);
-  const [other, setOther] = useState(220);
+  const { state, setField } = useShareableCalculatorState<SalaryRentState>(salaryRentFields);
+  const { annualSalary, pensionPercent, studentLoanPlan, rent, bills, food, transport, other } = state;
 
   const salaryResult = useMemo(
     () =>
@@ -142,7 +159,7 @@ export function SalaryRentAffordabilityCalculator() {
             step="1000"
             inputMode="decimal"
             value={annualSalary}
-            onChange={(event) => setAnnualSalary(Number(event.target.value))}
+            onChange={(event) => setField("annualSalary", Number(event.target.value))}
           />
           <InputField
             label="Pension percentage"
@@ -154,13 +171,13 @@ export function SalaryRentAffordabilityCalculator() {
             suffix="%"
             inputMode="decimal"
             value={pensionPercent}
-            onChange={(event) => setPensionPercent(Number(event.target.value))}
+            onChange={(event) => setField("pensionPercent", Number(event.target.value))}
           />
           <SelectField
             label="Student loan plan"
             hint="Choose if relevant"
             value={studentLoanPlan}
-            onChange={(event) => setStudentLoanPlan(event.target.value as StudentLoanPlan)}
+            onChange={(event) => setField("studentLoanPlan", event.target.value as StudentLoanPlan)}
           >
             <option value="none">None</option>
             <option value="plan1">Plan 1</option>
@@ -168,11 +185,11 @@ export function SalaryRentAffordabilityCalculator() {
             <option value="plan4">Plan 4</option>
             <option value="plan5">Plan 5</option>
           </SelectField>
-          <InputField label="Monthly rent" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={rent} onChange={(event) => setRent(Number(event.target.value))} />
-          <InputField label="Monthly bills" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={bills} onChange={(event) => setBills(Number(event.target.value))} />
-          <InputField label="Food / groceries" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={food} onChange={(event) => setFood(Number(event.target.value))} />
-          <InputField label="Transport" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={transport} onChange={(event) => setTransport(Number(event.target.value))} />
-          <InputField label="Other expenses" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={other} onChange={(event) => setOther(Number(event.target.value))} />
+          <InputField label="Monthly rent" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={rent} onChange={(event) => setField("rent", Number(event.target.value))} />
+          <InputField label="Monthly bills" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={bills} onChange={(event) => setField("bills", Number(event.target.value))} />
+          <InputField label="Food / groceries" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={food} onChange={(event) => setField("food", Number(event.target.value))} />
+          <InputField label="Transport" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={transport} onChange={(event) => setField("transport", Number(event.target.value))} />
+          <InputField label="Other expenses" prefix="£" type="number" min="0" step="50" inputMode="decimal" value={other} onChange={(event) => setField("other", Number(event.target.value))} />
         </div>
       }
       results={

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -15,6 +14,7 @@ import { councilTaxBandOptions, councilTaxValueForBand, type CouncilTaxBand } fr
 import { calculateRentAffordability } from "@/lib/calculations/rent";
 import { formatCurrency, formatPercent } from "@/lib/format";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
+import { decimalField, enumField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -96,17 +96,37 @@ const relatedLinks = [
   },
 ] as const;
 
+type RentAffordabilityState = {
+  monthlyIncome: number;
+  rent: number;
+  councilTaxBand: CouncilTaxBand;
+  councilTax: number;
+  bills: number;
+  food: number;
+  transport: number;
+  childcare: number;
+  other: number;
+  savingsGoal: number;
+};
+
+const councilTaxBands = councilTaxBandOptions.map((option) => option.value) as CouncilTaxBand[];
+
+const rentAffordabilityFields = {
+  monthlyIncome: decimalField(2800, "income"),
+  rent: decimalField(950, "rent"),
+  councilTaxBand: enumField<CouncilTaxBand>("", councilTaxBands, "councilBand"),
+  councilTax: decimalField(0, "councilTax"),
+  bills: decimalField(260, "bills"),
+  food: decimalField(320, "food"),
+  transport: decimalField(160, "transport"),
+  childcare: decimalField(0, "childcare"),
+  other: decimalField(250, "other"),
+  savingsGoal: decimalField(200, "savings"),
+} as const;
+
 export function RentAffordabilityCalculator() {
-  const [monthlyIncome, setMonthlyIncome] = useState(2800);
-  const [rent, setRent] = useState(950);
-  const [councilTaxBand, setCouncilTaxBand] = useState<CouncilTaxBand>("");
-  const [councilTax, setCouncilTax] = useState(0);
-  const [bills, setBills] = useState(260);
-  const [food, setFood] = useState(320);
-  const [transport, setTransport] = useState(160);
-  const [childcare, setChildcare] = useState(0);
-  const [other, setOther] = useState(250);
-  const [savingsGoal, setSavingsGoal] = useState(200);
+  const { state, setField } = useShareableCalculatorState<RentAffordabilityState>(rentAffordabilityFields);
+  const { monthlyIncome, rent, councilTaxBand, councilTax, bills, food, transport, childcare, other, savingsGoal } = state;
 
   const result = calculateRentAffordability({
     monthlyIncome,
@@ -145,9 +165,9 @@ export function RentAffordabilityCalculator() {
       form={
         <div className="space-y-5">
           {[
-            ["Monthly take-home income", monthlyIncome, setMonthlyIncome],
-            ["Monthly rent", rent, setRent],
-          ].map(([label, value, setter]) => (
+            ["Monthly take-home income", monthlyIncome, "monthlyIncome"],
+            ["Monthly rent", rent, "rent"],
+          ].map(([label, value, key]) => (
             <InputField
               key={label as string}
               label={label as string}
@@ -157,7 +177,7 @@ export function RentAffordabilityCalculator() {
               step="50"
               inputMode="decimal"
               value={value as number}
-              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+              onChange={(event) => setField(key as keyof RentAffordabilityState, Number(event.target.value) as never)}
             />
           ))}
           <SelectField
@@ -166,8 +186,8 @@ export function RentAffordabilityCalculator() {
             value={councilTaxBand}
             onChange={(event) => {
               const band = event.target.value as CouncilTaxBand;
-              setCouncilTaxBand(band);
-              setCouncilTax(councilTaxValueForBand(band));
+              setField("councilTaxBand", band);
+              setField("councilTax", councilTaxValueForBand(band));
             }}
           >
             {councilTaxBandOptions.map((option) => (
@@ -186,16 +206,16 @@ export function RentAffordabilityCalculator() {
             inputMode="decimal"
             placeholder="e.g. 120"
             value={councilTax === 0 ? "" : councilTax}
-            onChange={(event) => setCouncilTax(Number(event.target.value))}
+            onChange={(event) => setField("councilTax", Number(event.target.value))}
           />
           {[
-            ["Bills", bills, setBills],
-            ["Food/groceries", food, setFood],
-            ["Transport", transport, setTransport],
-            ["Childcare", childcare, setChildcare],
-            ["Other expenses", other, setOther],
-            ["Monthly savings goal", savingsGoal, setSavingsGoal],
-          ].map(([label, value, setter]) => (
+            ["Bills", bills, "bills"],
+            ["Food/groceries", food, "food"],
+            ["Transport", transport, "transport"],
+            ["Childcare", childcare, "childcare"],
+            ["Other expenses", other, "other"],
+            ["Monthly savings goal", savingsGoal, "savingsGoal"],
+          ].map(([label, value, key]) => (
             <InputField
               key={label as string}
               label={label as string}
@@ -205,7 +225,7 @@ export function RentAffordabilityCalculator() {
               step="50"
               inputMode="decimal"
               value={value as number}
-              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+              onChange={(event) => setField(key as keyof RentAffordabilityState, Number(event.target.value) as never)}
             />
           ))}
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">

@@ -113,9 +113,9 @@ export default function HomePage() {
             founder: {
               "@type": "Person",
               name: founderProfile.name,
-              sameAs: founderProfile.linkedin,
+              sameAs: [founderProfile.linkedin, founderProfile.facebook],
             },
-            sameAs: [founderProfile.linkedin],
+            sameAs: [founderProfile.linkedin, founderProfile.facebook],
             contactPoint: [
               {
                 "@type": "ContactPoint",

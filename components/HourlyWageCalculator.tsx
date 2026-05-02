@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
@@ -12,6 +11,7 @@ import { StatCard } from "@/components/StatCard";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { calculateHourlyRate } from "@/lib/calculations/hourly";
 import { formatCurrency } from "@/lib/format";
+import { decimalField, enumField, integerField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -69,12 +69,25 @@ const relatedLinks = [
   },
 ] as const;
 
+type HourlyWageState = {
+  mode: "salary" | "hourly";
+  annualSalary: number;
+  hourlyRateInput: number;
+  hoursPerWeek: number;
+  weeksWorkedPerYear: number;
+};
+
+const hourlyWageFields = {
+  mode: enumField<"salary" | "hourly">("salary", ["salary", "hourly"], "mode"),
+  annualSalary: decimalField(35_000, "salary"),
+  hourlyRateInput: decimalField(18, "hourly"),
+  hoursPerWeek: decimalField(37.5, "hours"),
+  weeksWorkedPerYear: integerField(52, "weeks"),
+} as const;
+
 export function HourlyWageCalculator() {
-  const [mode, setMode] = useState<"salary" | "hourly">("salary");
-  const [annualSalary, setAnnualSalary] = useState(35_000);
-  const [hourlyRateInput, setHourlyRateInput] = useState(18);
-  const [hoursPerWeek, setHoursPerWeek] = useState(37.5);
-  const [weeksWorkedPerYear, setWeeksWorkedPerYear] = useState(52);
+  const { state, setField } = useShareableCalculatorState<HourlyWageState>(hourlyWageFields);
+  const { mode, annualSalary, hourlyRateInput, hoursPerWeek, weeksWorkedPerYear } = state;
 
   const result =
     mode === "salary"
@@ -107,7 +120,7 @@ export function HourlyWageCalculator() {
                   key={item.value}
                   type="button"
                   data-active={mode === item.value}
-                  onClick={() => setMode(item.value as "salary" | "hourly")}
+                  onClick={() => setField("mode", item.value as "salary" | "hourly")}
                 >
                   {item.label}
                 </button>
@@ -124,7 +137,7 @@ export function HourlyWageCalculator() {
               step="1000"
               inputMode="decimal"
               value={annualSalary}
-              onChange={(event) => setAnnualSalary(Number(event.target.value))}
+              onChange={(event) => setField("annualSalary", Number(event.target.value))}
             />
           ) : (
             <InputField
@@ -136,7 +149,7 @@ export function HourlyWageCalculator() {
               step="0.5"
               inputMode="decimal"
               value={hourlyRateInput}
-              onChange={(event) => setHourlyRateInput(Number(event.target.value))}
+              onChange={(event) => setField("hourlyRateInput", Number(event.target.value))}
             />
           )}
           <InputField
@@ -147,7 +160,7 @@ export function HourlyWageCalculator() {
             step="0.5"
             inputMode="decimal"
             value={hoursPerWeek}
-            onChange={(event) => setHoursPerWeek(Number(event.target.value))}
+            onChange={(event) => setField("hoursPerWeek", Number(event.target.value))}
           />
           <InputField
             label="Weeks worked per year"
@@ -158,7 +171,7 @@ export function HourlyWageCalculator() {
             step="1"
             inputMode="numeric"
             value={weeksWorkedPerYear}
-            onChange={(event) => setWeeksWorkedPerYear(Number(event.target.value))}
+            onChange={(event) => setField("weeksWorkedPerYear", Number(event.target.value))}
           />
         </div>
       }

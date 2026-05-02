@@ -43,7 +43,12 @@ export default function ContactPage() {
             <Link href={founderProfile.linkedin} target="_blank" rel="noreferrer" className="text-cyan-300 hover:text-cyan-200">
               {founderProfile.name}
             </Link>
+            {" "}• {founderProfile.currentRole}
           </div>
+          <p className="mt-3 text-sm leading-6 text-slate-400">
+            UKCalcHub is built by a real person, not by an anonymous content network. That means feedback can directly
+            shape clearer wording, new calculators and fixes where a result feels confusing.
+          </p>
         </div>
 
         <ContactForm />

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -14,6 +13,7 @@ import { StatCard } from "@/components/StatCard";
 import { councilTaxBandOptions, councilTaxValueForBand, type CouncilTaxBand } from "@/lib/councilTax";
 import { calculateCostOfLiving, type HouseholdType, type LocationType } from "@/lib/calculations/costOfLiving";
 import { formatCurrency } from "@/lib/format";
+import { decimalField, enumField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -98,17 +98,39 @@ const relatedLinks = [
   },
 ] as const;
 
+type CostOfLivingState = {
+  householdType: HouseholdType;
+  locationType: LocationType;
+  councilTaxBand: CouncilTaxBand;
+  rent: number;
+  councilTax: number;
+  bills: number;
+  food: number;
+  transport: number;
+  childcare: number;
+  other: number;
+};
+
+const locationTypes: LocationType[] = ["london", "southEast", "city", "rural"];
+const householdTypes: HouseholdType[] = ["single", "couple", "family"];
+const councilTaxBands = councilTaxBandOptions.map((option) => option.value) as CouncilTaxBand[];
+
+const costOfLivingFields = {
+  householdType: enumField<HouseholdType>("single", householdTypes, "household"),
+  locationType: enumField<LocationType>("city", locationTypes, "location"),
+  councilTaxBand: enumField<CouncilTaxBand>("", councilTaxBands, "councilBand"),
+  rent: decimalField(900, "rent"),
+  councilTax: decimalField(0, "councilTax"),
+  bills: decimalField(240, "bills"),
+  food: decimalField(300, "food"),
+  transport: decimalField(160, "transport"),
+  childcare: decimalField(0, "childcare"),
+  other: decimalField(220, "other"),
+} as const;
+
 export function CostOfLivingCalculator() {
-  const [householdType, setHouseholdType] = useState<HouseholdType>("single");
-  const [locationType, setLocationType] = useState<LocationType>("city");
-  const [councilTaxBand, setCouncilTaxBand] = useState<CouncilTaxBand>("");
-  const [rent, setRent] = useState(900);
-  const [councilTax, setCouncilTax] = useState(0);
-  const [bills, setBills] = useState(240);
-  const [food, setFood] = useState(300);
-  const [transport, setTransport] = useState(160);
-  const [childcare, setChildcare] = useState(0);
-  const [other, setOther] = useState(220);
+  const { state, setField } = useShareableCalculatorState<CostOfLivingState>(costOfLivingFields);
+  const { householdType, locationType, councilTaxBand, rent, councilTax, bills, food, transport, childcare, other } = state;
 
   const result = calculateCostOfLiving({
     householdType,
@@ -150,7 +172,7 @@ export function CostOfLivingCalculator() {
             label="Household type"
             hint="Who the estimate is for"
             value={householdType}
-            onChange={(event) => setHouseholdType(event.target.value as HouseholdType)}
+            onChange={(event) => setField("householdType", event.target.value as HouseholdType)}
           >
             <option value="single">Single</option>
             <option value="couple">Couple</option>
@@ -161,12 +183,12 @@ export function CostOfLivingCalculator() {
             hint="Broad UK cost profile"
             value={locationType}
             options={locationOptions.map((option) => ({ label: option.label, value: option.value }))}
-            onChange={(value) => setLocationType(value as LocationType)}
+            onChange={(value) => setField("locationType", value as LocationType)}
             placeholder="Choose a location profile"
           />
           {[
-            ["Rent/mortgage", rent, setRent],
-          ].map(([label, value, setter]) => (
+            ["Rent/mortgage", rent, "rent"],
+          ].map(([label, value, key]) => (
             <InputField
               key={label as string}
               label={label as string}
@@ -176,7 +198,7 @@ export function CostOfLivingCalculator() {
               step="50"
               inputMode="decimal"
               value={value as number}
-              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+              onChange={(event) => setField(key as keyof CostOfLivingState, Number(event.target.value) as never)}
             />
           ))}
           <SelectField
@@ -185,8 +207,8 @@ export function CostOfLivingCalculator() {
             value={councilTaxBand}
             onChange={(event) => {
               const band = event.target.value as CouncilTaxBand;
-              setCouncilTaxBand(band);
-              setCouncilTax(councilTaxValueForBand(band));
+              setField("councilTaxBand", band);
+              setField("councilTax", councilTaxValueForBand(band));
             }}
           >
             {councilTaxBandOptions.map((option) => (
@@ -205,15 +227,15 @@ export function CostOfLivingCalculator() {
             inputMode="decimal"
             placeholder="e.g. 120"
             value={councilTax === 0 ? "" : councilTax}
-            onChange={(event) => setCouncilTax(Number(event.target.value))}
+            onChange={(event) => setField("councilTax", Number(event.target.value))}
           />
           {[
-            ["Bills", bills, setBills],
-            ["Food", food, setFood],
-            ["Transport", transport, setTransport],
-            ["Childcare", childcare, setChildcare],
-            ["Other", other, setOther],
-          ].map(([label, value, setter]) => (
+            ["Bills", bills, "bills"],
+            ["Food", food, "food"],
+            ["Transport", transport, "transport"],
+            ["Childcare", childcare, "childcare"],
+            ["Other", other, "other"],
+          ].map(([label, value, key]) => (
             <InputField
               key={label as string}
               label={label as string}
@@ -223,7 +245,7 @@ export function CostOfLivingCalculator() {
               step="50"
               inputMode="decimal"
               value={value as number}
-              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+              onChange={(event) => setField(key as keyof CostOfLivingState, Number(event.target.value) as never)}
             />
           ))}
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">

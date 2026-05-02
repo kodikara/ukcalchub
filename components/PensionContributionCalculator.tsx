@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
@@ -16,6 +15,7 @@ import { formatCurrency } from "@/lib/format";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { taxCodeOptions } from "@/lib/taxCodes";
 import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
+import { booleanField, decimalField, enumField, stringField, useShareableCalculatorState } from "@/lib/shareableCalculatorState";
 
 const faqs = [
   {
@@ -101,15 +101,40 @@ const relatedLinks = [
   },
 ] as const;
 
+type PensionContributionState = {
+  annualSalary: number;
+  employeePercent: number;
+  employerPercent: number;
+  pensionMethod: PensionMethod;
+  studentLoanPlan: StudentLoanPlan;
+  hasPostgraduateLoan: boolean;
+  taxRegion: TaxRegion;
+  taxCode: string;
+};
+
+const pensionContributionFields = {
+  annualSalary: decimalField(45_000, "salary"),
+  employeePercent: decimalField(5, "employee"),
+  employerPercent: decimalField(3, "employer"),
+  pensionMethod: enumField<PensionMethod>("netPay", ["netPay", "salarySacrifice"], "pensionMethod"),
+  studentLoanPlan: enumField<StudentLoanPlan>("plan2", ["none", "plan1", "plan2", "plan4", "plan5"], "loan"),
+  hasPostgraduateLoan: booleanField(false, "pg"),
+  taxRegion: enumField<TaxRegion>("rUK", ["rUK", "scotland"], "region"),
+  taxCode: stringField("1257L", "code"),
+} as const;
+
 export function PensionContributionCalculator() {
-  const [annualSalary, setAnnualSalary] = useState(45_000);
-  const [employeePercent, setEmployeePercent] = useState(5);
-  const [employerPercent, setEmployerPercent] = useState(3);
-  const [pensionMethod, setPensionMethod] = useState<PensionMethod>("netPay");
-  const [studentLoanPlan, setStudentLoanPlan] = useState<StudentLoanPlan>("plan2");
-  const [hasPostgraduateLoan, setHasPostgraduateLoan] = useState(false);
-  const [taxRegion, setTaxRegion] = useState<TaxRegion>("rUK");
-  const [taxCode, setTaxCode] = useState("1257L");
+  const { state, setField } = useShareableCalculatorState<PensionContributionState>(pensionContributionFields);
+  const {
+    annualSalary,
+    employeePercent,
+    employerPercent,
+    pensionMethod,
+    studentLoanPlan,
+    hasPostgraduateLoan,
+    taxRegion,
+    taxCode,
+  } = state;
 
   const result = calculatePensionContribution({
     annualSalary,
@@ -154,7 +179,7 @@ export function PensionContributionCalculator() {
             step="1000"
             inputMode="decimal"
             value={annualSalary}
-            onChange={(event) => setAnnualSalary(Number(event.target.value))}
+            onChange={(event) => setField("annualSalary", Number(event.target.value))}
           />
           <InputField
             label="Employee contribution"
@@ -166,7 +191,7 @@ export function PensionContributionCalculator() {
             suffix="%"
             inputMode="decimal"
             value={employeePercent}
-            onChange={(event) => setEmployeePercent(Number(event.target.value))}
+            onChange={(event) => setField("employeePercent", Number(event.target.value))}
           />
           <InputField
             label="Employer contribution"
@@ -178,13 +203,13 @@ export function PensionContributionCalculator() {
             suffix="%"
             inputMode="decimal"
             value={employerPercent}
-            onChange={(event) => setEmployerPercent(Number(event.target.value))}
+            onChange={(event) => setField("employerPercent", Number(event.target.value))}
           />
           <SelectField
             label="Pension method"
             hint="Affects tax and NI treatment"
             value={pensionMethod}
-            onChange={(event) => setPensionMethod(event.target.value as PensionMethod)}
+            onChange={(event) => setField("pensionMethod", event.target.value as PensionMethod)}
           >
             <option value="netPay">Net pay arrangement</option>
             <option value="salarySacrifice">Salary sacrifice</option>
@@ -193,7 +218,7 @@ export function PensionContributionCalculator() {
             label="Student loan plan"
             hint="Optional repayment effect"
             value={studentLoanPlan}
-            onChange={(event) => setStudentLoanPlan(event.target.value as StudentLoanPlan)}
+            onChange={(event) => setField("studentLoanPlan", event.target.value as StudentLoanPlan)}
           >
             <option value="none">None</option>
             <option value="plan1">Plan 1</option>
@@ -205,12 +230,12 @@ export function PensionContributionCalculator() {
             label="Also repay a postgraduate loan"
             hint="Useful if you want the pension impact to reflect both loan deductions."
             checked={hasPostgraduateLoan}
-            onChange={setHasPostgraduateLoan}
+            onChange={(value) => setField("hasPostgraduateLoan", value)}
           />
           <SelectField
             label="Tax region"
             value={taxRegion}
-            onChange={(event) => setTaxRegion(event.target.value as TaxRegion)}
+            onChange={(event) => setField("taxRegion", event.target.value as TaxRegion)}
           >
             <option value="rUK">England, Wales and Northern Ireland</option>
             <option value="scotland">Scotland</option>
@@ -219,7 +244,7 @@ export function PensionContributionCalculator() {
             label="Tax code"
             hint="Choose a common UK tax code"
             value={taxCode}
-            onChange={(event) => setTaxCode(event.target.value)}
+            onChange={(event) => setField("taxCode", event.target.value)}
           >
             {taxCodeOptions.map((option) => (
               <option key={option.value} value={option.value}>

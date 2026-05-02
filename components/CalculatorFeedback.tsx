@@ -1,23 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { founderProfile } from "@/lib/author";
-import { siteConfig } from "@/lib/site";
 
 export function CalculatorFeedback() {
-  const pathname = usePathname();
   const [helpful, setHelpful] = useState<"yes" | "no" | null>(null);
   const [shareState, setShareState] = useState<"idle" | "copied" | "shared">("idle");
-  const shareUrl = useMemo(() => `${siteConfig.url}${pathname}`, [pathname]);
 
   async function handleShare() {
+    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+
     try {
       if (navigator.share) {
         await navigator.share({
           title: "UK Calculator Hub",
-          text: "Thought this UK calculator might be useful.",
+          text: "Thought this UK calculator scenario might be useful.",
           url: shareUrl,
         });
         setShareState("shared");
@@ -85,7 +83,7 @@ export function CalculatorFeedback() {
           onClick={handleShare}
           className="rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 transition hover:border-cyan-400/30 hover:text-white"
         >
-          {shareState === "copied" ? "Link copied" : shareState === "shared" ? "Shared" : "Share this page"}
+          {shareState === "copied" ? "Link copied" : shareState === "shared" ? "Shared" : "Share this scenario"}
         </button>
       </div>
     </div>
