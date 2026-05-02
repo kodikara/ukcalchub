@@ -12,6 +12,8 @@ import { StatCard } from "@/components/StatCard";
 import { calculatePensionContribution } from "@/lib/calculations/pension";
 import type { PensionMethod, StudentLoanPlan, TaxRegion } from "@/lib/calculations/salary";
 import { formatCurrency } from "@/lib/format";
+import { RelatedCalculators } from "@/components/RelatedCalculators";
+import { taxCodeOptions } from "@/lib/taxCodes";
 
 const faqs = [
   {
@@ -29,30 +31,22 @@ const faqs = [
     answer:
       "No. This tool focuses on contribution impact today, not long-term investment growth or retirement income outcomes.",
   },
+  {
+    question: "Does salary sacrifice always improve the result?",
+    answer:
+      "Not always, but it often improves the net-pay position because it can reduce taxable pay and National Insurance before some deductions are worked out.",
+  },
+  {
+    question: "Should I count employer pension separately from my own contribution?",
+    answer:
+      "Yes. Employer contribution is extra value going into the pension and is often one of the most important parts of the overall pension package.",
+  },
+  {
+    question: "Can I use this instead of financial advice?",
+    answer:
+      "No. It is a practical estimate for comparing contribution levels, not a recommendation about how much you personally should invest.",
+  },
 ];
-
-const taxCodeOptions = [
-  { label: "1257L - Standard allowance", value: "1257L" },
-  { label: "0T - No personal allowance", value: "0T" },
-  { label: "BR - Basic rate", value: "BR" },
-  { label: "D0 - Higher rate", value: "D0" },
-  { label: "D1 - Additional rate", value: "D1" },
-  { label: "NT - No tax", value: "NT" },
-  { label: "K497 - Extra taxable pay", value: "K497" },
-  { label: "K1257 - Higher taxable adjustment", value: "K1257" },
-  { label: "S1257L - Scotland standard", value: "S1257L" },
-  { label: "S0T - Scotland no allowance", value: "S0T" },
-  { label: "SBR - Scotland basic rate", value: "SBR" },
-  { label: "SD0 - Scotland intermediate rate", value: "SD0" },
-  { label: "SD1 - Scotland higher rate", value: "SD1" },
-  { label: "SD2 - Scotland advanced rate", value: "SD2" },
-  { label: "SD3 - Scotland top rate", value: "SD3" },
-  { label: "C1257L - Wales standard", value: "C1257L" },
-  { label: "C0T - Wales no allowance", value: "C0T" },
-  { label: "CBR - Wales basic rate", value: "CBR" },
-  { label: "CD0 - Wales higher rate", value: "CD0" },
-  { label: "CD1 - Wales additional rate", value: "CD1" },
-] as const;
 
 const officialSourceLinks = [
   {
@@ -74,6 +68,29 @@ const officialSourceLinks = [
     label: "National Insurance: how much you pay",
     href: "https://www.gov.uk/national-insurance/how-much-you-pay",
     note: "Relevant because salary sacrifice and contribution methods can affect NI differently.",
+  },
+] as const;
+
+const relatedLinks = [
+  {
+    title: "Take-Home Pay Calculator",
+    description: "Compare pension changes against a net-pay-focused monthly result.",
+    href: "/take-home-pay-calculator-uk",
+  },
+  {
+    title: "UK Salary Calculator",
+    description: "See the broader annual salary breakdown with tax, NI and student loan deductions.",
+    href: "/salary-calculator-uk",
+  },
+  {
+    title: "Hourly Wage Calculator",
+    description: "Translate salary into hourly and weekly pay when comparing work patterns or roles.",
+    href: "/hourly-wage-calculator-uk",
+  },
+  {
+    title: "Cost of Living Calculator",
+    description: "Check whether your likely take-home pay still covers wider household costs comfortably.",
+    href: "/cost-of-living-calculator-uk",
   },
 ] as const;
 
@@ -254,11 +271,39 @@ export function PensionContributionCalculator() {
           </ul>
         </div>
       }
+      example={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
+          <p className="text-sm leading-6 text-slate-400">
+            If your salary is £40,000, you contribute 5% and your employer contributes 3%, this calculator estimates
+            what goes into your pension each month and how much your take-home pay may change after simplified tax and
+            deduction effects.
+          </p>
+        </div>
+      }
+      differences={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
+          <ul className="space-y-3 text-sm leading-6 text-slate-400">
+            <li>Employer schemes can have minimums, matching rules, waiting periods or earnings bands.</li>
+            <li>Tax relief can be handled differently depending on whether the scheme uses net pay, relief at source or salary sacrifice.</li>
+            <li>Student loan and National Insurance savings can vary with your actual payroll method.</li>
+            <li>Employer pension percentages may not apply to every part of your pay in the same way.</li>
+            <li>This is not a forecast of long-term pension growth or retirement income.</li>
+          </ul>
+        </div>
+      }
       resources={
         <SourceLinks
           title="Official sources"
           description="These GOV.UK pages are useful if you want to compare the calculator’s simplified pension assumptions with the official guidance on workplace pensions, contributions and tax relief."
           links={[...officialSourceLinks]}
+        />
+      }
+      related={
+        <RelatedCalculators
+          links={[...relatedLinks]}
+          description="These calculators usually help once you are comparing pension choices with pay and wider monthly budgets."
         />
       }
       faq={

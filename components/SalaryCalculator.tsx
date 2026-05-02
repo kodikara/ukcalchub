@@ -19,6 +19,8 @@ import {
 } from "@/lib/calculations/salary";
 import { formatCurrency } from "@/lib/format";
 import { SourceLinks } from "@/components/SourceLinks";
+import { RelatedCalculators } from "@/components/RelatedCalculators";
+import { taxCodeOptions } from "@/lib/taxCodes";
 
 const faqs = [
   {
@@ -46,30 +48,17 @@ const faqs = [
     answer:
       "Yes. You can switch the tax region to Scotland and the calculator will use Scottish income tax bands while keeping National Insurance UK-wide.",
   },
+  {
+    question: "Can I use this salary calculator for weekly pay?",
+    answer:
+      "Yes. Switch the result view to weekly if you want a rough weekly equivalent of the annual breakdown.",
+  },
+  {
+    question: "Does this cover every tax code situation?",
+    answer:
+      "No. It supports common standard, K, 0T, BR, D0, D1 and NT-style tax code patterns, but real payroll can still include additional employer-specific adjustments.",
+  },
 ];
-
-const taxCodeOptions = [
-  { label: "1257L - Standard allowance", value: "1257L" },
-  { label: "0T - No personal allowance", value: "0T" },
-  { label: "BR - Basic rate", value: "BR" },
-  { label: "D0 - Higher rate", value: "D0" },
-  { label: "D1 - Additional rate", value: "D1" },
-  { label: "NT - No tax", value: "NT" },
-  { label: "K497 - Extra taxable pay", value: "K497" },
-  { label: "K1257 - Higher taxable adjustment", value: "K1257" },
-  { label: "S1257L - Scotland standard", value: "S1257L" },
-  { label: "S0T - Scotland no allowance", value: "S0T" },
-  { label: "SBR - Scotland basic rate", value: "SBR" },
-  { label: "SD0 - Scotland intermediate rate", value: "SD0" },
-  { label: "SD1 - Scotland higher rate", value: "SD1" },
-  { label: "SD2 - Scotland advanced rate", value: "SD2" },
-  { label: "SD3 - Scotland top rate", value: "SD3" },
-  { label: "C1257L - Wales standard", value: "C1257L" },
-  { label: "C0T - Wales no allowance", value: "C0T" },
-  { label: "CBR - Wales basic rate", value: "CBR" },
-  { label: "CD0 - Wales higher rate", value: "CD0" },
-  { label: "CD1 - Wales additional rate", value: "CD1" },
-] as const;
 
 const officialSourceLinks = [
   {
@@ -91,6 +80,29 @@ const officialSourceLinks = [
     label: "Scottish Income Tax",
     href: "https://www.gov.uk/scottish-income-tax",
     note: "Relevant if you are comparing Scottish tax treatment with the rest of the UK.",
+  },
+] as const;
+
+const relatedLinks = [
+  {
+    title: "Take-Home Pay Calculator",
+    description: "Focus on monthly net pay if you mainly care about what lands in your bank account.",
+    href: "/take-home-pay-calculator-uk",
+  },
+  {
+    title: "Pension Contribution Calculator",
+    description: "See how different pension percentages can affect take-home pay and total pension value.",
+    href: "/pension-contribution-calculator-uk",
+  },
+  {
+    title: "Rent Affordability Calculator",
+    description: "Use your estimated take-home pay to judge whether rent feels comfortable after other costs.",
+    href: "/rent-affordability-calculator-uk",
+  },
+  {
+    title: "Cost of Living Calculator",
+    description: "Compare salary take-home with broader monthly household costs across common UK scenarios.",
+    href: "/cost-of-living-calculator-uk",
   },
 ] as const;
 
@@ -265,24 +277,38 @@ export function SalaryCalculator() {
       }
       explanation={
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your payslip may be different</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-white">What this salary result means</h2>
           <p className="text-sm leading-6 text-slate-400">
-            This tool aims to be useful and transparent, but payroll can vary because real payslips depend on details beyond a basic estimate.
+            This calculator starts with your gross annual salary, then estimates the main payroll deductions so you can
+            compare yearly, monthly or weekly take-home pay more confidently.
           </p>
-          <ul className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
-            <li>Current model: UK tax year 6 April 2026 to 5 April 2027.</li>
-            <li>Supported tax codes include standard codes, `K` codes, `0T`, `BR`, `D0`, `D1` and `NT`.</li>
-            <li>Pension method can be modelled as net pay or salary sacrifice.</li>
-            <li>Postgraduate loan can be added alongside an undergraduate repayment plan.</li>
-          </ul>
           <ul className="space-y-3 text-sm leading-6 text-slate-400">
-            <li>Tax code differences can increase or reduce the allowance used by your employer.</li>
+            <li>Gross salary is your pay before deductions.</li>
+            <li>Take-home pay is the amount left after estimated tax, National Insurance, pension and student loan deductions.</li>
+            <li>The period toggle lets you compare the same annual result as a yearly, monthly or weekly figure.</li>
+            <li>Current model: UK tax year 6 April 2026 to 5 April 2027 using local TypeScript logic.</li>
+          </ul>
+        </div>
+      }
+      example={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
+          <p className="text-sm leading-6 text-slate-400">
+            If your salary is £35,000 per year, this calculator estimates your monthly take-home pay after tax,
+            National Insurance, pension and student loan deductions. It is useful for comparing job offers, budgeting
+            rent, or understanding what a headline salary may really mean in your bank account.
+          </p>
+        </div>
+      }
+      differences={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
+          <ul className="space-y-3 text-sm leading-6 text-slate-400">
+            <li>Tax code differences can raise or lower the allowance used by your employer.</li>
             <li>Pension method matters because salary sacrifice and net pay arrangements affect deductions differently.</li>
-            <li>Salary sacrifice changes taxable pay before some deductions are calculated.</li>
             <li>Bonus or overtime can push individual pay periods into different deduction levels.</li>
             <li>Payroll timing can create differences between monthly and cumulative tax treatment.</li>
-            <li>Benefits or company perks may affect taxable pay.</li>
-            <li>Student loan plan choice directly changes the deduction threshold and rate.</li>
+            <li>Benefits, post-tax deductions and employer-specific payroll settings can change the final payslip.</li>
             <li>Scottish income tax bands differ from the rest of the UK.</li>
           </ul>
         </div>
@@ -292,6 +318,12 @@ export function SalaryCalculator() {
           title="Official sources"
           description="These GOV.UK pages are useful if you want to compare the estimate with the official rules and guidance behind income tax, National Insurance and student loan deductions."
           links={[...officialSourceLinks]}
+        />
+      }
+      related={
+        <RelatedCalculators
+          links={[...relatedLinks]}
+          description="These calculators usually make the next step easier once you have a salary estimate."
         />
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}

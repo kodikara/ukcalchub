@@ -7,11 +7,12 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/salary-calculator-uk", label: "Salary" },
+  { href: "/take-home-pay-calculator-uk", label: "Take-home" },
   { href: "/pension-contribution-calculator-uk", label: "Pension" },
   { href: "/hourly-wage-calculator-uk", label: "Hourly" },
-  { href: "/mortgage-affordability-uk", label: "Mortgage" },
-  { href: "/rent-affordability-uk", label: "Rent" },
-  { href: "/cost-of-living-uk", label: "Cost of Living" },
+  { href: "/mortgage-affordability-calculator-uk", label: "Mortgage" },
+  { href: "/rent-affordability-calculator-uk", label: "Rent" },
+  { href: "/cost-of-living-calculator-uk", label: "Cost of Living" },
 ];
 
 function isActive(pathname: string, href: string) {

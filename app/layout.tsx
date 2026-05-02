@@ -25,7 +25,7 @@ const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    default: "UK Calculator Hub | Simple UK Money Calculators",
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -36,14 +36,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteConfig.url,
-    title: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    title: "UK Calculator Hub | Simple UK Money Calculators",
     description: siteConfig.description,
     siteName: siteConfig.name,
     locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
-    title: "UK Salary & Cost Calculators | Simple UK Money Tools",
+    title: "UK Calculator Hub | Simple UK Money Calculators",
     description: siteConfig.description,
   },
   icons: {

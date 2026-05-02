@@ -12,6 +12,7 @@ import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
 import { calculateRentAffordability } from "@/lib/calculations/rent";
 import { formatCurrency, formatPercent } from "@/lib/format";
+import { RelatedCalculators } from "@/components/RelatedCalculators";
 
 const faqs = [
   {
@@ -28,6 +29,21 @@ const faqs = [
     question: "Should I include council tax and utilities in bills?",
     answer:
       "Yes. For a more realistic picture, include all recurring housing-related costs you expect to pay each month.",
+  },
+  {
+    question: "What if my rent is above 30% but still feels manageable?",
+    answer:
+      "That can happen. The 30% to 35% rule is only a rough guide, so your own transport costs, debts, savings goals and lifestyle still matter.",
+  },
+  {
+    question: "Can I use salary before tax here?",
+    answer:
+      "It is better to use take-home income, because rent affordability is usually about what is left after payroll deductions.",
+  },
+  {
+    question: "Does this decide what a landlord will accept?",
+    answer:
+      "No. Landlords and letting agents may use their own affordability checks, reference standards or guarantor requirements.",
   },
 ];
 
@@ -52,6 +68,29 @@ const guidanceLinks = [
     label: "Council Tax support",
     href: "https://www.gov.uk/apply-council-tax-reduction",
     note: "Useful if you are estimating the full housing budget and want to check whether council tax help may apply.",
+  },
+] as const;
+
+const relatedLinks = [
+  {
+    title: "Take-Home Pay Calculator",
+    description: "Work out a monthly net-pay estimate first if you only know your salary before tax.",
+    href: "/take-home-pay-calculator-uk",
+  },
+  {
+    title: "UK Salary Calculator",
+    description: "See the broader deduction breakdown before moving into rent planning.",
+    href: "/salary-calculator-uk",
+  },
+  {
+    title: "Cost of Living Calculator",
+    description: "Compare rent with a fuller monthly budget picture across common UK household types.",
+    href: "/cost-of-living-calculator-uk",
+  },
+  {
+    title: "Mortgage Affordability Calculator",
+    description: "Useful if you are comparing renting with a possible future home-buying budget.",
+    href: "/mortgage-affordability-calculator-uk",
   },
 ] as const;
 
@@ -163,11 +202,38 @@ export function RentAffordabilityCalculator() {
           </ul>
         </div>
       }
+      example={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
+          <p className="text-sm leading-6 text-slate-400">
+            If your monthly take-home income is £2,800 and your rent is £950, this calculator compares rent, bills,
+            groceries, transport, childcare and other expenses to show whether that level of rent looks comfortable,
+            tight or risky.
+          </p>
+        </div>
+      }
+      differences={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
+          <ul className="space-y-3 text-sm leading-6 text-slate-400">
+            <li>The 30% to 35% rent rule is only a rough guide and does not fit every household.</li>
+            <li>Commuting, debt payments, irregular income and local council tax can change the picture quickly.</li>
+            <li>Landlords and letting agents may use their own affordability formulas or require a guarantor.</li>
+            <li>Your savings goal can make a rent level feel tighter even if the bare essentials are covered.</li>
+          </ul>
+        </div>
+      }
       resources={
         <SourceLinks
           title="Useful guidance"
           description="These UK guidance pages are useful alongside the calculator if you are comparing rent with the wider reality of bills, support and tenancy obligations."
           links={[...guidanceLinks]}
+        />
+      }
+      related={
+        <RelatedCalculators
+          links={[...relatedLinks]}
+          description="These related tools help when you are turning pay figures into a fuller housing decision."
         />
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}

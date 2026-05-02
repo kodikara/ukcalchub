@@ -6,6 +6,7 @@ import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
 import { InputField, SearchableSelectField, SelectField } from "@/components/FormField";
+import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
@@ -28,6 +29,21 @@ const faqs = [
     answer:
       "Yes. You can choose a family household type and include childcare or other monthly costs to build a more realistic estimate.",
   },
+  {
+    question: "Why is this a planning total instead of just my entered total?",
+    answer:
+      "The planning total compares your entries with a simple location benchmark and uses the higher figure in each category to give a more cautious estimate.",
+  },
+  {
+    question: "Can I use this for London and other UK regions?",
+    answer:
+      "Yes. The location profile is broad rather than postcode-specific, but it is designed to highlight how costs can shift between London, the South East and other parts of the UK.",
+  },
+  {
+    question: "Is this meant for exact budgeting?",
+    answer:
+      "It is best used for planning and comparison. Exact budgets still depend on your tenancy, mortgage, commuting pattern, family setup and lifestyle.",
+  },
 ];
 
 const locationOptions = [
@@ -35,6 +51,29 @@ const locationOptions = [
   { label: "South East", value: "southEast" },
   { label: "Other UK city", value: "city" },
   { label: "Town / rural", value: "rural" },
+] as const;
+
+const relatedLinks = [
+  {
+    title: "Take-Home Pay Calculator",
+    description: "Compare your estimated monthly net pay with the living-cost total from this page.",
+    href: "/take-home-pay-calculator-uk",
+  },
+  {
+    title: "Salary Calculator",
+    description: "Useful if you still need to convert gross salary into a broader deduction breakdown first.",
+    href: "/salary-calculator-uk",
+  },
+  {
+    title: "Rent Affordability Calculator",
+    description: "See whether housing costs feel comfortable once your other monthly costs are included.",
+    href: "/rent-affordability-calculator-uk",
+  },
+  {
+    title: "Mortgage Affordability Calculator",
+    description: "Helpful if you want to compare a possible mortgage with wider monthly household spending.",
+    href: "/mortgage-affordability-calculator-uk",
+  },
 ] as const;
 
 export function CostOfLivingCalculator() {
@@ -168,6 +207,33 @@ export function CostOfLivingCalculator() {
             <li>This makes the result more useful for forward planning than a single multiplier on the total.</li>
           </ul>
         </div>
+      }
+      example={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
+          <p className="text-sm leading-6 text-slate-400">
+            If you choose a single household in an other-UK-city profile and enter rent, bills, food, transport and
+            other costs, this calculator gives both a monthly total and a yearly total so you can compare your likely
+            lifestyle cost with income and saving goals.
+          </p>
+        </div>
+      }
+      differences={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
+          <ul className="space-y-3 text-sm leading-6 text-slate-400">
+            <li>Actual housing costs can vary a lot even within the same broad region.</li>
+            <li>Childcare, commuting, energy usage and household size can change monthly costs dramatically.</li>
+            <li>This version uses broad UK planning benchmarks rather than postcode-level prices.</li>
+            <li>It is designed to help with planning, not to predict exact future bills.</li>
+          </ul>
+        </div>
+      }
+      related={
+        <RelatedCalculators
+          links={[...relatedLinks]}
+          description="These related tools help once you want to compare living costs with income, rent or mortgage choices."
+        />
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="This cost of living calculator is a simplified planning estimate. Actual household costs vary by tenancy, mortgage terms, family setup, lifestyle and local prices."

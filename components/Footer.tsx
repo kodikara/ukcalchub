@@ -18,11 +18,12 @@ export function Footer() {
             <div className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">Tools</div>
             <div className="flex flex-col gap-2 text-sm text-slate-400">
               <Link href="/salary-calculator-uk">Salary Calculator</Link>
+              <Link href="/take-home-pay-calculator-uk">Take-Home Pay Calculator</Link>
               <Link href="/pension-contribution-calculator-uk">Pension Contribution Calculator</Link>
               <Link href="/hourly-wage-calculator-uk">Hourly Wage Calculator</Link>
-              <Link href="/mortgage-affordability-uk">Mortgage Affordability Calculator</Link>
-              <Link href="/rent-affordability-uk">Rent Affordability</Link>
-              <Link href="/cost-of-living-uk">Cost of Living</Link>
+              <Link href="/mortgage-affordability-calculator-uk">Mortgage Affordability Calculator</Link>
+              <Link href="/rent-affordability-calculator-uk">Rent Affordability Calculator</Link>
+              <Link href="/cost-of-living-calculator-uk">Cost of Living Calculator</Link>
             </div>
           </div>
           <div className="space-y-2">

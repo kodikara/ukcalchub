@@ -11,6 +11,7 @@ import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
 import { calculateMortgageAffordability } from "@/lib/calculations/mortgage";
 import { formatCurrency, formatPercent } from "@/lib/format";
+import { RelatedCalculators } from "@/components/RelatedCalculators";
 
 const faqs = [
   {
@@ -27,6 +28,21 @@ const faqs = [
     question: "Should I enter household income or just one salary?",
     answer:
       "Use the total annual gross income you expect to use for the mortgage application if you want a household estimate.",
+  },
+  {
+    question: "Does deposit size change borrowing as well as property price?",
+    answer:
+      "Yes. Deposit mainly changes the property price you may target, and in real life it can also affect lender choice, rate offers and affordability tests.",
+  },
+  {
+    question: "Why is this only a rough estimate?",
+    answer:
+      "Real lenders use their own affordability models, credit checks, stress testing and product rules, so no public calculator can guarantee the same result.",
+  },
+  {
+    question: "Can I include a second income?",
+    answer:
+      "Yes. Add it if you expect a joint application or another household income to be part of the borrowing case.",
   },
 ];
 
@@ -54,8 +70,32 @@ const guidanceLinks = [
   },
 ] as const;
 
+const relatedLinks = [
+  {
+    title: "Rent Affordability Calculator",
+    description: "Useful if you are comparing the monthly cost of renting with a possible mortgage budget.",
+    href: "/rent-affordability-calculator-uk",
+  },
+  {
+    title: "Salary Calculator",
+    description: "See your broader pay breakdown if you still need to estimate income after tax and deductions.",
+    href: "/salary-calculator-uk",
+  },
+  {
+    title: "Take-Home Pay Calculator",
+    description: "Helpful when you want to compare mortgage cost with net monthly income instead of gross salary.",
+    href: "/take-home-pay-calculator-uk",
+  },
+  {
+    title: "Cost of Living Calculator",
+    description: "Compare a possible mortgage payment with wider monthly household costs.",
+    href: "/cost-of-living-calculator-uk",
+  },
+] as const;
+
 export function MortgageAffordabilityCalculator() {
   const [annualIncome, setAnnualIncome] = useState(55_000);
+  const [secondIncome, setSecondIncome] = useState(0);
   const [deposit, setDeposit] = useState(30_000);
   const [monthlyDebtPayments, setMonthlyDebtPayments] = useState(250);
   const [interestRate, setInterestRate] = useState(4.9);
@@ -63,6 +103,7 @@ export function MortgageAffordabilityCalculator() {
 
   const result = calculateMortgageAffordability({
     annualIncome,
+    secondIncome,
     deposit,
     monthlyDebtPayments,
     interestRate,
@@ -84,7 +125,7 @@ export function MortgageAffordabilityCalculator() {
         <div className="space-y-5">
           <InputField
             label="Annual household income"
-            hint="Gross yearly income"
+            hint="Primary gross yearly income"
             prefix="£"
             type="number"
             min="0"
@@ -92,6 +133,17 @@ export function MortgageAffordabilityCalculator() {
             inputMode="decimal"
             value={annualIncome}
             onChange={(event) => setAnnualIncome(Number(event.target.value))}
+          />
+          <InputField
+            label="Second income"
+            hint="Optional"
+            prefix="£"
+            type="number"
+            min="0"
+            step="1000"
+            inputMode="decimal"
+            value={secondIncome}
+            onChange={(event) => setSecondIncome(Number(event.target.value))}
           />
           <InputField
             label="Deposit"
@@ -151,9 +203,11 @@ export function MortgageAffordabilityCalculator() {
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard label="Affordability status" value={result.status} />
+            <StatCard label="Total income used" value={formatCurrency(result.totalIncome, true)} />
             <StatCard label="Income multiple used" value={`${result.incomeMultiple.toFixed(1)}x`} />
             <StatCard label="Monthly budget" value={formatCurrency(result.monthlyBudget, true)} />
             <StatCard label="Debt-to-income" value={formatPercent(result.debtToIncomeRatio)} />
+            <StatCard label="Deposit impact" value={formatCurrency(deposit, true)} />
           </div>
           <SectionCard
             title="Loan and price comparison"
@@ -176,11 +230,38 @@ export function MortgageAffordabilityCalculator() {
           </ul>
         </div>
       }
+      example={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
+          <p className="text-sm leading-6 text-slate-400">
+            If a household earns £55,000 a year, has a £30,000 deposit and pays £250 a month toward existing debts,
+            this calculator gives a rough borrowing range and a possible property budget. It is useful for planning,
+            not for replacing a lender decision.
+          </p>
+        </div>
+      }
+      differences={
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
+          <ul className="space-y-3 text-sm leading-6 text-slate-400">
+            <li>Lenders use their own affordability checks, credit scoring and stress testing rules.</li>
+            <li>Deposit size, product type and fixed-rate length can change the lending result.</li>
+            <li>Dependants, childcare, travel costs and committed spending may reduce real borrowing power.</li>
+            <li>This calculator does not replace a broker, lender decision or formal mortgage illustration.</li>
+          </ul>
+        </div>
+      }
       resources={
         <SourceLinks
           title="Useful guidance"
           description="Mortgage affordability is not set by one official formula, so these UK guidance pages are more useful here than a single rule source."
           links={[...guidanceLinks]}
+        />
+      }
+      related={
+        <RelatedCalculators
+          links={[...relatedLinks]}
+          description="These related tools help once you start comparing mortgage borrowing with monthly living costs."
         />
       }
       faq={

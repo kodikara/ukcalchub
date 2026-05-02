@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "UK Calculator Hub",
   shortName: "UK Calculator Hub",
   description:
-    "Premium UK-focused calculators for salary, pension, mortgage, rent affordability, hourly pay and cost of living with clear visual breakdowns.",
+    "Simple UK calculators for salary, take-home pay, rent, mortgage, pension, hourly wage and cost of living with clear visual breakdowns.",
   url: "https://ukcalchub.co.uk",
 };
 
@@ -13,9 +13,10 @@ export const siteRoutes = [
   "/privacy-policy",
   "/disclaimer",
   "/salary-calculator-uk",
+  "/take-home-pay-calculator-uk",
   "/pension-contribution-calculator-uk",
-  "/rent-affordability-uk",
-  "/cost-of-living-uk",
+  "/rent-affordability-calculator-uk",
+  "/cost-of-living-calculator-uk",
   "/hourly-wage-calculator-uk",
-  "/mortgage-affordability-uk",
+  "/mortgage-affordability-calculator-uk",
 ] as const;

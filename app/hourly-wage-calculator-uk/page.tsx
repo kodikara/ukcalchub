@@ -4,9 +4,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Hourly Wage Calculator UK | Convert Salary to Hourly Rate",
+  title: "Hourly Wage Calculator UK | Annual Salary to Hourly Pay",
   description:
-    "Convert annual salary into hourly, daily, weekly and monthly figures with a clean UK hourly wage calculator.",
+    "Convert annual salary into hourly, weekly, monthly and yearly pay with a simple UK hourly wage calculator.",
   alternates: {
     canonical: "/hourly-wage-calculator-uk",
   },
@@ -18,26 +18,18 @@ export default function HourlyWageCalculatorPage() {
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: [
-            {
-              "@type": "Question",
-              name: "Why is hourly rate useful if I am salaried?",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "It helps compare offers, understand overtime value, and see how a salary translates into day-to-day earning power.",
-              },
-            },
-            {
-              "@type": "Question",
-              name: "Does this include tax?",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. This tool converts gross salary into hourly, daily, weekly and monthly equivalents before deductions.",
-              },
-            },
-          ],
+          "@type": "SoftwareApplication",
+          name: "Hourly Wage Calculator UK",
+          applicationCategory: "FinanceApplication",
+          operatingSystem: "Web",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "GBP",
+          },
           url: `${siteConfig.url}/hourly-wage-calculator-uk`,
+          description:
+            "A UK hourly wage calculator for converting salary into hourly, weekly, monthly and yearly gross pay equivalents.",
         }}
       />
       <HourlyWageCalculator />

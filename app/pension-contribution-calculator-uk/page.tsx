@@ -4,9 +4,9 @@ import { PensionContributionCalculator } from "@/components/PensionContributionC
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Pension Contribution Calculator UK | Pension vs Take-Home Pay",
+  title: "Pension Contribution Calculator UK | Workplace Pension Estimate",
   description:
-    "See how employee and employer pension contributions can affect take-home pay and total pension value with a simple UK calculator.",
+    "Estimate employee and employer workplace pension contributions and see how they may affect take-home pay.",
   alternates: {
     canonical: "/pension-contribution-calculator-uk",
   },
@@ -18,26 +18,18 @@ export default function PensionContributionCalculatorPage() {
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: [
-            {
-              "@type": "Question",
-              name: "Does this show tax relief effects?",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "Yes. The calculator compares take-home pay with and without the employee pension contribution using the same simplified salary engine, so you can see the estimated net cost.",
-              },
-            },
-            {
-              "@type": "Question",
-              name: "Is this a retirement forecast?",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "No. This tool focuses on contribution impact today, not long-term investment growth or retirement income outcomes.",
-              },
-            },
-          ],
+          "@type": "SoftwareApplication",
+          name: "Pension Contribution Calculator UK",
+          applicationCategory: "FinanceApplication",
+          operatingSystem: "Web",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "GBP",
+          },
           url: `${siteConfig.url}/pension-contribution-calculator-uk`,
+          description:
+            "A UK workplace pension calculator for estimating employee contributions, employer contributions and the effect on take-home pay.",
         }}
       />
       <PensionContributionCalculator />

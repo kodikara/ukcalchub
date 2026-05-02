@@ -1,5 +1,6 @@
 export type MortgageInputs = {
   annualIncome: number;
+  secondIncome?: number;
   deposit: number;
   monthlyDebtPayments: number;
   interestRate: number;
@@ -7,6 +8,7 @@ export type MortgageInputs = {
 };
 
 export type MortgageResult = {
+  totalIncome: number;
   maxLoanByIncome: number;
   maxLoanByPayment: number;
   recommendedLoan: number;
@@ -48,12 +50,14 @@ function monthlyPaymentForLoan(principal: number, monthlyRate: number, months: n
 
 export function calculateMortgageAffordability(inputs: MortgageInputs): MortgageResult {
   const annualIncome = Math.max(0, inputs.annualIncome);
+  const secondIncome = Math.max(0, inputs.secondIncome ?? 0);
+  const totalIncome = annualIncome + secondIncome;
   const deposit = Math.max(0, inputs.deposit);
   const monthlyDebtPayments = Math.max(0, inputs.monthlyDebtPayments);
   const interestRate = Math.max(0, inputs.interestRate);
   const termYears = Math.max(1, inputs.termYears);
 
-  const grossMonthlyIncome = annualIncome / 12;
+  const grossMonthlyIncome = totalIncome / 12;
   const debtToIncomeRatio = grossMonthlyIncome > 0 ? monthlyDebtPayments / grossMonthlyIncome : 0;
 
   let incomeMultiple = 4.5;
@@ -66,7 +70,7 @@ export function calculateMortgageAffordability(inputs: MortgageInputs): Mortgage
   const monthlyBudget = Math.max(0, grossMonthlyIncome * 0.28 - monthlyDebtPayments);
   const monthlyRate = interestRate / 100 / 12;
   const months = termYears * 12;
-  const maxLoanByIncome = annualIncome * incomeMultiple;
+  const maxLoanByIncome = totalIncome * incomeMultiple;
   const maxLoanByPayment = presentValueOfAnnuity(monthlyBudget, monthlyRate, months);
   const recommendedLoan = Math.max(0, Math.min(maxLoanByIncome, maxLoanByPayment));
   const recommendedPropertyPrice = recommendedLoan + deposit;
@@ -80,6 +84,7 @@ export function calculateMortgageAffordability(inputs: MortgageInputs): Mortgage
   }
 
   return {
+    totalIncome: roundMoney(totalIncome),
     maxLoanByIncome: roundMoney(maxLoanByIncome),
     maxLoanByPayment: roundMoney(maxLoanByPayment),
     recommendedLoan: roundMoney(recommendedLoan),
