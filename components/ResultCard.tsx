@@ -3,12 +3,13 @@ type ResultCardProps = {
   title: string;
   value: string;
   detail?: string;
-  tone?: "teal" | "blue" | "amber" | "rose";
+  tone?: "teal" | "blue" | "violet" | "amber" | "rose";
 };
 
 const toneClasses = {
   teal: "from-blue-600 to-cyan-500",
   blue: "from-blue-700 to-cyan-500",
+  violet: "from-violet-600 to-fuchsia-500",
   amber: "from-amber-500 to-orange-500",
   rose: "from-rose-500 to-red-500",
 };
@@ -28,6 +29,8 @@ export function ResultCard({ eyebrow, title, value, detail, tone = "teal" }: Res
             ? "text-emerald-200"
             : tone === "blue"
               ? "text-cyan-100"
+              : tone === "violet"
+                ? "text-violet-100"
               : tone === "amber"
                 ? "text-amber-50"
                 : "text-rose-50"

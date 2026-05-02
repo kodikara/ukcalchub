@@ -194,7 +194,7 @@ export function PensionContributionCalculator() {
             title="Total going into your pension each month"
             value={formatCurrency(result.totalMonthly, true)}
             detail={`Estimated monthly take-home impact: ${formatCurrency(result.takeHomeImpactMonthly, true)}. Employer contribution can materially increase the total value added.`}
-            tone="amber"
+            tone="violet"
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard label="Employee yearly contribution" value={formatCurrency(result.employeeAnnual, true)} />

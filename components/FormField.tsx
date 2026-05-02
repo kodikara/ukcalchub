@@ -57,6 +57,7 @@ export function InputField({
 }: InputFieldProps) {
   const isNumberInput = type === "number";
   const [draftValue, setDraftValue] = useState(normaliseInputValue(value));
+  const [isEditing, setIsEditing] = useState(false);
   const normalisedValue = useMemo(() => normaliseInputValue(value), [value]);
 
   useEffect(() => {
@@ -64,10 +65,10 @@ export function InputField({
       return;
     }
 
-    if (normalisedValue !== draftValue) {
+    if (!isEditing && normalisedValue !== draftValue) {
       setDraftValue(normalisedValue);
     }
-  }, [draftValue, isNumberInput, normalisedValue]);
+  }, [draftValue, isEditing, isNumberInput, normalisedValue]);
 
   function triggerNumericChange(nextValue: string) {
     if (!onChange) {
@@ -103,8 +104,12 @@ export function InputField({
 
   function handleBlur(event: FocusEvent<HTMLInputElement>) {
     if (isNumberInput) {
+      setIsEditing(false);
+
       if (draftValue !== "" && draftValue !== "-" && draftValue !== "." && draftValue !== "-.") {
         setDraftValue(normaliseInputValue(Number(draftValue)));
+      } else {
+        setDraftValue(normalisedValue);
       }
     }
 
@@ -112,6 +117,10 @@ export function InputField({
   }
 
   function handleFocus(event: FocusEvent<HTMLInputElement>) {
+    if (isNumberInput) {
+      setIsEditing(true);
+    }
+
     onFocus?.(event);
   }
 
@@ -135,7 +144,7 @@ export function InputField({
           ) : null}
           <input {...sharedInputProps} className="input-inline" />
           {suffix ? (
-            <span className="prefix-slot text-slate-400" aria-hidden="true">
+            <span className="suffix-slot" aria-hidden="true">
               {suffix}
             </span>
           ) : null}
