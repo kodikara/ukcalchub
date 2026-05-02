@@ -143,6 +143,21 @@ export function TakeHomePayCalculator() {
     { label: "Difference", value: monthlyGross - monthlyTakeHome, color: "#fb7185" },
   ];
 
+  const takeHomeNotes = [
+    annualSalary > 50_270
+      ? "Part of this pay is now entering the higher-rate band, which is why the gap between gross and net starts to widen more noticeably."
+      : "This pay level stays inside the basic-rate band after the allowance is applied, so the monthly result is being driven mainly by standard payroll deductions.",
+    pensionPercent > 0
+      ? `A ${pensionPercent}% pension contribution is included, so your monthly net pay is lower than a tax-only example but your long-term pension saving is higher.`
+      : "No employee pension contribution is included here, so the result is closer to a tax-and-NI-only net pay example.",
+    studentLoanPlan !== "none"
+      ? `The ${studentLoanPlan.replace("plan", "Plan ")} student loan setting is active, so the model is taking another monthly deduction on top of tax and National Insurance.`
+      : "No undergraduate student loan is selected, so the net-pay gap mainly comes from tax, NI and any pension contribution.",
+    taxCode !== "1257L"
+      ? `The ${taxCode} tax code is changing the monthly estimate away from the normal 1257L baseline, which is often the main reason a real payslip looks different from a generic example.`
+      : "The common 1257L tax code is being used here, which is a useful baseline for many standard employment situations.",
+  ];
+
   return (
     <>
       <FaqSchema faqs={faqs} id="faq-schema-take-home-pay" />
@@ -266,6 +281,16 @@ export function TakeHomePayCalculator() {
             <li>Net pay is what is left after tax, National Insurance, pension and any selected student loan.</li>
             <li>Weekly and yearly net figures help you compare jobs, overtime value and budgeting over different time frames.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Why this monthly figure looks like this</h3>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              {takeHomeNotes.map((note) => (
+                <li key={note} className="list-disc pl-1 ml-4">
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       }
       example={

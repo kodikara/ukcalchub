@@ -33,11 +33,20 @@ export function Footer() {
               <Link href="/contact" className="text-sm text-slate-300 hover:text-white">
                 Contact
               </Link>
+              <Link href="/about" className="text-sm text-slate-300 hover:text-white">
+                About Us
+              </Link>
               <Link href="/privacy-policy" className="text-sm text-slate-300 hover:text-white">
                 Privacy Policy
               </Link>
               <Link href="/editorial-policy" className="text-sm text-slate-300 hover:text-white">
                 Editorial Policy
+              </Link>
+              <Link href="/cookie-policy" className="text-sm text-slate-300 hover:text-white">
+                Cookie Policy
+              </Link>
+              <Link href="/terms-of-service" className="text-sm text-slate-300 hover:text-white">
+                Terms of Service
               </Link>
               <Link href="/why-is-my-payslip-different-from-salary-calculator-uk" className="text-sm text-slate-300 hover:text-white">
                 Why payslips differ

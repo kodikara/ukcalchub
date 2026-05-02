@@ -151,6 +151,21 @@ export function SalaryCalculator() {
     { label: "Take-home", value: breakdown.takeHomeAnnual, color: "#14b8a6" },
   ];
 
+  const salaryNotes = [
+    annualSalary > 50_270
+      ? "Part of this salary sits above the basic-rate threshold, so a slice of your income is being taxed at the higher rate."
+      : "This salary stays fully inside the basic-rate band after the personal allowance is applied, so no higher-rate tax is being estimated.",
+    pensionMethod === "salarySacrifice"
+      ? "Salary sacrifice is lowering taxable pay before some deductions are worked out, which usually makes the take-home result a bit more efficient."
+      : "The estimate is treating pension as a net pay arrangement, so it reduces taxable pay for income tax but not in the same way as salary sacrifice.",
+    studentLoanPlan !== "none"
+      ? `A ${studentLoanPlan.replace("plan", "Plan ")} student loan deduction is included, which is one of the most common reasons take-home pay looks lower than a simple tax-only example.`
+      : "No undergraduate student loan deduction is included here, so the result reflects only tax, National Insurance and pension settings.",
+    taxCode !== "1257L"
+      ? `This estimate uses the ${taxCode} tax code rather than the common 1257L baseline, so the final take-home figure is being adjusted away from the standard allowance pattern.`
+      : "The result is using the common 1257L baseline, which is a sensible planning assumption for many employees with one main job.",
+  ];
+
   return (
     <>
       <FaqSchema faqs={faqs} id="faq-schema-salary-calculator" />
@@ -308,6 +323,16 @@ export function SalaryCalculator() {
             <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-50000-uk">£50,000</a>,
             {" "}
             <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-60000-uk">£60,000</a>.
+          </div>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Why this result looks like this</h3>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              {salaryNotes.map((note) => (
+                <li key={note} className="list-disc pl-1 ml-4">
+                  {note}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       }

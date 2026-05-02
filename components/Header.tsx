@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -48,6 +49,12 @@ export function Header() {
               </div>
             </div>
           </Link>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <div className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold text-emerald-200">
+              {CURRENT_TAX_YEAR_LABEL}
+            </div>
+          </div>
 
           <nav className="hidden items-center gap-2 md:flex">
             {navItems.map((item) => {
@@ -99,6 +106,9 @@ export function Header() {
 
         {mobileOpen ? (
           <nav className="mt-4 rounded-[1.5rem] border border-white/10 bg-white/5 p-3 shadow-[0_18px_40px_rgba(2,6,23,0.32)] backdrop-blur-xl md:hidden">
+            <div className="mb-3 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-200">
+              {CURRENT_TAX_YEAR_LABEL}
+            </div>
             <div className="grid grid-cols-2 gap-2">
               {navItems.map((item) => {
                 const active = isActive(pathname, item.href);

@@ -41,6 +41,10 @@ export default function PrivacyPolicyPage() {
         Future versions may add advertising, saved calculations, or broader contact workflows. If that happens, this
         privacy policy should be updated before those features go live.
       </p>
+      <p>
+        For more detail on optional analytics behaviour and how the site remembers your privacy choice, see the cookie
+        policy. For broader usage rules, see the terms of service.
+      </p>
     </ContentPageShell>
   );
 }
