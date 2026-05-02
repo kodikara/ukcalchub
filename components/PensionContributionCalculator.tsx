@@ -164,24 +164,18 @@ export function PensionContributionCalculator() {
             <option value="rUK">England, Wales and Northern Ireland</option>
             <option value="scotland">Scotland</option>
           </SelectField>
-          <InputField
+          <SelectField
             label="Tax code"
-            hint="Use a common code or type your own"
-            type="text"
+            hint="Choose a common UK tax code"
             value={taxCode}
-            list="pension-tax-code-options"
-            autoCapitalize="characters"
-            spellCheck={false}
-            onChange={(event) => setTaxCode(event.target.value.toUpperCase())}
-            placeholder="1257L"
-          />
-          <datalist id="pension-tax-code-options">
+            onChange={(event) => setTaxCode(event.target.value)}
+          >
             {taxCodeOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
-          </datalist>
+          </SelectField>
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
             This tool uses the same simplified current-year salary logic as the salary calculator, then compares pay with and without pension contributions.
           </div>

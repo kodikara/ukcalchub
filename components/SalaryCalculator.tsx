@@ -173,24 +173,18 @@ export function SalaryCalculator() {
             <option value="rUK">England, Wales and Northern Ireland</option>
             <option value="scotland">Scotland</option>
           </SelectField>
-          <InputField
+          <SelectField
             label="Tax code"
-            hint="Use a common code or type your own"
-            type="text"
+            hint="Choose a common UK tax code"
             value={taxCode}
-            list="salary-tax-code-options"
-            autoCapitalize="characters"
-            spellCheck={false}
-            onChange={(event) => setTaxCode(event.target.value.toUpperCase())}
-            placeholder="1257L"
-          />
-          <datalist id="salary-tax-code-options">
+            onChange={(event) => setTaxCode(event.target.value)}
+          >
             {taxCodeOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
-          </datalist>
+          </SelectField>
           <div>
             <label className="mb-3 block text-[0.82rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Result view</label>
             <div className="pill-toggle">

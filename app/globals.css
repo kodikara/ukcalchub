@@ -191,6 +191,16 @@ select {
   color: rgb(100 116 139);
 }
 
+.input-inline[type="number"] {
+  appearance: textfield;
+}
+
+.input-inline[type="number"]::-webkit-outer-spin-button,
+.input-inline[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .input-shell:focus {
   outline: none;
   border-color: rgba(34, 211, 238, 0.85);
