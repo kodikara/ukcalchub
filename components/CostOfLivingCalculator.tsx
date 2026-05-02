@@ -5,7 +5,7 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
-import { InputField, SelectField } from "@/components/FormField";
+import { InputField, SearchableSelectField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
@@ -29,6 +29,13 @@ const faqs = [
       "Yes. You can choose a family household type and include childcare or other monthly costs to build a more realistic estimate.",
   },
 ];
+
+const locationOptions = [
+  { label: "London", value: "london" },
+  { label: "South East", value: "southEast" },
+  { label: "Other UK city", value: "city" },
+  { label: "Town / rural", value: "rural" },
+] as const;
 
 export function CostOfLivingCalculator() {
   const [householdType, setHouseholdType] = useState<HouseholdType>("single");
@@ -81,17 +88,14 @@ export function CostOfLivingCalculator() {
             <option value="couple">Couple</option>
             <option value="family">Family with child</option>
           </SelectField>
-          <SelectField
+          <SearchableSelectField
             label="Location type"
             hint="Broad UK cost profile"
             value={locationType}
-            onChange={(event) => setLocationType(event.target.value as LocationType)}
-          >
-            <option value="london">London</option>
-            <option value="southEast">South East</option>
-            <option value="city">Other UK city</option>
-            <option value="rural">Town/rural</option>
-          </SelectField>
+            options={locationOptions.map((option) => ({ label: option.label, value: option.value }))}
+            onChange={(value) => setLocationType(value as LocationType)}
+            placeholder="Choose a location profile"
+          />
           {[
             ["Rent/mortgage", rent, setRent],
             ["Bills", bills, setBills],
