@@ -36,6 +36,9 @@ export function Footer() {
               <Link href="/privacy-policy" className="text-sm text-slate-300 hover:text-white">
                 Privacy Policy
               </Link>
+              <Link href="/editorial-policy" className="text-sm text-slate-300 hover:text-white">
+                Editorial Policy
+              </Link>
               <Link href="/why-is-my-payslip-different-from-salary-calculator-uk" className="text-sm text-slate-300 hover:text-white">
                 Why payslips differ
               </Link>

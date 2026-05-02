@@ -13,8 +13,8 @@ type RelatedCalculatorsProps = {
 };
 
 export function RelatedCalculators({
-  title = "Related calculators",
-  description = "Explore the next calculator that usually helps after this one.",
+  title = "Useful next steps",
+  description = "Most people follow this calculator with one of these related tools.",
   links,
 }: RelatedCalculatorsProps) {
   return (

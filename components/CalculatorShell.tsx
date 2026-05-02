@@ -9,6 +9,7 @@ type CalculatorShellProps = {
   breadcrumbLabel?: string;
   trustNote?: string;
   taxYearBadge?: string;
+  methodologyNote?: string;
   form: ReactNode;
   results: ReactNode;
   explanation: ReactNode;
@@ -26,6 +27,7 @@ export function CalculatorShell({
   breadcrumbLabel,
   trustNote = "Estimate only. UK-focused. No sign-up required.",
   taxYearBadge,
+  methodologyNote = "Built from current UK thresholds and clearly stated assumptions. Use the source links below if you want to review the rules behind the estimate.",
   form,
   results,
   explanation,
@@ -58,6 +60,9 @@ export function CalculatorShell({
               {taxYearBadge}
             </div>
           ) : null}
+        </div>
+        <div className="max-w-3xl rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-6 text-slate-300 backdrop-blur-xl">
+          {methodologyNote}
         </div>
       </section>
 

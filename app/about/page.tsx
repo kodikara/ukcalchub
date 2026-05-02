@@ -33,6 +33,10 @@ export default function AboutPage() {
       <p>
         If you spot an issue or want a new calculator added, the contact page is the best place to get in touch.
       </p>
+      <p>
+        If you want to see how the site approaches updates, source links, assumptions and calculator limitations, read
+        the editorial policy.
+      </p>
       <div className="rounded-[1.5rem] border border-white/10 bg-[#0f1728]/70 p-5">
         <h2 className="text-2xl font-semibold tracking-tight text-white">Who built the site?</h2>
         <p className="mt-4 text-base leading-8 text-slate-300">
@@ -41,6 +45,12 @@ export default function AboutPage() {
           than many old-style money tool sites.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            href="/editorial-policy"
+            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 transition hover:border-cyan-400/30 hover:text-white"
+          >
+            Editorial policy
+          </Link>
           <Link
             href={founderProfile.linkedin}
             target="_blank"

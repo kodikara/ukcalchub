@@ -9,6 +9,7 @@ export const siteConfig = {
 export const siteRoutes = [
   "/",
   "/about",
+  "/editorial-policy",
   "/contact",
   "/privacy-policy",
   "/disclaimer",
