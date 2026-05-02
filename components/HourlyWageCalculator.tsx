@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
@@ -88,7 +89,9 @@ export function HourlyWageCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-hourly-wage" />
+      <CalculatorShell
       title="Hourly Wage Calculator UK"
       intro="Convert annual salary to hourly pay or hourly rate to salary with a simple UK-friendly calculator."
       form={
@@ -233,6 +236,7 @@ export function HourlyWageCalculator() {
         </>
       }
       disclaimer="This hourly wage calculator provides simplified gross equivalents only and should not be treated as payroll, legal or financial advice."
-    />
+      />
+    </>
   );
 }

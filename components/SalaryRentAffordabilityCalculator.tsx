@@ -5,6 +5,7 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SelectField } from "@/components/FormField";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
@@ -124,7 +125,9 @@ export function SalaryRentAffordabilityCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-salary-rent-affordability" />
+      <CalculatorShell
       title="Salary Rent Affordability Calculator UK"
       intro="Estimate monthly take-home pay from your salary, then compare it with rent and essential monthly costs in one place."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
@@ -251,6 +254,7 @@ export function SalaryRentAffordabilityCalculator() {
         </>
       }
       disclaimer="These results are estimates only and should not be treated as financial, tax, legal or professional advice."
-    />
+      />
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { CheckboxField, InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
@@ -136,7 +137,9 @@ export function PensionContributionCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-pension-contribution" />
+      <CalculatorShell
       title="Pension Contribution Calculator UK"
       intro="See how employee and employer pension contributions can affect your take-home pay and how much may be going into your pension overall."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
@@ -327,6 +330,7 @@ export function PensionContributionCalculator() {
         </>
       }
       disclaimer="This pension contribution calculator provides simplified estimates only. Real pension treatment depends on scheme rules, employer setup, tax relief method, payroll configuration and investment performance."
-    />
+      />
+    </>
   );
 }

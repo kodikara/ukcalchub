@@ -5,6 +5,7 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SelectField } from "@/components/FormField";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
@@ -143,7 +144,9 @@ export function TakeHomePayCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-take-home-pay" />
+      <CalculatorShell
       title="Take-Home Pay Calculator UK"
       intro="Estimate your monthly and weekly UK take-home pay after tax, National Insurance, pension and student loan deductions."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
@@ -314,6 +317,7 @@ export function TakeHomePayCalculator() {
         </>
       }
       disclaimer="These results are estimates only and should not be treated as financial, tax, legal or professional advice."
-    />
+      />
+    </>
   );
 }

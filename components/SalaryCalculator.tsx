@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { CheckboxField, InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
@@ -151,7 +152,9 @@ export function SalaryCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-salary-calculator" />
+      <CalculatorShell
       title="UK Salary Calculator"
       intro="Estimate your UK take-home pay after income tax, National Insurance, pension contributions and student loan deductions."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
@@ -353,6 +356,7 @@ export function SalaryCalculator() {
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="These estimates use simplified UK tax assumptions for the tax year running from 6 April 2026 to 5 April 2027 and are for guidance only. They are not a substitute for payroll software, employer payslips or professional advice."
-    />
+      />
+    </>
   );
 }

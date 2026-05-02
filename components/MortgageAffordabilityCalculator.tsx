@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
@@ -118,7 +119,9 @@ export function MortgageAffordabilityCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-mortgage-affordability" />
+      <CalculatorShell
       title="Mortgage Affordability Calculator UK"
       intro="Estimate how much mortgage and property price may be realistic based on income, deposit, debts, interest rate and term."
       form={
@@ -271,6 +274,7 @@ export function MortgageAffordabilityCalculator() {
         </>
       }
       disclaimer="This mortgage affordability calculator provides an estimate only and should not be treated as mortgage advice, a lending decision or a substitute for speaking to a broker or lender."
-    />
+      />
+    </>
   );
 }

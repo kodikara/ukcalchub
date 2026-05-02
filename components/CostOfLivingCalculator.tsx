@@ -5,6 +5,7 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SearchableSelectField, SelectField } from "@/components/FormField";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
@@ -137,7 +138,9 @@ export function CostOfLivingCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-cost-of-living" />
+      <CalculatorShell
       title="UK Cost of Living Calculator"
       intro="Estimate monthly UK living costs for individuals and families."
       trustNote="This calculator includes council tax and common UK household costs to give a more realistic monthly estimate."
@@ -320,6 +323,7 @@ export function CostOfLivingCalculator() {
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="This cost of living calculator is a simplified planning estimate. Actual household costs vary by tenancy, mortgage terms, family setup, lifestyle and local prices."
-    />
+      />
+    </>
   );
 }

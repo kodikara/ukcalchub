@@ -5,6 +5,7 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
+import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
@@ -136,7 +137,9 @@ export function RentAffordabilityCalculator() {
   ];
 
   return (
-    <CalculatorShell
+    <>
+      <FaqSchema faqs={faqs} id="faq-schema-rent-affordability" />
+      <CalculatorShell
       title="Rent Affordability Calculator UK"
       intro="Check how much rent may be affordable based on your income and monthly expenses."
       form={
@@ -301,6 +304,7 @@ export function RentAffordabilityCalculator() {
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="This rent calculator is a planning tool only. Real affordability depends on deposit requirements, debt, location, lifestyle, credit history and unexpected expenses."
-    />
+      />
+    </>
   );
 }

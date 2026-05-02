@@ -313,14 +313,61 @@ export default function HomePage() {
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
+                  { href: "/salary-after-tax-25000-uk", label: "£25,000 salary after tax" },
+                  { href: "/salary-after-tax-28000-uk", label: "£28,000 salary after tax" },
                   { href: "/salary-after-tax-30000-uk", label: "£30,000 salary after tax" },
+                  { href: "/salary-after-tax-32000-uk", label: "£32,000 salary after tax" },
                   { href: "/salary-after-tax-35000-uk", label: "£35,000 salary after tax" },
+                  { href: "/salary-after-tax-38000-uk", label: "£38,000 salary after tax" },
                   { href: "/salary-after-tax-40000-uk", label: "£40,000 salary after tax" },
+                  { href: "/salary-after-tax-42000-uk", label: "£42,000 salary after tax" },
                   { href: "/salary-after-tax-45000-uk", label: "£45,000 salary after tax" },
                   { href: "/salary-after-tax-50000-uk", label: "£50,000 salary after tax" },
+                  { href: "/salary-after-tax-55000-uk", label: "£55,000 salary after tax" },
                   { href: "/salary-after-tax-60000-uk", label: "£60,000 salary after tax" },
+                  { href: "/salary-after-tax-70000-uk", label: "£70,000 salary after tax" },
+                  { href: "/salary-after-tax-80000-uk", label: "£80,000 salary after tax" },
+                  { href: "/salary-after-tax-100000-uk", label: "£100,000 salary after tax" },
                   { href: "/why-is-my-payslip-different-from-salary-calculator-uk", label: "Why payslips differ from calculators" },
                   { href: "/salary-rent-affordability-calculator-uk", label: "Can I afford this rent on my salary?" },
+                  { href: "/what-is-1257l-tax-code-uk", label: "What the 1257L tax code means" },
+                  { href: "/what-is-salary-sacrifice-uk", label: "How salary sacrifice affects pay" },
+                  { href: "/uk-personal-allowance-2026-27", label: "UK personal allowance 2026/27" },
+                  { href: "/how-does-pension-auto-enrolment-work-uk", label: "How pension auto-enrolment works" },
+                  { href: "/what-is-national-insurance-uk", label: "What National Insurance is for" },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-[1.5rem] border border-white/10 bg-white/5 px-5 py-4 text-sm font-medium text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/8 hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="container-shell px-4 py-2 sm:px-6 lg:px-0">
+          <div className="glass-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+              <div className="space-y-4">
+                <div className="eyebrow">Guides</div>
+                <h2 className="section-heading">Short explainers for tax codes, salary sacrifice and pensions</h2>
+                <p className="text-base leading-7 text-slate-300">
+                  These plain-English guides support the calculators with context on payroll terms, tax thresholds and
+                  pension rules that often confuse people when they compare salary examples.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  { href: "/what-is-1257l-tax-code-uk", label: "What is the 1257L tax code?" },
+                  { href: "/what-is-salary-sacrifice-uk", label: "What is salary sacrifice?" },
+                  { href: "/uk-personal-allowance-2026-27", label: "UK personal allowance 2026/27" },
+                  { href: "/how-does-pension-auto-enrolment-work-uk", label: "How pension auto-enrolment works" },
+                  { href: "/what-is-national-insurance-uk", label: "What is National Insurance?" },
                 ].map((item) => (
                   <Link
                     key={item.href}

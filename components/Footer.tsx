@@ -42,14 +42,27 @@ export function Footer() {
             </div>
           </div>
           <div className="space-y-2">
-            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">Disclaimer</div>
-            <p className="text-sm leading-6 text-slate-400">
-              These calculators provide estimates only and should not be treated as financial, tax, legal, or
-              professional advice.
-            </p>
-            <Link href="/disclaimer" className="text-sm text-slate-300 hover:text-white">
-              Read full disclaimer
-            </Link>
+            <div className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">Guides</div>
+            <div className="flex flex-col gap-2">
+              <Link href="/what-is-1257l-tax-code-uk" className="text-sm text-slate-300 hover:text-white">
+                1257L tax code guide
+              </Link>
+              <Link href="/what-is-salary-sacrifice-uk" className="text-sm text-slate-300 hover:text-white">
+                Salary sacrifice guide
+              </Link>
+              <Link href="/uk-personal-allowance-2026-27" className="text-sm text-slate-300 hover:text-white">
+                Personal allowance 2026/27
+              </Link>
+              <Link href="/how-does-pension-auto-enrolment-work-uk" className="text-sm text-slate-300 hover:text-white">
+                Pension auto-enrolment guide
+              </Link>
+              <Link href="/what-is-national-insurance-uk" className="text-sm text-slate-300 hover:text-white">
+                National Insurance guide
+              </Link>
+              <Link href="/disclaimer" className="text-sm text-slate-300 hover:text-white">
+                Read full disclaimer
+              </Link>
+            </div>
           </div>
         </div>
         <div className="border-t border-white/10 pt-5 text-sm text-slate-500">

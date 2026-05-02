@@ -5,12 +5,15 @@ import { StatCard } from "@/components/StatCard";
 import { calculateSalary, valueForPeriod } from "@/lib/calculations/salary";
 import { formatCurrency } from "@/lib/format";
 import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
+import { getSalaryAfterTaxCommonQuestions, getSalaryAfterTaxPageData } from "@/lib/salaryAfterTaxPages";
 
 type SalaryAfterTaxLandingProps = {
   annualSalary: number;
 };
 
 export function SalaryAfterTaxLanding({ annualSalary }: SalaryAfterTaxLandingProps) {
+  const content = getSalaryAfterTaxPageData(annualSalary);
+  const commonQuestions = getSalaryAfterTaxCommonQuestions(annualSalary);
   const result = calculateSalary({
     annualSalary,
     pensionPercent: 0,
@@ -95,6 +98,22 @@ export function SalaryAfterTaxLanding({ annualSalary }: SalaryAfterTaxLandingPro
             </div>
           </div>
         </SectionCard>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="glass-card rounded-[1.75rem] p-5 md:rounded-[2rem] md:p-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-white">About this salary</h2>
+            <p className="mt-4 text-sm leading-6 text-slate-400">{content.about}</p>
+          </div>
+
+          <div className="glass-card rounded-[1.75rem] p-5 md:rounded-[2rem] md:p-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-white">Common questions at this salary</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-400">
+              {commonQuestions.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="glass-card rounded-[1.75rem] p-5 md:rounded-[2rem] md:p-6">
