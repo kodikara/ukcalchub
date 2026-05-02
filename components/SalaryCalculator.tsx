@@ -18,6 +18,7 @@ import {
   valueForPeriod,
 } from "@/lib/calculations/salary";
 import { formatCurrency } from "@/lib/format";
+import { SourceLinks } from "@/components/SourceLinks";
 
 const faqs = [
   {
@@ -68,6 +69,29 @@ const taxCodeOptions = [
   { label: "CBR - Wales basic rate", value: "CBR" },
   { label: "CD0 - Wales higher rate", value: "CD0" },
   { label: "CD1 - Wales additional rate", value: "CD1" },
+] as const;
+
+const officialSourceLinks = [
+  {
+    label: "Income Tax rates and allowances",
+    href: "https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past",
+    note: "Useful for checking the broad tax bands and allowances that underpin take-home pay estimates.",
+  },
+  {
+    label: "National Insurance: how much you pay",
+    href: "https://www.gov.uk/national-insurance/how-much-you-pay",
+    note: "Explains who pays National Insurance and how employee contributions work.",
+  },
+  {
+    label: "Student loan repayments: what you pay",
+    href: "https://www.gov.uk/repaying-your-student-loan/what-you-pay",
+    note: "Helps confirm plan thresholds and repayment rates for student loan deductions.",
+  },
+  {
+    label: "Scottish Income Tax",
+    href: "https://www.gov.uk/scottish-income-tax",
+    note: "Relevant if you are comparing Scottish tax treatment with the rest of the UK.",
+  },
 ] as const;
 
 export function SalaryCalculator() {
@@ -262,6 +286,13 @@ export function SalaryCalculator() {
             <li>Scottish income tax bands differ from the rest of the UK.</li>
           </ul>
         </div>
+      }
+      resources={
+        <SourceLinks
+          title="Official sources"
+          description="These GOV.UK pages are useful if you want to compare the estimate with the official rules and guidance behind income tax, National Insurance and student loan deductions."
+          links={[...officialSourceLinks]}
+        />
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="These estimates use simplified UK tax assumptions for the tax year running from 6 April 2026 to 5 April 2027 and are for guidance only. They are not a substitute for payroll software, employer payslips or professional advice."

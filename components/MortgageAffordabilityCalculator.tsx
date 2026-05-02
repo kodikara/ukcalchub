@@ -7,6 +7,7 @@ import { FAQ } from "@/components/FAQ";
 import { InputField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
+import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
 import { calculateMortgageAffordability } from "@/lib/calculations/mortgage";
 import { formatCurrency, formatPercent } from "@/lib/format";
@@ -34,6 +35,24 @@ const statusTone = {
   Cautious: "amber" as const,
   Stretch: "rose" as const,
 };
+
+const guidanceLinks = [
+  {
+    label: "Mortgage Charter",
+    href: "https://www.gov.uk/government/publications/mortgage-charter/mortgage-charter",
+    note: "Useful background if you want to understand current lender support options and mortgage pressure guidance.",
+  },
+  {
+    label: "MoneyHelper: buying a home and mortgages",
+    href: "https://www.moneyhelper.org.uk/en/homes/buying-a-home",
+    note: "A practical UK guide to affordability, deposits, fees and the wider mortgage process.",
+  },
+  {
+    label: "Support for Mortgage Interest",
+    href: "https://www.gov.uk/support-for-mortgage-interest",
+    note: "Relevant if you are researching safety nets alongside general affordability planning.",
+  },
+] as const;
 
 export function MortgageAffordabilityCalculator() {
   const [annualIncome, setAnnualIncome] = useState(55_000);
@@ -156,6 +175,13 @@ export function MortgageAffordabilityCalculator() {
             <li>The recommendation is designed to feel more cautious than a headline borrowing figure on its own.</li>
           </ul>
         </div>
+      }
+      resources={
+        <SourceLinks
+          title="Useful guidance"
+          description="Mortgage affordability is not set by one official formula, so these UK guidance pages are more useful here than a single rule source."
+          links={[...guidanceLinks]}
+        />
       }
       faq={
         <>

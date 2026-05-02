@@ -96,7 +96,7 @@ select {
 .section-heading {
   font-family: var(--display-font);
   font-size: clamp(1.65rem, 3vw, 2.4rem);
-  line-height: 1;
+  line-height: 1.08;
   letter-spacing: -0.035em;
   color: #ffffff;
 }

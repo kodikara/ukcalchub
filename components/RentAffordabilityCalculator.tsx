@@ -8,6 +8,7 @@ import { FAQ } from "@/components/FAQ";
 import { InputField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
+import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
 import { calculateRentAffordability } from "@/lib/calculations/rent";
 import { formatCurrency, formatPercent } from "@/lib/format";
@@ -35,6 +36,24 @@ const statusTone = {
   Tight: "amber" as const,
   Risky: "rose" as const,
 };
+
+const guidanceLinks = [
+  {
+    label: "How to rent",
+    href: "https://www.gov.uk/government/publications/how-to-rent",
+    note: "A practical GOV.UK guide to renting in England, useful for the wider costs and commitments around a tenancy.",
+  },
+  {
+    label: "Housing costs and Universal Credit",
+    href: "https://www.gov.uk/housing-and-universal-credit",
+    note: "Helpful if you need to understand how housing support can interact with rent costs.",
+  },
+  {
+    label: "Council Tax support",
+    href: "https://www.gov.uk/apply-council-tax-reduction",
+    note: "Useful if you are estimating the full housing budget and want to check whether council tax help may apply.",
+  },
+] as const;
 
 export function RentAffordabilityCalculator() {
   const [monthlyIncome, setMonthlyIncome] = useState(2800);
@@ -143,6 +162,13 @@ export function RentAffordabilityCalculator() {
             <li>Risky if rent is above 40% of take-home pay, total essential spend is very heavy, or your remaining money drops below zero.</li>
           </ul>
         </div>
+      }
+      resources={
+        <SourceLinks
+          title="Useful guidance"
+          description="These UK guidance pages are useful alongside the calculator if you are comparing rent with the wider reality of bills, support and tenancy obligations."
+          links={[...guidanceLinks]}
+        />
       }
       faq={<><h2 className="mb-4 text-2xl font-semibold tracking-tight text-white">FAQ</h2><FAQ items={faqs} /></>}
       disclaimer="This rent calculator is a planning tool only. Real affordability depends on deposit requirements, debt, location, lifestyle, credit history and unexpected expenses."

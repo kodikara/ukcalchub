@@ -7,6 +7,7 @@ import { FAQ } from "@/components/FAQ";
 import { CheckboxField, InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
+import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
 import { calculatePensionContribution } from "@/lib/calculations/pension";
 import type { PensionMethod, StudentLoanPlan, TaxRegion } from "@/lib/calculations/salary";
@@ -51,6 +52,29 @@ const taxCodeOptions = [
   { label: "CBR - Wales basic rate", value: "CBR" },
   { label: "CD0 - Wales higher rate", value: "CD0" },
   { label: "CD1 - Wales additional rate", value: "CD1" },
+] as const;
+
+const officialSourceLinks = [
+  {
+    label: "Workplace pensions",
+    href: "https://www.gov.uk/workplace-pensions",
+    note: "A clear GOV.UK overview of how workplace pensions, auto-enrolment and contributions work.",
+  },
+  {
+    label: "Workplace pension contributions",
+    href: "https://www.gov.uk/workplace-pensions/what-you-your-employer-and-the-government-pay",
+    note: "Useful for understanding minimum contribution rules and who pays into the pension.",
+  },
+  {
+    label: "Tax on your private pension contributions",
+    href: "https://www.gov.uk/tax-on-your-private-pension/pension-tax-relief",
+    note: "Helpful if you want to compare simplified tax-relief effects with official pension tax guidance.",
+  },
+  {
+    label: "National Insurance: how much you pay",
+    href: "https://www.gov.uk/national-insurance/how-much-you-pay",
+    note: "Relevant because salary sacrifice and contribution methods can affect NI differently.",
+  },
 ] as const;
 
 export function PensionContributionCalculator() {
@@ -229,6 +253,13 @@ export function PensionContributionCalculator() {
             <li>Salary sacrifice can increase the savings effect because NI and some loan deductions may also reduce.</li>
           </ul>
         </div>
+      }
+      resources={
+        <SourceLinks
+          title="Official sources"
+          description="These GOV.UK pages are useful if you want to compare the calculator’s simplified pension assumptions with the official guidance on workplace pensions, contributions and tax relief."
+          links={[...officialSourceLinks]}
+        />
       }
       faq={
         <>

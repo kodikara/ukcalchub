@@ -8,11 +8,12 @@ type CalculatorShellProps = {
   form: ReactNode;
   results: ReactNode;
   explanation: ReactNode;
+  resources?: ReactNode;
   faq: ReactNode;
   disclaimer: string;
 };
 
-export function CalculatorShell({ title, intro, form, results, explanation, faq, disclaimer }: CalculatorShellProps) {
+export function CalculatorShell({ title, intro, form, results, explanation, resources, faq, disclaimer }: CalculatorShellProps) {
   return (
     <div className="container-shell px-0 py-6 md:py-12">
       <section className="mb-8 max-w-4xl space-y-4 md:mb-10">
@@ -35,6 +36,12 @@ export function CalculatorShell({ title, intro, form, results, explanation, faq,
           <div className="glass-card rounded-[1.75rem] p-5 md:rounded-[2rem] md:p-6">{faq}</div>
         </div>
       </section>
+
+      {resources ? (
+        <section className="mt-8">
+          <div className="glass-card rounded-[1.75rem] p-5 md:rounded-[2rem] md:p-6">{resources}</div>
+        </section>
+      ) : null}
 
       <section className="mt-8">
         <CalculatorFeedback />

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/JsonLd";
+import { siteConfig } from "@/lib/site";
 import { ToolCard } from "@/components/ToolCard";
 
 const tools = [
@@ -63,8 +65,27 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="overflow-hidden">
-      <section className="relative">
+    <>
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            description: siteConfig.description,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            logo: `${siteConfig.url}/icon.svg`,
+          },
+        ]}
+      />
+      <div className="overflow-hidden">
+        <section className="relative">
         <div className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(59,130,246,0.22),transparent_32%),linear-gradient(180deg,#070B14_0%,#0B0F1A_58%,#0B0F1A_100%)]" />
         <div className="container-shell px-4 py-12 sm:px-6 sm:py-16 lg:px-0 lg:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:gap-12">
@@ -203,9 +224,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+        </section>
 
-      <section id="tools" className="container-shell px-4 py-6 sm:px-6 sm:py-10 lg:px-0 lg:py-14">
+        <section id="tools" className="container-shell px-4 py-6 sm:px-6 sm:py-10 lg:px-0 lg:py-14">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <div className="eyebrow">All calculators</div>
@@ -229,9 +250,9 @@ export default function Home() {
             <ToolCard key={tool.href} {...tool} />
           ))}
         </div>
-      </section>
+        </section>
 
-      <section className="container-shell px-4 pb-14 pt-2 sm:px-6 lg:px-0 lg:pb-20">
+        <section className="container-shell px-4 pb-14 pt-2 sm:px-6 lg:px-0 lg:pb-20">
         <div className="glass-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="space-y-4">
@@ -271,7 +292,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }
