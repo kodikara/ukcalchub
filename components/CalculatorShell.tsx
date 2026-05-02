@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
 import { AdSlot } from "@/components/AdSlot";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CalculatorFeedback } from "@/components/CalculatorFeedback";
 
 type CalculatorShellProps = {
   title: string;
   intro: string;
+  breadcrumbLabel?: string;
   trustNote?: string;
   taxYearBadge?: string;
   form: ReactNode;
@@ -21,6 +23,7 @@ type CalculatorShellProps = {
 export function CalculatorShell({
   title,
   intro,
+  breadcrumbLabel,
   trustNote = "Estimate only. UK-focused. No sign-up required.",
   taxYearBadge,
   form,
@@ -36,6 +39,13 @@ export function CalculatorShell({
   return (
     <div className="container-shell px-0 py-6 md:py-12">
       <section className="mb-8 max-w-4xl space-y-4 md:mb-10">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Calculators" },
+            { label: breadcrumbLabel ?? title },
+          ]}
+        />
         <span className="eyebrow">UK-focused calculator</span>
         <h1 className="section-title font-semibold text-white">{title}</h1>
         <p className="body-copy max-w-3xl text-base leading-7 md:text-lg md:leading-8">{intro}</p>

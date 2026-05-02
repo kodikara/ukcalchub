@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { AuthorCard } from "@/components/AuthorCard";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
@@ -41,6 +43,12 @@ export function SalaryAfterTaxLanding({ annualSalary }: SalaryAfterTaxLandingPro
   return (
     <div className="container-shell px-0 py-6 md:py-12">
       <section className="mb-8 max-w-4xl space-y-4 md:mb-10">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Salary after tax guide" },
+          ]}
+        />
         <span className="eyebrow">Salary after tax guide</span>
         <h1 className="section-title font-semibold text-white">£{annualSalary.toLocaleString()} Salary After Tax UK</h1>
         <p className="body-copy max-w-3xl text-base leading-7 md:text-lg md:leading-8">
@@ -162,6 +170,10 @@ export function SalaryAfterTaxLanding({ annualSalary }: SalaryAfterTaxLandingPro
 
         <section className="body-copy mt-5 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm leading-6 shadow-[0_14px_32px_rgba(2,6,23,0.24)] backdrop-blur-xl">
           These results are estimates only and should not be treated as financial, tax, legal or professional advice.
+        </section>
+
+        <section className="mt-8">
+          <AuthorCard />
         </section>
       </section>
     </div>

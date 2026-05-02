@@ -17,6 +17,12 @@ export default function PayslipDifferencePage() {
       eyebrow="Payslip guide"
       title="Why is my payslip different from a salary calculator?"
       intro="A salary calculator is useful for planning, but a real UK payslip can still look different for several practical payroll reasons."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "Why payslips differ" },
+      ]}
+      showAuthor
     >
       <p>
         The biggest reason is that most public calculators use a simplified model, while your real payslip is produced

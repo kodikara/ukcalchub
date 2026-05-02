@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { ToolCard } from "@/components/ToolCard";
+import { founderProfile } from "@/lib/author";
 import { siteConfig } from "@/lib/site";
 
 const tools = [
@@ -109,6 +110,19 @@ export default function HomePage() {
             name: siteConfig.name,
             url: siteConfig.url,
             logo: `${siteConfig.url}/icon.png`,
+            founder: {
+              "@type": "Person",
+              name: founderProfile.name,
+              sameAs: founderProfile.linkedin,
+            },
+            sameAs: [founderProfile.linkedin],
+            contactPoint: [
+              {
+                "@type": "ContactPoint",
+                contactType: "customer support",
+                email: founderProfile.email,
+              },
+            ],
           },
         ]}
       />

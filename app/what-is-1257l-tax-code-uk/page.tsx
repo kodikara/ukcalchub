@@ -17,6 +17,12 @@ export default function TaxCode1257LPage() {
       eyebrow="Tax code guide"
       title="What is the 1257L tax code?"
       intro="1257L is the most common UK tax code for employees with one main job and no major tax adjustments, but it is still worth understanding what it really means."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "1257L tax code" },
+      ]}
+      showAuthor
     >
       <article className="space-y-7">
         <p>

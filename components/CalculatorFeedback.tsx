@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { founderProfile } from "@/lib/author";
 
 export function CalculatorFeedback() {
   return (
@@ -11,13 +12,13 @@ export function CalculatorFeedback() {
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
         <Link
-          href="mailto:hello@ukcalchub.co.uk?subject=UKCalcHub%20feedback"
+          href={`mailto:${founderProfile.email}?subject=UKCalcHub%20feedback`}
           className="action-button inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_0_28px_rgba(34,211,238,0.22)]"
         >
           Email feedback
         </Link>
         <div className="rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
-          hello@ukcalchub.co.uk
+          {founderProfile.email}
         </div>
       </div>
     </div>

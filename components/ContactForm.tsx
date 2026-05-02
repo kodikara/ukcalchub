@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { founderProfile } from "@/lib/author";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -13,7 +14,7 @@ export function ContactForm() {
       `Name: ${name || "-"}\nEmail: ${email || "-"}\n\nMessage:\n${message || "-"}`,
     );
 
-    return `mailto:hello@ukcalchub.co.uk?subject=${subject}&body=${body}`;
+    return `mailto:${founderProfile.email}?subject=${subject}&body=${body}`;
   }, [name, email, message]);
 
   return (

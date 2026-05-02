@@ -17,6 +17,12 @@ export default function PensionAutoEnrolmentPage() {
       eyebrow="Pension guide"
       title="How does pension auto-enrolment work in the UK?"
       intro="Auto-enrolment is the system that brings many UK employees into a workplace pension automatically, but the way contributions are shown on payslips can still be confusing."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "Pension auto-enrolment" },
+      ]}
+      showAuthor
     >
       <article className="space-y-7">
         <p>

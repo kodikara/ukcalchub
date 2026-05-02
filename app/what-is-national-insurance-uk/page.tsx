@@ -17,6 +17,12 @@ export default function NationalInsurancePage() {
       eyebrow="NI guide"
       title="What is National Insurance?"
       intro="National Insurance is one of the main deductions on a UK payslip, but many people understand income tax better than they understand NI."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "National Insurance" },
+      ]}
+      showAuthor
     >
       <article className="space-y-7">
         <p>

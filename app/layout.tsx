@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { founderProfile } from "@/lib/author";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -41,6 +42,9 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: "en_GB",
   },
+  authors: [{ name: founderProfile.name, url: founderProfile.linkedin }],
+  creator: founderProfile.name,
+  publisher: siteConfig.name,
   twitter: {
     card: "summary_large_image",
     title: "UK Calculator Hub | Simple UK Money Calculators",

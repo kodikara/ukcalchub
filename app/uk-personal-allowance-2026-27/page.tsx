@@ -17,6 +17,12 @@ export default function PersonalAllowancePage() {
       eyebrow="Allowance guide"
       title="UK personal allowance 2026/27"
       intro="The personal allowance is one of the most important building blocks of take-home pay, because it decides how much salary can usually be received before income tax starts."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "Personal allowance 2026/27" },
+      ]}
+      showAuthor
     >
       <article className="space-y-7">
         <p>

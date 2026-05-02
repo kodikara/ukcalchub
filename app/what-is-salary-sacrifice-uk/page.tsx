@@ -17,6 +17,12 @@ export default function SalarySacrificePage() {
       eyebrow="Payroll guide"
       title="What is salary sacrifice?"
       intro="Salary sacrifice can make payslips look different from simple salary examples because part of your pay is exchanged before some deductions are worked out."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Guides" },
+        { label: "Salary sacrifice" },
+      ]}
+      showAuthor
     >
       <article className="space-y-7">
         <p>
