@@ -216,11 +216,11 @@ export function RentAffordabilityCalculator() {
             eyebrow="Affordability status"
             title="Your current rent picture"
             value={result.status}
-            detail={`Remaining after listed expenses and savings goal: ${formatCurrency(result.remainingAfterSavingsGoal, true)}`}
+            detail={`Money left before savings: ${formatCurrency(result.remaining, true)}. After your ${formatCurrency(savingsGoal, true)} monthly savings goal: ${formatCurrency(result.remainingAfterSavingsGoal, true)}.`}
             tone={statusTone[result.status]}
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <StatCard label="Remaining money" value={formatCurrency(result.remaining, true)} />
+            <StatCard label="Before savings goal" value={formatCurrency(result.remaining, true)} />
             <StatCard label="Rent share" value={formatPercent(result.rentPercent)} />
             <StatCard label="Total monthly expenses" value={formatCurrency(result.totalExpenses, true)} />
             <StatCard label="Council tax" value={formatCurrency(councilTax, true)} />

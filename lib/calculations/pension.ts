@@ -3,7 +3,7 @@ import {
   type PensionMethod,
   type StudentLoanPlan,
   type TaxRegion,
-} from "@/lib/calculations/salary";
+} from "./salary";
 
 export type PensionContributionInputs = {
   annualSalary: number;
