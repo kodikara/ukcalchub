@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -29,8 +30,8 @@ export function Header() {
       <div className="container-shell py-4">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 text-sm font-bold text-white shadow-[0_0_28px_rgba(34,211,238,0.28)]">
-              UK
+            <div className="flex h-11 w-11 items-center justify-center">
+              <Image src="/icon.png" alt="UK Calculator Hub logo" width={44} height={44} className="h-11 w-11" priority />
             </div>
             <div>
               <div className="text-sm font-semibold text-slate-500">Simple Money Tools</div>

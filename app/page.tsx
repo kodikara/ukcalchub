@@ -80,7 +80,7 @@ export default function Home() {
             "@type": "Organization",
             name: siteConfig.name,
             url: siteConfig.url,
-            logo: `${siteConfig.url}/icon.svg`,
+            logo: `${siteConfig.url}/icon.png`,
           },
         ]}
       />
