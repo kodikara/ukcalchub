@@ -4,7 +4,7 @@ import { TakeHomePayCalculator } from "@/components/TakeHomePayCalculator";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Take-Home Pay Calculator UK | Monthly Net Pay Estimator",
+  title: "Take-Home Pay Calculator UK 2026/27 | Monthly Net Pay Estimator",
   description:
     "Estimate monthly and weekly UK take-home pay after tax, National Insurance, pension and student loan deductions.",
   alternates: {

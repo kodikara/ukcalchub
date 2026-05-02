@@ -47,6 +47,12 @@ const tools = [
     href: "/cost-of-living-calculator-uk",
     badge: "Lifestyle",
   },
+  {
+    title: "Salary + Rent Calculator",
+    description: "Check whether a given rent still looks workable once your estimated take-home pay is compared with monthly costs.",
+    href: "/salary-rent-affordability-calculator-uk",
+    badge: "Combined view",
+  },
 ] as const;
 
 const popularLinks = [
@@ -54,6 +60,7 @@ const popularLinks = [
   { href: "/take-home-pay-calculator-uk", label: "Monthly take-home pay calculator" },
   { href: "/rent-affordability-calculator-uk", label: "How much rent can I afford?" },
   { href: "/mortgage-affordability-calculator-uk", label: "How much mortgage can I borrow?" },
+  { href: "/salary-rent-affordability-calculator-uk", label: "Can I afford this rent on my salary?" },
 ] as const;
 
 const whyUseCards = [
@@ -130,13 +137,13 @@ export default function HomePage() {
                     href="/salary-calculator-uk"
                     className="action-button rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-6 text-white shadow-[0_22px_60px_rgba(34,211,238,0.22)] transition hover:-translate-y-0.5"
                   >
-                    Try salary calculator
+                    Calculate your take-home pay
                   </Link>
                   <Link
-                    href="#tools"
+                    href="/rent-affordability-calculator-uk"
                     className="action-button rounded-full border border-white/10 bg-white/5 px-6 text-slate-100 backdrop-blur-xl transition hover:border-cyan-400/40 hover:text-white"
                   >
-                    Explore calculators
+                    Check rent affordability
                   </Link>
                 </div>
 
@@ -260,8 +267,8 @@ export default function HomePage() {
                 <div className="eyebrow">Popular UK calculators</div>
                 <h2 className="section-heading">Start with the pages most people look for first</h2>
                 <p className="text-base leading-7 text-slate-300">
-                  Salary after tax, take-home pay, rent affordability and mortgage affordability tend to be the
-                  highest-intent searches. UKCalcHub keeps those routes easy to find and easy to compare.
+                  Start with the most common money questions: what will I take home, what rent can I afford, and how
+                  much could I borrow?
                 </p>
               </div>
 
@@ -287,6 +294,42 @@ export default function HomePage() {
                 >
                   Hourly wage and salary conversion
                 </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="container-shell px-4 py-8 sm:px-6 lg:px-0">
+          <div className="glass-card rounded-[2rem] p-6 sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+              <div className="space-y-4">
+                <div className="eyebrow">Useful next clicks</div>
+                <h2 className="section-heading">Popular salary examples and practical explainers</h2>
+                <p className="text-base leading-7 text-slate-300">
+                  If you already have a salary figure in mind, these quick guides help you compare common UK salary
+                  levels, understand payslip differences, and move straight into rent planning.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  { href: "/salary-after-tax-30000-uk", label: "£30,000 salary after tax" },
+                  { href: "/salary-after-tax-35000-uk", label: "£35,000 salary after tax" },
+                  { href: "/salary-after-tax-40000-uk", label: "£40,000 salary after tax" },
+                  { href: "/salary-after-tax-45000-uk", label: "£45,000 salary after tax" },
+                  { href: "/salary-after-tax-50000-uk", label: "£50,000 salary after tax" },
+                  { href: "/salary-after-tax-60000-uk", label: "£60,000 salary after tax" },
+                  { href: "/why-is-my-payslip-different-from-salary-calculator-uk", label: "Why payslips differ from calculators" },
+                  { href: "/salary-rent-affordability-calculator-uk", label: "Can I afford this rent on my salary?" },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-[1.5rem] border border-white/10 bg-white/5 px-5 py-4 text-sm font-medium text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/8 hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

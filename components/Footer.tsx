@@ -19,6 +19,7 @@ export function Footer() {
             <div className="flex flex-col gap-2 text-sm text-slate-400">
               <Link href="/salary-calculator-uk">Salary Calculator</Link>
               <Link href="/take-home-pay-calculator-uk">Take-Home Pay Calculator</Link>
+              <Link href="/salary-rent-affordability-calculator-uk">Salary + Rent Calculator</Link>
               <Link href="/pension-contribution-calculator-uk">Pension Contribution Calculator</Link>
               <Link href="/hourly-wage-calculator-uk">Hourly Wage Calculator</Link>
               <Link href="/mortgage-affordability-calculator-uk">Mortgage Affordability Calculator</Link>
@@ -34,6 +35,9 @@ export function Footer() {
               </Link>
               <Link href="/privacy-policy" className="text-sm text-slate-300 hover:text-white">
                 Privacy Policy
+              </Link>
+              <Link href="/why-is-my-payslip-different-from-salary-calculator-uk" className="text-sm text-slate-300 hover:text-white">
+                Why payslips differ
               </Link>
             </div>
           </div>

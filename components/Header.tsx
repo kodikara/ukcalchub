@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/salary-calculator-uk", label: "Salary" },
   { href: "/take-home-pay-calculator-uk", label: "Take-home" },
+  { href: "/salary-rent-affordability-calculator-uk", label: "Salary + Rent" },
   { href: "/pension-contribution-calculator-uk", label: "Pension" },
   { href: "/hourly-wage-calculator-uk", label: "Hourly" },
   { href: "/mortgage-affordability-calculator-uk", label: "Mortgage" },

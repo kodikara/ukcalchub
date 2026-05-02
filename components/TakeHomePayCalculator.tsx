@@ -20,6 +20,7 @@ import {
 } from "@/lib/calculations/salary";
 import { taxCodeOptions } from "@/lib/taxCodes";
 import { formatCurrency, formatPercent } from "@/lib/format";
+import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
 
 const faqs = [
   {
@@ -84,6 +85,11 @@ const relatedLinks = [
     href: "/pension-contribution-calculator-uk",
   },
   {
+    title: "Salary + Rent Calculator",
+    description: "Useful when you want to compare estimated net pay with rent and other monthly costs in one view.",
+    href: "/salary-rent-affordability-calculator-uk",
+  },
+  {
     title: "Rent Affordability Calculator",
     description: "Use your monthly take-home estimate to judge whether rent still feels comfortable after other costs.",
     href: "/rent-affordability-calculator-uk",
@@ -140,6 +146,7 @@ export function TakeHomePayCalculator() {
     <CalculatorShell
       title="Take-Home Pay Calculator UK"
       intro="Estimate your monthly and weekly UK take-home pay after tax, National Insurance, pension and student loan deductions."
+      taxYearBadge={CURRENT_TAX_YEAR_LABEL}
       form={
         <div className="space-y-5">
           <InputField
@@ -278,6 +285,13 @@ export function TakeHomePayCalculator() {
             <li>Student loan plan selection changes both the threshold and the repayment rate applied.</li>
             <li>Scottish income tax bands differ from the rest of the UK.</li>
           </ul>
+          <a
+            href="/why-is-my-payslip-different-from-salary-calculator-uk"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
+          >
+            Read why a payslip can differ
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       }
       resources={

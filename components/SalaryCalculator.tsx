@@ -21,6 +21,7 @@ import { formatCurrency } from "@/lib/format";
 import { SourceLinks } from "@/components/SourceLinks";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { taxCodeOptions } from "@/lib/taxCodes";
+import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
 
 const faqs = [
   {
@@ -90,6 +91,11 @@ const relatedLinks = [
     href: "/take-home-pay-calculator-uk",
   },
   {
+    title: "Salary + Rent Calculator",
+    description: "See whether a given rent still looks workable once your estimated take-home pay is compared with monthly costs.",
+    href: "/salary-rent-affordability-calculator-uk",
+  },
+  {
     title: "Pension Contribution Calculator",
     description: "See how different pension percentages can affect take-home pay and total pension value.",
     href: "/pension-contribution-calculator-uk",
@@ -148,6 +154,7 @@ export function SalaryCalculator() {
     <CalculatorShell
       title="UK Salary Calculator"
       intro="Estimate your UK take-home pay after income tax, National Insurance, pension contributions and student loan deductions."
+      taxYearBadge={CURRENT_TAX_YEAR_LABEL}
       form={
         <div className="space-y-5">
           <InputField
@@ -288,6 +295,17 @@ export function SalaryCalculator() {
             <li>The period toggle lets you compare the same annual result as a yearly, monthly or weekly figure.</li>
             <li>Current model: UK tax year 6 April 2026 to 5 April 2027 using local TypeScript logic.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4 text-sm leading-6 text-slate-300">
+            Popular salary examples:
+            {" "}
+            <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-30000-uk">£30,000</a>,
+            {" "}
+            <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-40000-uk">£40,000</a>,
+            {" "}
+            <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-50000-uk">£50,000</a>,
+            {" "}
+            <a className="text-cyan-300 hover:text-cyan-200" href="/salary-after-tax-60000-uk">£60,000</a>.
+          </div>
         </div>
       }
       example={
@@ -311,6 +329,13 @@ export function SalaryCalculator() {
             <li>Benefits, post-tax deductions and employer-specific payroll settings can change the final payslip.</li>
             <li>Scottish income tax bands differ from the rest of the UK.</li>
           </ul>
+          <a
+            href="/why-is-my-payslip-different-from-salary-calculator-uk"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
+          >
+            Read why your payslip may differ
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       }
       resources={

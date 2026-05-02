@@ -6,6 +6,7 @@ type CalculatorShellProps = {
   title: string;
   intro: string;
   trustNote?: string;
+  taxYearBadge?: string;
   form: ReactNode;
   results: ReactNode;
   explanation: ReactNode;
@@ -21,6 +22,7 @@ export function CalculatorShell({
   title,
   intro,
   trustNote = "Estimate only. UK-focused. No sign-up required.",
+  taxYearBadge,
   form,
   results,
   explanation,
@@ -37,8 +39,15 @@ export function CalculatorShell({
         <span className="eyebrow">UK-focused calculator</span>
         <h1 className="section-title font-semibold text-white">{title}</h1>
         <p className="body-copy max-w-3xl text-base leading-7 md:text-lg md:leading-8">{intro}</p>
-        <div className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/8 px-4 py-2 text-sm font-medium text-cyan-100">
-          {trustNote}
+        <div className="flex flex-wrap gap-3">
+          <div className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/8 px-4 py-2 text-sm font-medium text-cyan-100">
+            {trustNote}
+          </div>
+          {taxYearBadge ? (
+            <div className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/8 px-4 py-2 text-sm font-medium text-emerald-100">
+              {taxYearBadge}
+            </div>
+          ) : null}
         </div>
       </section>
 

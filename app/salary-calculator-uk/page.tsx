@@ -4,7 +4,7 @@ import { SalaryCalculator } from "@/components/SalaryCalculator";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "UK Salary Calculator | Salary After Tax & Take-Home Pay",
+  title: "UK Salary Calculator 2026/27 | Salary After Tax & Take-Home Pay",
   description:
     "Use UKCalcHub’s simple UK salary calculator to estimate take-home pay after tax, National Insurance, pension and student loan deductions.",
   alternates: {

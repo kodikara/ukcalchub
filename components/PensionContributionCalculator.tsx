@@ -14,6 +14,7 @@ import type { PensionMethod, StudentLoanPlan, TaxRegion } from "@/lib/calculatio
 import { formatCurrency } from "@/lib/format";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { taxCodeOptions } from "@/lib/taxCodes";
+import { CURRENT_TAX_YEAR_LABEL } from "@/lib/taxYear";
 
 const faqs = [
   {
@@ -83,6 +84,11 @@ const relatedLinks = [
     href: "/salary-calculator-uk",
   },
   {
+    title: "Salary + Rent Calculator",
+    description: "Useful if you want to see whether pension deductions still leave enough room for housing costs.",
+    href: "/salary-rent-affordability-calculator-uk",
+  },
+  {
     title: "Hourly Wage Calculator",
     description: "Translate salary into hourly and weekly pay when comparing work patterns or roles.",
     href: "/hourly-wage-calculator-uk",
@@ -133,6 +139,7 @@ export function PensionContributionCalculator() {
     <CalculatorShell
       title="Pension Contribution Calculator UK"
       intro="See how employee and employer pension contributions can affect your take-home pay and how much may be going into your pension overall."
+      taxYearBadge={CURRENT_TAX_YEAR_LABEL}
       form={
         <div className="space-y-5">
           <InputField
@@ -291,6 +298,13 @@ export function PensionContributionCalculator() {
             <li>Employer pension percentages may not apply to every part of your pay in the same way.</li>
             <li>This is not a forecast of long-term pension growth or retirement income.</li>
           </ul>
+          <a
+            href="/why-is-my-payslip-different-from-salary-calculator-uk"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
+          >
+            Read more about payslip differences
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       }
       resources={
