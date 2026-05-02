@@ -6,7 +6,20 @@ import { Header } from "@/components/Header";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+function normaliseGoogleVerification(value?: string) {
+  if (!value) {
+    return undefined;
+  }
+
+  const contentMatch = value.match(/content=["']([^"']+)["']/i);
+  if (contentMatch?.[1]) {
+    return contentMatch[1];
+  }
+
+  return value.trim();
+}
+
+const googleVerification = normaliseGoogleVerification(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION);
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
