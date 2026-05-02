@@ -33,7 +33,7 @@ const faqs = [
 const statusTone = {
   Comfortable: "teal" as const,
   Tight: "amber" as const,
-  Risky: "blue" as const,
+  Risky: "rose" as const,
 };
 
 export function RentAffordabilityCalculator() {

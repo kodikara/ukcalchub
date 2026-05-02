@@ -32,7 +32,7 @@ const faqs = [
 const statusTone = {
   Strong: "teal" as const,
   Cautious: "amber" as const,
-  Stretch: "blue" as const,
+  Stretch: "rose" as const,
 };
 
 export function MortgageAffordabilityCalculator() {

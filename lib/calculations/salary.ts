@@ -48,7 +48,7 @@ const SCOTLAND_BANDS: TaxBand[] = [
   { upTo: 16_956, rate: 0.2 },
   { upTo: 31_092, rate: 0.21 },
   { upTo: 62_430, rate: 0.42 },
-  { upTo: 112_570, rate: 0.45 },
+  { upTo: 125_140, rate: 0.45 },
   { upTo: Number.POSITIVE_INFINITY, rate: 0.48 },
 ];
 
@@ -206,7 +206,7 @@ export function calculateSalary(inputs: SalaryInputs): SalaryBreakdown {
       : taxableBaseAnnual;
   const parsedTaxCode = parseTaxCode(inputs.taxCode);
   const personalAllowance = calculatePersonalAllowance(
-    taxableBaseAnnual,
+    incomeTaxableAnnual,
     parsedTaxCode.allowance,
     parsedTaxCode.mode,
   );

@@ -3,13 +3,14 @@ type ResultCardProps = {
   title: string;
   value: string;
   detail?: string;
-  tone?: "teal" | "blue" | "amber";
+  tone?: "teal" | "blue" | "amber" | "rose";
 };
 
 const toneClasses = {
   teal: "from-blue-600 to-cyan-500",
   blue: "from-blue-700 to-cyan-500",
-  amber: "from-blue-600 to-cyan-500",
+  amber: "from-amber-500 to-orange-500",
+  rose: "from-rose-500 to-red-500",
 };
 
 export function ResultCard({ eyebrow, title, value, detail, tone = "teal" }: ResultCardProps) {
@@ -22,7 +23,15 @@ export function ResultCard({ eyebrow, title, value, detail, tone = "teal" }: Res
       ) : null}
       <div className="text-sm font-medium text-blue-50/90">{title}</div>
       <div
-        className={`display-font mt-3 text-4xl font-bold tracking-tight md:text-6xl ${tone === "teal" ? "text-emerald-200" : tone === "blue" ? "text-cyan-100" : "text-white"}`}
+        className={`display-font mt-3 text-4xl font-bold tracking-tight md:text-6xl ${
+          tone === "teal"
+            ? "text-emerald-200"
+            : tone === "blue"
+              ? "text-cyan-100"
+              : tone === "amber"
+                ? "text-amber-50"
+                : "text-rose-50"
+        }`}
         style={{ textShadow: "0 0 28px rgba(255,255,255,0.22)" }}
       >
         {value}
