@@ -5,6 +5,7 @@ export type CostOfLivingInputs = {
   householdType: HouseholdType;
   locationType: LocationType;
   rent: number;
+  councilTax: number;
   bills: number;
   food: number;
   transport: number;
@@ -26,21 +27,21 @@ export type CostOfLivingResult = {
 
 const householdBaseCosts: Record<
   HouseholdType,
-  { rent: number; bills: number; food: number; transport: number; childcare: number; other: number }
+  { rent: number; councilTax: number; bills: number; food: number; transport: number; childcare: number; other: number }
 > = {
-  single: { rent: 850, bills: 220, food: 260, transport: 120, childcare: 0, other: 180 },
-  couple: { rent: 1_100, bills: 300, food: 430, transport: 220, childcare: 0, other: 280 },
-  family: { rent: 1_450, bills: 380, food: 620, transport: 260, childcare: 650, other: 360 },
+  single: { rent: 850, councilTax: 150, bills: 220, food: 260, transport: 120, childcare: 0, other: 180 },
+  couple: { rent: 1_100, councilTax: 165, bills: 300, food: 430, transport: 220, childcare: 0, other: 280 },
+  family: { rent: 1_450, councilTax: 175, bills: 380, food: 620, transport: 260, childcare: 650, other: 360 },
 };
 
 const locationCostAdjustments: Record<
   LocationType,
-  { rent: number; bills: number; food: number; transport: number; childcare: number; other: number }
+  { rent: number; councilTax: number; bills: number; food: number; transport: number; childcare: number; other: number }
 > = {
-  london: { rent: 1.5, bills: 1.05, food: 1.12, transport: 1.3, childcare: 1.15, other: 1.08 },
-  southEast: { rent: 1.25, bills: 1.03, food: 1.05, transport: 1.1, childcare: 1.08, other: 1.03 },
-  city: { rent: 1, bills: 1, food: 1, transport: 1, childcare: 1, other: 1 },
-  rural: { rent: 0.9, bills: 1.02, food: 0.98, transport: 1.08, childcare: 0.95, other: 0.96 },
+  london: { rent: 1.5, councilTax: 0.96, bills: 1.05, food: 1.12, transport: 1.3, childcare: 1.15, other: 1.08 },
+  southEast: { rent: 1.25, councilTax: 1.04, bills: 1.03, food: 1.05, transport: 1.1, childcare: 1.08, other: 1.03 },
+  city: { rent: 1, councilTax: 1, bills: 1, food: 1, transport: 1, childcare: 1, other: 1 },
+  rural: { rent: 0.9, councilTax: 1.06, bills: 1.02, food: 0.98, transport: 1.08, childcare: 0.95, other: 0.96 },
 };
 
 export function calculateCostOfLiving(inputs: CostOfLivingInputs): CostOfLivingResult {
@@ -52,6 +53,11 @@ export function calculateCostOfLiving(inputs: CostOfLivingInputs): CostOfLivingR
       label: "Rent or mortgage",
       value: Math.max(0, inputs.rent),
       benchmark: householdBenchmarks.rent * locationAdjustments.rent,
+    },
+    {
+      label: "Council Tax",
+      value: Math.max(0, inputs.councilTax),
+      benchmark: householdBenchmarks.councilTax * locationAdjustments.councilTax,
     },
     { label: "Bills", value: Math.max(0, inputs.bills), benchmark: householdBenchmarks.bills * locationAdjustments.bills },
     { label: "Food", value: Math.max(0, inputs.food), benchmark: householdBenchmarks.food * locationAdjustments.food },

@@ -19,7 +19,7 @@ const tools = [
   },
   {
     title: "Rent Affordability Calculator",
-    description: "Check whether rent still feels workable once bills, food and transport are included.",
+    description: "Check whether rent still feels workable once council tax, bills, food and transport are included.",
     href: "/rent-affordability-calculator-uk",
     badge: "Budgeting",
   },
@@ -43,7 +43,7 @@ const tools = [
   },
   {
     title: "Cost of Living Calculator",
-    description: "Estimate monthly and yearly household costs across common UK living situations.",
+    description: "Estimate monthly and yearly household costs including council tax and real UK living expenses.",
     href: "/cost-of-living-calculator-uk",
     badge: "Lifestyle",
   },

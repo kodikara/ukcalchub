@@ -4,9 +4,9 @@ import { CostOfLivingCalculator } from "@/components/CostOfLivingCalculator";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Cost of Living Calculator UK | Monthly Expenses Estimator",
+  title: "UK Cost of Living Calculator (Including Council Tax)",
   description:
-    "Estimate monthly and yearly UK living costs with a simple calculator for household type, location and everyday expenses.",
+    "Estimate your monthly UK living costs including rent, council tax, bills, food and transport. Simple and realistic calculator.",
   alternates: {
     canonical: "/cost-of-living-calculator-uk",
   },
@@ -29,7 +29,7 @@ export default function CostOfLivingCalculatorPage() {
           },
           url: `${siteConfig.url}/cost-of-living-calculator-uk`,
           description:
-            "A UK cost of living calculator for estimating monthly and yearly household costs across common scenarios.",
+            "A UK cost of living calculator for estimating monthly and yearly household costs including council tax and everyday living expenses.",
         }}
       />
       <CostOfLivingCalculator />

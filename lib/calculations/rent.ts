@@ -1,6 +1,7 @@
 export type RentInputs = {
   monthlyIncome: number;
   rent: number;
+  councilTax: number;
   bills: number;
   food: number;
   transport: number;
@@ -22,6 +23,7 @@ export function calculateRentAffordability(inputs: RentInputs): RentResult {
   const monthlyIncome = Math.max(0, inputs.monthlyIncome);
   const totalExpenses =
     Math.max(0, inputs.rent) +
+    Math.max(0, inputs.councilTax) +
     Math.max(0, inputs.bills) +
     Math.max(0, inputs.food) +
     Math.max(0, inputs.transport) +

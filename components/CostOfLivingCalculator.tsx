@@ -10,10 +10,31 @@ import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
+import { councilTaxBandOptions, councilTaxValueForBand, type CouncilTaxBand } from "@/lib/councilTax";
 import { calculateCostOfLiving, type HouseholdType, type LocationType } from "@/lib/calculations/costOfLiving";
 import { formatCurrency } from "@/lib/format";
 
 const faqs = [
+  {
+    question: "Is council tax included in this calculator?",
+    answer:
+      "Yes. You can enter your monthly council tax directly or use the optional council tax band dropdown to auto-fill a simple monthly estimate.",
+  },
+  {
+    question: "How much is council tax in the UK?",
+    answer:
+      "Council tax varies by local authority and band, so there is no single UK-wide amount. Band D is often used as a broad reference point, but your local bill may be higher or lower.",
+  },
+  {
+    question: "Do all cost-of-living calculators include council tax?",
+    answer:
+      "No. Many budget tools leave council tax inside a general bills or other category, which can make the total look lower than the real monthly picture.",
+  },
+  {
+    question: "Why does my real cost differ from this estimate?",
+    answer:
+      "Local council tax rates, household size, transport needs, lifestyle choices and the exact mix of your regular bills can all shift the final monthly total.",
+  },
   {
     question: "Why does location affect the estimate?",
     answer:
@@ -66,7 +87,7 @@ const relatedLinks = [
   },
   {
     title: "Rent Affordability Calculator",
-    description: "See whether housing costs feel comfortable once your other monthly costs are included.",
+    description: "See whether housing costs feel comfortable once council tax and your other monthly costs are included.",
     href: "/rent-affordability-calculator-uk",
   },
   {
@@ -79,7 +100,9 @@ const relatedLinks = [
 export function CostOfLivingCalculator() {
   const [householdType, setHouseholdType] = useState<HouseholdType>("single");
   const [locationType, setLocationType] = useState<LocationType>("city");
+  const [councilTaxBand, setCouncilTaxBand] = useState<CouncilTaxBand>("");
   const [rent, setRent] = useState(900);
+  const [councilTax, setCouncilTax] = useState(0);
   const [bills, setBills] = useState(240);
   const [food, setFood] = useState(300);
   const [transport, setTransport] = useState(160);
@@ -90,6 +113,7 @@ export function CostOfLivingCalculator() {
     householdType,
     locationType,
     rent,
+    councilTax,
     bills,
     food,
     transport,
@@ -99,11 +123,12 @@ export function CostOfLivingCalculator() {
 
   const donutData = [
     { name: "Rent or mortgage", value: Math.max(rent, result.categoryBreakdown[0]?.benchmark ?? 0), color: "#3b82f6" },
-    { name: "Bills", value: Math.max(bills, result.categoryBreakdown[1]?.benchmark ?? 0), color: "#38bdf8" },
-    { name: "Food", value: Math.max(food, result.categoryBreakdown[2]?.benchmark ?? 0), color: "#6366f1" },
-    { name: "Transport", value: Math.max(transport, result.categoryBreakdown[3]?.benchmark ?? 0), color: "#8b5cf6" },
-    { name: "Childcare", value: Math.max(childcare, result.categoryBreakdown[4]?.benchmark ?? 0), color: "#f59e0b" },
-    { name: "Other", value: Math.max(other, result.categoryBreakdown[5]?.benchmark ?? 0), color: "#f97316" },
+    { name: "Council Tax", value: Math.max(councilTax, result.categoryBreakdown[1]?.benchmark ?? 0), color: "#64748b" },
+    { name: "Bills", value: Math.max(bills, result.categoryBreakdown[2]?.benchmark ?? 0), color: "#38bdf8" },
+    { name: "Food", value: Math.max(food, result.categoryBreakdown[3]?.benchmark ?? 0), color: "#6366f1" },
+    { name: "Transport", value: Math.max(transport, result.categoryBreakdown[4]?.benchmark ?? 0), color: "#8b5cf6" },
+    { name: "Childcare", value: Math.max(childcare, result.categoryBreakdown[5]?.benchmark ?? 0), color: "#f59e0b" },
+    { name: "Other", value: Math.max(other, result.categoryBreakdown[6]?.benchmark ?? 0), color: "#f97316" },
   ];
 
   const barData = [
@@ -115,6 +140,7 @@ export function CostOfLivingCalculator() {
     <CalculatorShell
       title="UK Cost of Living Calculator"
       intro="Estimate monthly UK living costs for individuals and families."
+      trustNote="This calculator includes council tax and common UK household costs to give a more realistic monthly estimate."
       form={
         <div className="space-y-5">
           <SelectField
@@ -137,6 +163,48 @@ export function CostOfLivingCalculator() {
           />
           {[
             ["Rent/mortgage", rent, setRent],
+          ].map(([label, value, setter]) => (
+            <InputField
+              key={label as string}
+              label={label as string}
+              prefix="£"
+              type="number"
+              min="0"
+              step="50"
+              inputMode="decimal"
+              value={value as number}
+              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+            />
+          ))}
+          <SelectField
+            label="Council Tax Band (optional)"
+            hint="Auto-fills a simple monthly estimate"
+            value={councilTaxBand}
+            onChange={(event) => {
+              const band = event.target.value as CouncilTaxBand;
+              setCouncilTaxBand(band);
+              setCouncilTax(councilTaxValueForBand(band));
+            }}
+          >
+            {councilTaxBandOptions.map((option) => (
+              <option key={option.label} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectField>
+          <InputField
+            label="Council Tax (£/month)"
+            hint="Use your own monthly figure if you know it"
+            prefix="£"
+            type="number"
+            min="0"
+            step="10"
+            inputMode="decimal"
+            placeholder="e.g. 120"
+            value={councilTax === 0 ? "" : councilTax}
+            onChange={(event) => setCouncilTax(Number(event.target.value))}
+          />
+          {[
             ["Bills", bills, setBills],
             ["Food", food, setFood],
             ["Transport", transport, setTransport],
@@ -156,7 +224,7 @@ export function CostOfLivingCalculator() {
             />
           ))}
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
-            This version applies a broad location and household adjustment so you can compare everyday scenarios quickly.
+            This version applies a broad location and household adjustment so you can compare everyday scenarios quickly, with council tax included as its own monthly cost.
           </div>
         </div>
       }
@@ -206,15 +274,30 @@ export function CostOfLivingCalculator() {
             <li>Your planning total uses the higher of your own figure or the local benchmark in each category.</li>
             <li>This makes the result more useful for forward planning than a single multiplier on the total.</li>
           </ul>
+          <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s included in this estimate?</h3>
+          <ul className="space-y-2 text-sm leading-6 text-slate-400">
+            <li>Rent or mortgage</li>
+            <li>Council tax</li>
+            <li>Utility bills including electricity, gas and water</li>
+            <li>Food and groceries</li>
+            <li>Transport</li>
+            <li>Other regular expenses</li>
+          </ul>
+          <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s not included?</h3>
+          <ul className="space-y-2 text-sm leading-6 text-slate-400">
+            <li>One-off expenses</li>
+            <li>Unexpected repairs</li>
+            <li>Lifestyle choices such as holidays or luxury spending</li>
+          </ul>
         </div>
       }
       example={
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
           <p className="text-sm leading-6 text-slate-400">
-            If you choose a single household in an other-UK-city profile and enter rent, bills, food, transport and
-            other costs, this calculator gives both a monthly total and a yearly total so you can compare your likely
-            lifestyle cost with income and saving goals.
+            If you choose a single household in an other-UK-city profile and enter rent, council tax, bills, food,
+            transport and other costs, this calculator gives both a monthly total and a yearly total so you can compare
+            your likely lifestyle cost with income and saving goals.
           </p>
         </div>
       }
@@ -222,7 +305,7 @@ export function CostOfLivingCalculator() {
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
           <ul className="space-y-3 text-sm leading-6 text-slate-400">
-            <li>Actual housing costs can vary a lot even within the same broad region.</li>
+            <li>Actual housing costs and council tax can vary a lot even within the same broad region.</li>
             <li>Childcare, commuting, energy usage and household size can change monthly costs dramatically.</li>
             <li>This version uses broad UK planning benchmarks rather than postcode-level prices.</li>
             <li>It is designed to help with planning, not to predict exact future bills.</li>

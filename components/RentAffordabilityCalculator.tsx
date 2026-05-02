@@ -5,11 +5,12 @@ import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
 import { FAQ } from "@/components/FAQ";
-import { InputField } from "@/components/FormField";
+import { InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
+import { councilTaxBandOptions, councilTaxValueForBand, type CouncilTaxBand } from "@/lib/councilTax";
 import { calculateRentAffordability } from "@/lib/calculations/rent";
 import { formatCurrency, formatPercent } from "@/lib/format";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
@@ -28,7 +29,7 @@ const faqs = [
   {
     question: "Should I include council tax and utilities in bills?",
     answer:
-      "Yes. For a more realistic picture, include all recurring housing-related costs you expect to pay each month.",
+      "This version gives council tax its own field, and you should also include utility bills for a more realistic monthly housing budget.",
   },
   {
     question: "What if my rent is above 30% but still feels manageable?",
@@ -84,7 +85,7 @@ const relatedLinks = [
   },
   {
     title: "Cost of Living Calculator",
-    description: "Compare rent with a fuller monthly budget picture across common UK household types.",
+    description: "Compare rent with a fuller monthly budget picture including council tax and broader UK household costs.",
     href: "/cost-of-living-calculator-uk",
   },
   {
@@ -97,6 +98,8 @@ const relatedLinks = [
 export function RentAffordabilityCalculator() {
   const [monthlyIncome, setMonthlyIncome] = useState(2800);
   const [rent, setRent] = useState(950);
+  const [councilTaxBand, setCouncilTaxBand] = useState<CouncilTaxBand>("");
+  const [councilTax, setCouncilTax] = useState(0);
   const [bills, setBills] = useState(260);
   const [food, setFood] = useState(320);
   const [transport, setTransport] = useState(160);
@@ -107,6 +110,7 @@ export function RentAffordabilityCalculator() {
   const result = calculateRentAffordability({
     monthlyIncome,
     rent,
+    councilTax,
     bills,
     food,
     transport,
@@ -117,6 +121,7 @@ export function RentAffordabilityCalculator() {
 
   const donutData = [
     { name: "Rent", value: rent, color: "#3b82f6" },
+    { name: "Council Tax", value: councilTax, color: "#64748b" },
     { name: "Bills", value: bills, color: "#38bdf8" },
     { name: "Food", value: food, color: "#6366f1" },
     { name: "Transport", value: transport, color: "#8b5cf6" },
@@ -139,6 +144,48 @@ export function RentAffordabilityCalculator() {
           {[
             ["Monthly take-home income", monthlyIncome, setMonthlyIncome],
             ["Monthly rent", rent, setRent],
+          ].map(([label, value, setter]) => (
+            <InputField
+              key={label as string}
+              label={label as string}
+              prefix="£"
+              type="number"
+              min="0"
+              step="50"
+              inputMode="decimal"
+              value={value as number}
+              onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
+            />
+          ))}
+          <SelectField
+            label="Council Tax Band (optional)"
+            hint="Auto-fills a simple monthly estimate"
+            value={councilTaxBand}
+            onChange={(event) => {
+              const band = event.target.value as CouncilTaxBand;
+              setCouncilTaxBand(band);
+              setCouncilTax(councilTaxValueForBand(band));
+            }}
+          >
+            {councilTaxBandOptions.map((option) => (
+              <option key={option.label} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectField>
+          <InputField
+            label="Council Tax (£/month)"
+            hint="Use your own monthly figure if you know it"
+            prefix="£"
+            type="number"
+            min="0"
+            step="10"
+            inputMode="decimal"
+            placeholder="e.g. 120"
+            value={councilTax === 0 ? "" : councilTax}
+            onChange={(event) => setCouncilTax(Number(event.target.value))}
+          />
+          {[
             ["Bills", bills, setBills],
             ["Food/groceries", food, setFood],
             ["Transport", transport, setTransport],
@@ -159,7 +206,7 @@ export function RentAffordabilityCalculator() {
             />
           ))}
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
-            Tip: enter the take-home income from your payslip or from the salary calculator for a more realistic result.
+            This calculator includes council tax and common UK household costs to give a more realistic monthly estimate.
           </div>
         </div>
       }
@@ -176,6 +223,7 @@ export function RentAffordabilityCalculator() {
             <StatCard label="Remaining money" value={formatCurrency(result.remaining, true)} />
             <StatCard label="Rent share" value={formatPercent(result.rentPercent)} />
             <StatCard label="Total monthly expenses" value={formatCurrency(result.totalExpenses, true)} />
+            <StatCard label="Council tax" value={formatCurrency(councilTax, true)} />
             <StatCard label="After savings goal" value={formatCurrency(result.remainingAfterSavingsGoal, true)} />
             <StatCard label="Essential spend ratio" value={formatPercent(result.essentialSpendPercent)} />
           </div>
@@ -200,15 +248,30 @@ export function RentAffordabilityCalculator() {
             <li>Tight if rent sits around 30% to 40% of take-home pay or your remaining money after savings is quite low.</li>
             <li>Risky if rent is above 40% of take-home pay, total essential spend is very heavy, or your remaining money drops below zero.</li>
           </ul>
+          <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s included in this estimate?</h3>
+          <ul className="space-y-2 text-sm leading-6 text-slate-400">
+            <li>Rent or mortgage</li>
+            <li>Council tax</li>
+            <li>Utility bills including electricity, gas and water</li>
+            <li>Food and groceries</li>
+            <li>Transport</li>
+            <li>Other regular expenses</li>
+          </ul>
+          <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s not included?</h3>
+          <ul className="space-y-2 text-sm leading-6 text-slate-400">
+            <li>One-off expenses</li>
+            <li>Unexpected repairs</li>
+            <li>Lifestyle choices such as holidays or luxury spending</li>
+          </ul>
         </div>
       }
       example={
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
           <p className="text-sm leading-6 text-slate-400">
-            If your monthly take-home income is £2,800 and your rent is £950, this calculator compares rent, bills,
-            groceries, transport, childcare and other expenses to show whether that level of rent looks comfortable,
-            tight or risky.
+            If your monthly take-home income is £2,800 and your rent is £950, this calculator compares rent, council
+            tax, bills, groceries, transport, childcare and other expenses to show whether that level of rent looks
+            comfortable, tight or risky.
           </p>
         </div>
       }
@@ -217,7 +280,7 @@ export function RentAffordabilityCalculator() {
           <h2 className="text-2xl font-semibold tracking-tight text-white">Why your real result may differ</h2>
           <ul className="space-y-3 text-sm leading-6 text-slate-400">
             <li>The 30% to 35% rent rule is only a rough guide and does not fit every household.</li>
-            <li>Commuting, debt payments, irregular income and local council tax can change the picture quickly.</li>
+            <li>Commuting, debt payments, irregular income and the exact council tax set by your local authority can change the picture quickly.</li>
             <li>Landlords and letting agents may use their own affordability formulas or require a guarantor.</li>
             <li>Your savings goal can make a rent level feel tighter even if the bare essentials are covered.</li>
           </ul>

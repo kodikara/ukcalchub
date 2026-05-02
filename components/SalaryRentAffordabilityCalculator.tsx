@@ -100,6 +100,7 @@ export function SalaryRentAffordabilityCalculator() {
   const affordability = calculateRentAffordability({
     monthlyIncome: monthlyTakeHome,
     rent,
+    councilTax: 0,
     bills,
     food,
     transport,

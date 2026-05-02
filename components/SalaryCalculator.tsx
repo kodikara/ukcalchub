@@ -102,12 +102,12 @@ const relatedLinks = [
   },
   {
     title: "Rent Affordability Calculator",
-    description: "Use your estimated take-home pay to judge whether rent feels comfortable after other costs.",
+    description: "Use your estimated take-home pay to judge whether rent feels comfortable after council tax and other costs.",
     href: "/rent-affordability-calculator-uk",
   },
   {
     title: "Cost of Living Calculator",
-    description: "Compare salary take-home with broader monthly household costs across common UK scenarios.",
+    description: "Compare salary take-home with broader monthly household costs including council tax and real UK expenses.",
     href: "/cost-of-living-calculator-uk",
   },
 ] as const;
