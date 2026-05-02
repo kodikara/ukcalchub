@@ -55,6 +55,7 @@ export function HourlyWageCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="1000"
             inputMode="decimal"
             value={annualSalary}
             onChange={(event) => setAnnualSalary(Number(event.target.value))}

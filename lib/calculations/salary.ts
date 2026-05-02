@@ -68,34 +68,36 @@ function roundMoney(value: number) {
 }
 
 function normaliseTaxCode(taxCode: string) {
-  return taxCode.trim().toUpperCase();
+  return taxCode.trim().toUpperCase().replace(/\s+/g, "");
 }
 
 function parseTaxCode(rawTaxCode: string): { allowance: number; mode: TaxCodeMode; code: string } {
-  const taxCode = normaliseTaxCode(rawTaxCode);
+  const raw = normaliseTaxCode(rawTaxCode);
+  const taxCode = raw.replace(/(W1|M1|X|NONCUM)$/g, "");
+  const regionalCode = taxCode.startsWith("S") || taxCode.startsWith("C") ? taxCode.slice(1) : taxCode;
 
-  if (taxCode === "NT") {
-    return { allowance: 0, mode: "noTax", code: taxCode };
+  if (regionalCode === "NT") {
+    return { allowance: 0, mode: "noTax", code: taxCode || "NT" };
   }
 
-  if (taxCode === "BR") {
-    return { allowance: 0, mode: "basicRate", code: taxCode };
+  if (regionalCode === "BR") {
+    return { allowance: 0, mode: "basicRate", code: taxCode || "BR" };
   }
 
-  if (taxCode === "D0") {
-    return { allowance: 0, mode: "higherRate", code: taxCode };
+  if (regionalCode === "D0" || regionalCode === "SD0") {
+    return { allowance: 0, mode: "higherRate", code: taxCode || "D0" };
   }
 
-  if (taxCode === "D1") {
-    return { allowance: 0, mode: "additionalRate", code: taxCode };
+  if (regionalCode === "D1" || regionalCode === "SD1" || regionalCode === "SD2" || regionalCode === "SD3") {
+    return { allowance: 0, mode: "additionalRate", code: taxCode || "D1" };
   }
 
-  if (taxCode === "0T") {
-    return { allowance: 0, mode: "noAllowance", code: taxCode };
+  if (regionalCode === "0T") {
+    return { allowance: 0, mode: "noAllowance", code: taxCode || "0T" };
   }
 
-  const isKCode = taxCode.startsWith("K");
-  const digits = Number.parseInt(taxCode.replace(/\D/g, ""), 10);
+  const isKCode = regionalCode.startsWith("K");
+  const digits = Number.parseInt(regionalCode.replace(/\D/g, ""), 10);
 
   if (Number.isNaN(digits) || digits <= 0) {
     return { allowance: STANDARD_PERSONAL_ALLOWANCE, mode: "standard", code: "1257L" };
@@ -104,7 +106,7 @@ function parseTaxCode(rawTaxCode: string): { allowance: number; mode: TaxCodeMod
   return {
     allowance: isKCode ? digits * -10 : digits * 10,
     mode: "standard",
-    code: taxCode,
+    code: taxCode || "1257L",
   };
 }
 

@@ -58,9 +58,9 @@ export function RentAffordabilityCalculator() {
   });
 
   const donutData = [
-    { name: "Rent", value: rent, color: "#0f766e" },
+    { name: "Rent", value: rent, color: "#3b82f6" },
     { name: "Bills", value: bills, color: "#38bdf8" },
-    { name: "Food", value: food, color: "#3b82f6" },
+    { name: "Food", value: food, color: "#6366f1" },
     { name: "Transport", value: transport, color: "#8b5cf6" },
     { name: "Childcare", value: childcare, color: "#f59e0b" },
     { name: "Other", value: other, color: "#f97316" },
@@ -94,6 +94,7 @@ export function RentAffordabilityCalculator() {
               prefix="£"
               type="number"
               min="0"
+              step="50"
               inputMode="decimal"
               value={value as number}
               onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}

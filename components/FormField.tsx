@@ -39,9 +39,22 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   hint?: string;
   prefix?: string;
+  suffix?: string;
 };
 
-export function InputField({ label, hint, prefix, className = "", type, value, onChange, onBlur, onFocus, ...props }: InputFieldProps) {
+export function InputField({
+  label,
+  hint,
+  prefix,
+  suffix,
+  className = "",
+  type,
+  value,
+  onChange,
+  onBlur,
+  onFocus,
+  ...props
+}: InputFieldProps) {
   const isNumberInput = type === "number";
   const [draftValue, setDraftValue] = useState(normaliseInputValue(value));
   const normalisedValue = useMemo(() => normaliseInputValue(value), [value]);
@@ -90,9 +103,7 @@ export function InputField({ label, hint, prefix, className = "", type, value, o
 
   function handleBlur(event: FocusEvent<HTMLInputElement>) {
     if (isNumberInput) {
-      if (draftValue === "" || draftValue === "-" || draftValue === "." || draftValue === "-.") {
-        setDraftValue(normalisedValue);
-      } else {
+      if (draftValue !== "" && draftValue !== "-" && draftValue !== "." && draftValue !== "-.") {
         setDraftValue(normaliseInputValue(Number(draftValue)));
       }
     }
@@ -101,10 +112,6 @@ export function InputField({ label, hint, prefix, className = "", type, value, o
   }
 
   function handleFocus(event: FocusEvent<HTMLInputElement>) {
-    if (isNumberInput) {
-      event.target.select();
-    }
-
     onFocus?.(event);
   }
 
@@ -117,14 +124,21 @@ export function InputField({ label, hint, prefix, className = "", type, value, o
     value: isNumberInput ? draftValue : value,
   };
 
-  if (prefix) {
+  if (prefix || suffix) {
     return (
       <FieldShell label={label} hint={hint}>
         <div className={`input-group ${className}`.trim()}>
-          <span className="prefix-slot" aria-hidden="true">
-            {prefix}
-          </span>
+          {prefix ? (
+            <span className="prefix-slot" aria-hidden="true">
+              {prefix}
+            </span>
+          ) : null}
           <input {...sharedInputProps} className="input-inline" />
+          {suffix ? (
+            <span className="prefix-slot text-slate-400" aria-hidden="true">
+              {suffix}
+            </span>
+          ) : null}
         </div>
       </FieldShell>
     );
@@ -205,7 +219,7 @@ export function SearchableSelectField({
           placeholder={placeholder}
           onFocus={() => {
             setOpen(true);
-            setQuery(selectedOption?.label ?? "");
+            setQuery("");
           }}
           onChange={(event) => {
             setOpen(true);
@@ -222,7 +236,7 @@ export function SearchableSelectField({
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
             setOpen((current) => !current);
-            setQuery(selectedOption?.label ?? "");
+            setQuery("");
           }}
           className="absolute right-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-white/8 hover:text-white"
           aria-label="Toggle options"

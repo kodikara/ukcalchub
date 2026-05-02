@@ -30,6 +30,29 @@ const faqs = [
   },
 ];
 
+const taxCodeOptions = [
+  { label: "1257L - Standard allowance", value: "1257L" },
+  { label: "0T - No personal allowance", value: "0T" },
+  { label: "BR - Basic rate", value: "BR" },
+  { label: "D0 - Higher rate", value: "D0" },
+  { label: "D1 - Additional rate", value: "D1" },
+  { label: "NT - No tax", value: "NT" },
+  { label: "K497 - Extra taxable pay", value: "K497" },
+  { label: "K1257 - Higher taxable adjustment", value: "K1257" },
+  { label: "S1257L - Scotland standard", value: "S1257L" },
+  { label: "S0T - Scotland no allowance", value: "S0T" },
+  { label: "SBR - Scotland basic rate", value: "SBR" },
+  { label: "SD0 - Scotland intermediate rate", value: "SD0" },
+  { label: "SD1 - Scotland higher rate", value: "SD1" },
+  { label: "SD2 - Scotland advanced rate", value: "SD2" },
+  { label: "SD3 - Scotland top rate", value: "SD3" },
+  { label: "C1257L - Wales standard", value: "C1257L" },
+  { label: "C0T - Wales no allowance", value: "C0T" },
+  { label: "CBR - Wales basic rate", value: "CBR" },
+  { label: "CD0 - Wales higher rate", value: "CD0" },
+  { label: "CD1 - Wales additional rate", value: "CD1" },
+] as const;
+
 export function PensionContributionCalculator() {
   const [annualSalary, setAnnualSalary] = useState(45_000);
   const [employeePercent, setEmployeePercent] = useState(5);
@@ -52,7 +75,7 @@ export function PensionContributionCalculator() {
   });
 
   const chartData = [
-    { label: "Employee", value: result.employeeAnnual, color: "#f59e0b" },
+    { label: "Employee", value: result.employeeAnnual, color: "#8b5cf6" },
     { label: "Employer", value: result.employerAnnual, color: "#14b8a6" },
     { label: "Tax saved", value: result.taxSavedAnnual, color: "#3b82f6" },
     { label: "NI saved", value: result.niSavedAnnual, color: "#0ea5e9" },
@@ -77,6 +100,7 @@ export function PensionContributionCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="1000"
             inputMode="decimal"
             value={annualSalary}
             onChange={(event) => setAnnualSalary(Number(event.target.value))}
@@ -87,6 +111,8 @@ export function PensionContributionCalculator() {
             type="number"
             min="0"
             max="100"
+            step="0.5"
+            suffix="%"
             inputMode="decimal"
             value={employeePercent}
             onChange={(event) => setEmployeePercent(Number(event.target.value))}
@@ -97,6 +123,8 @@ export function PensionContributionCalculator() {
             type="number"
             min="0"
             max="100"
+            step="0.5"
+            suffix="%"
             inputMode="decimal"
             value={employerPercent}
             onChange={(event) => setEmployerPercent(Number(event.target.value))}
@@ -138,10 +166,22 @@ export function PensionContributionCalculator() {
           </SelectField>
           <InputField
             label="Tax code"
-            hint="Default 1257L"
+            hint="Use a common code or type your own"
+            type="text"
             value={taxCode}
+            list="pension-tax-code-options"
+            autoCapitalize="characters"
+            spellCheck={false}
             onChange={(event) => setTaxCode(event.target.value.toUpperCase())}
+            placeholder="1257L"
           />
+          <datalist id="pension-tax-code-options">
+            {taxCodeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </datalist>
           <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-400 backdrop-blur-xl">
             This tool uses the same simplified current-year salary logic as the salary calculator, then compares pay with and without pension contributions.
           </div>

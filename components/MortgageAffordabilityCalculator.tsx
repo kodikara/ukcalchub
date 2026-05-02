@@ -69,6 +69,7 @@ export function MortgageAffordabilityCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="1000"
             inputMode="decimal"
             value={annualIncome}
             onChange={(event) => setAnnualIncome(Number(event.target.value))}
@@ -78,6 +79,7 @@ export function MortgageAffordabilityCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="1000"
             inputMode="decimal"
             value={deposit}
             onChange={(event) => setDeposit(Number(event.target.value))}
@@ -88,6 +90,7 @@ export function MortgageAffordabilityCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="50"
             inputMode="decimal"
             value={monthlyDebtPayments}
             onChange={(event) => setMonthlyDebtPayments(Number(event.target.value))}
@@ -98,6 +101,7 @@ export function MortgageAffordabilityCalculator() {
             type="number"
             min="0"
             step="0.1"
+            suffix="%"
             inputMode="decimal"
             value={interestRate}
             onChange={(event) => setInterestRate(Number(event.target.value))}

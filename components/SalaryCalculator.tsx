@@ -47,6 +47,29 @@ const faqs = [
   },
 ];
 
+const taxCodeOptions = [
+  { label: "1257L - Standard allowance", value: "1257L" },
+  { label: "0T - No personal allowance", value: "0T" },
+  { label: "BR - Basic rate", value: "BR" },
+  { label: "D0 - Higher rate", value: "D0" },
+  { label: "D1 - Additional rate", value: "D1" },
+  { label: "NT - No tax", value: "NT" },
+  { label: "K497 - Extra taxable pay", value: "K497" },
+  { label: "K1257 - Higher taxable adjustment", value: "K1257" },
+  { label: "S1257L - Scotland standard", value: "S1257L" },
+  { label: "S0T - Scotland no allowance", value: "S0T" },
+  { label: "SBR - Scotland basic rate", value: "SBR" },
+  { label: "SD0 - Scotland intermediate rate", value: "SD0" },
+  { label: "SD1 - Scotland higher rate", value: "SD1" },
+  { label: "SD2 - Scotland advanced rate", value: "SD2" },
+  { label: "SD3 - Scotland top rate", value: "SD3" },
+  { label: "C1257L - Wales standard", value: "C1257L" },
+  { label: "C0T - Wales no allowance", value: "C0T" },
+  { label: "CBR - Wales basic rate", value: "CBR" },
+  { label: "CD0 - Wales higher rate", value: "CD0" },
+  { label: "CD1 - Wales additional rate", value: "CD1" },
+] as const;
+
 export function SalaryCalculator() {
   const [annualSalary, setAnnualSalary] = useState(45_000);
   const [pensionPercent, setPensionPercent] = useState(5);
@@ -71,11 +94,11 @@ export function SalaryCalculator() {
   const labelSuffix = period === "yearly" ? "per year" : period === "monthly" ? "per month" : "per week";
 
   const donutData = [
-    { name: "Take-home pay", value: breakdown.takeHomeAnnual, color: "#0f766e" },
-    { name: "Income tax", value: breakdown.incomeTaxAnnual, color: "#3b82f6" },
-    { name: "National Insurance", value: breakdown.nationalInsuranceAnnual, color: "#38bdf8" },
-    { name: "Pension", value: breakdown.pensionAnnual, color: "#f59e0b" },
-    { name: "Student loan", value: breakdown.studentLoanAnnual, color: "#f97316" },
+    { name: "Take-home pay", value: breakdown.takeHomeAnnual, color: "#10b981" },
+    { name: "Income tax", value: breakdown.incomeTaxAnnual, color: "#fb7185" },
+    { name: "National Insurance", value: breakdown.nationalInsuranceAnnual, color: "#22d3ee" },
+    { name: "Pension", value: breakdown.pensionAnnual, color: "#8b5cf6" },
+    { name: "Student loan", value: breakdown.studentLoanAnnual, color: "#f59e0b" },
     { name: "Postgraduate loan", value: breakdown.postgraduateLoanAnnual, color: "#ef4444" },
   ];
 
@@ -97,6 +120,7 @@ export function SalaryCalculator() {
             prefix="£"
             type="number"
             min="0"
+            step="1000"
             inputMode="decimal"
             value={annualSalary}
             onChange={(event) => setAnnualSalary(Number(event.target.value))}
@@ -107,6 +131,8 @@ export function SalaryCalculator() {
             type="number"
             min="0"
             max="100"
+            step="0.5"
+            suffix="%"
             inputMode="decimal"
             value={pensionPercent}
             onChange={(event) => setPensionPercent(Number(event.target.value))}
@@ -149,10 +175,22 @@ export function SalaryCalculator() {
           </SelectField>
           <InputField
             label="Tax code"
-            hint="Default 1257L"
+            hint="Use a common code or type your own"
+            type="text"
             value={taxCode}
+            list="salary-tax-code-options"
+            autoCapitalize="characters"
+            spellCheck={false}
             onChange={(event) => setTaxCode(event.target.value.toUpperCase())}
+            placeholder="1257L"
           />
+          <datalist id="salary-tax-code-options">
+            {taxCodeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </datalist>
           <div>
             <label className="mb-3 block text-[0.82rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Result view</label>
             <div className="pill-toggle">

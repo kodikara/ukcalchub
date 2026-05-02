@@ -59,9 +59,9 @@ export function CostOfLivingCalculator() {
   });
 
   const donutData = [
-    { name: "Rent or mortgage", value: Math.max(rent, result.categoryBreakdown[0]?.benchmark ?? 0), color: "#0f766e" },
+    { name: "Rent or mortgage", value: Math.max(rent, result.categoryBreakdown[0]?.benchmark ?? 0), color: "#3b82f6" },
     { name: "Bills", value: Math.max(bills, result.categoryBreakdown[1]?.benchmark ?? 0), color: "#38bdf8" },
-    { name: "Food", value: Math.max(food, result.categoryBreakdown[2]?.benchmark ?? 0), color: "#3b82f6" },
+    { name: "Food", value: Math.max(food, result.categoryBreakdown[2]?.benchmark ?? 0), color: "#6366f1" },
     { name: "Transport", value: Math.max(transport, result.categoryBreakdown[3]?.benchmark ?? 0), color: "#8b5cf6" },
     { name: "Childcare", value: Math.max(childcare, result.categoryBreakdown[4]?.benchmark ?? 0), color: "#f59e0b" },
     { name: "Other", value: Math.max(other, result.categoryBreakdown[5]?.benchmark ?? 0), color: "#f97316" },
@@ -110,6 +110,7 @@ export function CostOfLivingCalculator() {
               prefix="£"
               type="number"
               min="0"
+              step="50"
               inputMode="decimal"
               value={value as number}
               onChange={(event) => (setter as (value: number) => void)(Number(event.target.value))}
