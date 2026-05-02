@@ -180,11 +180,28 @@ select {
   height: 100%;
   border: 0;
   background: transparent;
-  padding: 0 1rem 0 0;
+  padding-top: 0;
+  padding-bottom: 0;
   color: #ffffff;
   font-size: 0.95rem;
   line-height: 1.25rem;
   outline: none;
+}
+
+.input-inline-no-prefix {
+  padding-left: 1rem;
+}
+
+.input-inline-with-prefix {
+  padding-left: 0;
+}
+
+.input-inline-no-suffix {
+  padding-right: 1rem;
+}
+
+.input-inline-with-suffix {
+  padding-right: 0;
 }
 
 .input-inline::placeholder {
@@ -192,12 +209,14 @@ select {
 }
 
 .input-inline[type="number"] {
+  -moz-appearance: textfield;
   appearance: textfield;
 }
 
 .input-inline[type="number"]::-webkit-outer-spin-button,
 .input-inline[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 

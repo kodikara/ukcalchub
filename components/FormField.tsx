@@ -142,7 +142,12 @@ export function InputField({
               {prefix}
             </span>
           ) : null}
-          <input {...sharedInputProps} className={`input-inline ${prefix ? "" : "pl-4"} ${suffix ? "" : "pr-4"}`.trim()} />
+          <input
+            {...sharedInputProps}
+            className={`input-inline ${prefix ? "input-inline-with-prefix" : "input-inline-no-prefix"} ${
+              suffix ? "input-inline-with-suffix" : "input-inline-no-suffix"
+            }`.trim()}
+          />
           {suffix ? (
             <span className="suffix-slot" aria-hidden="true">
               {suffix}
