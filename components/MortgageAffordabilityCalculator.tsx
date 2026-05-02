@@ -198,7 +198,7 @@ export function MortgageAffordabilityCalculator() {
             eyebrow="Estimated affordability"
             title="Possible maximum property price"
             value={formatCurrency(result.recommendedPropertyPrice, true)}
-            detail={`Estimated maximum loan: ${formatCurrency(result.recommendedLoan, true)} at around ${formatCurrency(result.estimatedMonthlyPayment, true)} per month.`}
+            detail={`Estimated maximum loan: ${formatCurrency(result.recommendedLoan, true)} with an approximate monthly payment of ${formatCurrency(result.estimatedMonthlyPayment, true)} on this simplified model.`}
             tone={statusTone[result.status]}
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

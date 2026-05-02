@@ -224,7 +224,7 @@ export function RentAffordabilityCalculator() {
             <StatCard label="Rent share" value={formatPercent(result.rentPercent)} />
             <StatCard label="Total monthly expenses" value={formatCurrency(result.totalExpenses, true)} />
             <StatCard label="Council tax" value={formatCurrency(councilTax, true)} />
-            <StatCard label="After savings goal" value={formatCurrency(result.remainingAfterSavingsGoal, true)} />
+            <StatCard label="After savings goal" value={formatCurrency(result.remainingAfterSavingsGoal, true)} hint={`After setting aside ${formatCurrency(savingsGoal, true)} per month`} />
             <StatCard label="Essential spend ratio" value={formatPercent(result.essentialSpendPercent)} />
           </div>
           <div className="grid gap-6 xl:grid-cols-2">

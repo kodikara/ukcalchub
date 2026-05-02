@@ -182,11 +182,11 @@ export function SalaryRentAffordabilityCalculator() {
             tone={statusTone[affordability.status]}
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-            <StatCard label="Monthly take-home" value={formatCurrency(monthlyTakeHome, true)} />
-            <StatCard label="Rent share" value={formatPercent(affordability.rentPercent)} />
-            <StatCard label="Monthly expenses" value={formatCurrency(affordability.totalExpenses, true)} />
-            <StatCard label="Money left" value={formatCurrency(affordability.remaining, true)} />
-            <StatCard label="Status" value={affordability.status} />
+            <StatCard label="Monthly take-home" value={formatCurrency(monthlyTakeHome, true)} hint="Estimated from your salary inputs" />
+            <StatCard label="Rent share" value={formatPercent(affordability.rentPercent)} hint="Rent as a share of estimated take-home pay" />
+            <StatCard label="Monthly expenses" value={formatCurrency(affordability.totalExpenses, true)} hint="Total of the monthly costs listed on this page" />
+            <StatCard label="Money left" value={formatCurrency(affordability.remaining, true)} hint="Estimated take-home minus listed monthly expenses" />
+            <StatCard label="Affordability status" value={affordability.status} />
           </div>
           <div className="grid gap-6 xl:grid-cols-2">
             <SectionCard

@@ -235,14 +235,14 @@ export function PensionContributionCalculator() {
             eyebrow="Estimated pension value"
             title="Total going into your pension each month"
             value={formatCurrency(result.totalMonthly, true)}
-            detail={`Estimated monthly take-home impact: ${formatCurrency(result.takeHomeImpactMonthly, true)}. Employer contribution can materially increase the total value added.`}
+            detail={`Estimated reduction in monthly take-home pay: ${formatCurrency(result.takeHomeImpactMonthly, true)}. Employer contribution can materially increase the total value added to your pension.`}
             tone="violet"
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard label="Employee yearly contribution" value={formatCurrency(result.employeeAnnual, true)} />
             <StatCard label="Employer yearly contribution" value={formatCurrency(result.employerAnnual, true)} />
             <StatCard label="Total yearly contribution" value={formatCurrency(result.totalAnnual, true)} />
-            <StatCard label="Yearly take-home impact" value={formatCurrency(result.takeHomeImpactAnnual, true)} />
+            <StatCard label="Yearly take-home reduction" value={formatCurrency(result.takeHomeImpactAnnual, true)} hint="Estimated drop in net pay after simplified tax and deduction effects" />
             <StatCard label="Estimated tax saved" value={formatCurrency(result.taxSavedAnnual, true)} />
             <StatCard label="Estimated NI saved" value={formatCurrency(result.niSavedAnnual, true)} />
             <StatCard label="Estimated loan saved" value={formatCurrency(result.studentLoanSavedAnnual, true)} />

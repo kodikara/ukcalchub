@@ -234,13 +234,13 @@ export function CostOfLivingCalculator() {
             eyebrow="Estimated total"
             title="Suggested monthly planning cost"
             value={formatCurrency(result.adjustedMonthlyTotal, true)}
-            detail="This compares your entries with a simple UK benchmark for your household and location, then uses the higher figure in each category for planning."
+            detail="This planning total compares your own monthly figures with a simple UK benchmark for your household and location, then uses the higher number in each category."
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <StatCard label="Your entered total" value={formatCurrency(result.monthlyTotal, true)} />
-            <StatCard label="Benchmark total" value={formatCurrency(result.benchmarkMonthlyTotal, true)} />
-            <StatCard label="Planning total" value={formatCurrency(result.adjustedMonthlyTotal, true)} />
-            <StatCard label="Estimated yearly total" value={formatCurrency(result.yearlyTotal, true)} />
+            <StatCard label="Your monthly total" value={formatCurrency(result.monthlyTotal, true)} hint="Based only on the amounts you entered" />
+            <StatCard label="Benchmark monthly total" value={formatCurrency(result.benchmarkMonthlyTotal, true)} hint="A broad UK reference for this household and location" />
+            <StatCard label="Planning monthly total" value={formatCurrency(result.adjustedMonthlyTotal, true)} hint="Uses the higher of your figure or the benchmark in each category" />
+            <StatCard label="Planning yearly total" value={formatCurrency(result.yearlyTotal, true)} hint="Planning monthly total multiplied by 12" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {result.categoryBreakdown.map((item) => (
