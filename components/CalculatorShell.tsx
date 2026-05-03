@@ -7,6 +7,7 @@ type CalculatorShellProps = {
   title: string;
   intro: string;
   breadcrumbLabel?: string;
+  experienceLine?: string;
   trustNote?: string;
   taxYearBadge?: string;
   methodologyNote?: string;
@@ -25,6 +26,7 @@ export function CalculatorShell({
   title,
   intro,
   breadcrumbLabel,
+  experienceLine = "Built using real UK scenarios including rent, council tax, bills and everyday expenses.",
   trustNote = "Estimate only. UK-focused. No sign-up required.",
   taxYearBadge,
   methodologyNote = "Built from current UK thresholds and clearly stated assumptions. Use the source links below if you want to review the rules behind the estimate.",
@@ -51,6 +53,9 @@ export function CalculatorShell({
         <span className="eyebrow">UK-focused calculator</span>
         <h1 className="section-title font-semibold text-white">{title}</h1>
         <p className="body-copy max-w-3xl text-base leading-7 md:text-lg md:leading-8">{intro}</p>
+        <p className="max-w-3xl text-sm leading-6 text-slate-300 md:text-base">
+          {experienceLine}
+        </p>
         <div className="flex flex-wrap gap-3">
           <div className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/8 px-4 py-2 text-sm font-medium text-cyan-100">
             {trustNote}

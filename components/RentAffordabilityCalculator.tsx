@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -7,6 +8,7 @@ import { FAQ } from "@/components/FAQ";
 import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SelectField } from "@/components/FormField";
 import { ResultCard } from "@/components/ResultCard";
+import { RealWorldScenarioCard } from "@/components/RealWorldScenarioCard";
 import { SectionCard } from "@/components/SectionCard";
 import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
@@ -162,6 +164,9 @@ export function RentAffordabilityCalculator() {
       <CalculatorShell
       title="Rent Affordability Calculator UK"
       intro="Check how much rent may be affordable based on your income and monthly expenses."
+      experienceLine="Built using real UK scenarios including rent, council tax, bills and everyday expenses."
+      taxYearBadge="Updated for UK tax year 2026/27"
+      methodologyNote="Based on HMRC tax bands, National Insurance thresholds and typical UK cost ranges. The housing side is built for realistic planning rather than an exact landlord affordability check."
       form={
         <div className="space-y-5">
           {[
@@ -271,6 +276,18 @@ export function RentAffordabilityCalculator() {
             <li>Tight if rent sits around 30% to 40% of take-home pay or your remaining money after savings is quite low.</li>
             <li>Risky if rent is above 40% of take-home pay, total essential spend is very heavy, or your remaining money drops below zero.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white">What this means in real life</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              In many UK cases, the tension is not just the rent itself. It is the combination of rent, council tax,
+              bills, food and transport that turns a salary from “looks fine on paper” into “feels tight each month”.
+            </p>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              <li>Housing usually absorbs the largest share of income.</li>
+              <li>Council tax and utilities often add another £250 to £400.</li>
+              <li>Transport, groceries and family obligations can narrow the margin very quickly.</li>
+            </ul>
+          </div>
           <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s included in this estimate?</h3>
           <ul className="space-y-2 text-sm leading-6 text-slate-400">
             <li>Rent or mortgage</li>
@@ -290,12 +307,26 @@ export function RentAffordabilityCalculator() {
       }
       example={
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
-          <p className="text-sm leading-6 text-slate-400">
-            If your monthly take-home income is £2,800 and your rent is £950, this calculator compares rent, council
-            tax, bills, groceries, transport, childcare and other expenses to show whether that level of rent looks
-            comfortable, tight or risky.
-          </p>
+          <RealWorldScenarioCard
+            title="Real UK Example"
+            intro="A realistic rent-and-expenses picture for a single professional budgeting month to month."
+            items={[
+              { label: "Rent", value: "£1,325 / month", note: "Shared contribution can reduce the direct cost, but rent still shapes the whole budget." },
+              { label: "Bills", value: "£230 / month" },
+              { label: "Council tax", value: "£260 / month" },
+              { label: "Fuel / transport", value: "£160 / month" },
+              { label: "Groceries", value: "£400 / month" },
+              { label: "Overseas support", value: "£300 / month" },
+              { label: "Online purchases", value: "£100 / month" },
+              { label: "Leisure", value: "£150 / month" },
+            ]}
+            summary={
+              <>
+                Total typical outgoings can land around <strong>£2,000 to £2,300 a month</strong>. That is why even
+                a salary that looks comfortable at first glance can feel constrained once the real housing picture is included.
+              </>
+            }
+          />
         </div>
       }
       differences={
@@ -307,6 +338,22 @@ export function RentAffordabilityCalculator() {
             <li>Landlords and letting agents may use their own affordability formulas or require a guarantor.</li>
             <li>Your savings goal can make a rent level feel tighter even if the bare essentials are covered.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4 text-sm leading-6 text-slate-300">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Common patterns we see</h3>
+            <ul className="mt-2 space-y-2">
+              <li>Many users underestimate council tax and utility costs when they first test an affordable rent level.</li>
+              <li>Rent usually consumes the largest portion of take-home pay.</li>
+              <li>Overseas commitments or family support can materially change what still feels workable each month.</li>
+            </ul>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <Link href="/salary-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Check take-home pay from salary first
+              </Link>
+              <Link href="/cost-of-living-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Compare with a fuller cost-of-living view
+              </Link>
+            </div>
+          </div>
         </div>
       }
       resources={

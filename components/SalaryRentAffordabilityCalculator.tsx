@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
@@ -9,6 +10,7 @@ import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SelectField } from "@/components/FormField";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
+import { RealWorldScenarioCard } from "@/components/RealWorldScenarioCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
 import { calculateRentAffordability } from "@/lib/calculations/rent";
@@ -147,7 +149,9 @@ export function SalaryRentAffordabilityCalculator() {
       <CalculatorShell
       title="Salary Rent Affordability Calculator UK"
       intro="Estimate monthly take-home pay from your salary, then compare it with rent and essential monthly costs in one place."
+      experienceLine="Built using real UK scenarios including rent, council tax, bills and everyday expenses."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
+      methodologyNote="Updated for UK tax year 2026/27. Based on HMRC tax bands, National Insurance thresholds and typical UK cost ranges people commonly compare against rent decisions."
       form={
         <div className="space-y-5">
           <InputField
@@ -236,15 +240,37 @@ export function SalaryRentAffordabilityCalculator() {
             <li>Tight means the budget may still work, but there is less room for surprises or savings.</li>
             <li>Risky means rent is taking too much of take-home pay or the remaining budget is low or negative.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white">What this means in real life</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              This kind of combined view is often where a salary starts to feel real. A headline pay rise can still
+              leave only a modest monthly margin once rent, bills, food and transport are all counted together.
+            </p>
+          </div>
         </div>
       }
       example={
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
-          <p className="text-sm leading-6 text-slate-400">
-            If your salary is £36,000 and your rent is £950 a month, this page estimates your monthly take-home pay and
-            then compares it with rent, bills, food, transport and other expenses to show how much could be left.
-          </p>
+          <RealWorldScenarioCard
+            title="Real UK Example"
+            intro="A single professional comparing salary, rent and other everyday commitments in one monthly view."
+            items={[
+              { label: "Rent", value: "£1,325 / month" },
+              { label: "Bills", value: "£230 / month" },
+              { label: "Council tax", value: "£260 / month" },
+              { label: "Fuel / transport", value: "£160 / month" },
+              { label: "Groceries", value: "£400 / month" },
+              { label: "Overseas support", value: "£300 / month" },
+              { label: "Online purchases", value: "£100 / month" },
+              { label: "Leisure", value: "£150 / month" },
+            ]}
+            summary={
+              <>
+                A setup like this can easily consume <strong>£2,000 to £2,300 a month</strong>, which is why the
+                combined salary-and-rent view is useful for judging whether a salary change really improves everyday flexibility.
+              </>
+            }
+          />
         </div>
       }
       differences={
@@ -256,6 +282,21 @@ export function SalaryRentAffordabilityCalculator() {
             <li>Landlords and letting agents may use their own affordability rules or require a guarantor.</li>
             <li>Irregular pay, overtime and one-off costs can make a real monthly budget feel very different.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4 text-sm leading-6 text-slate-300">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Practical note</h3>
+            <p className="mt-2">
+              It is usually safer to budget slightly above the calculated values, particularly for energy, council tax
+              and variable monthly spending that often arrives in uneven patterns.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <Link href="/rent-affordability-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                See what rent you can afford on your salary
+              </Link>
+              <Link href="/cost-of-living-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Compare with real UK living costs
+              </Link>
+            </div>
+          </div>
         </div>
       }
       related={

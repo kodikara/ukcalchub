@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -11,6 +12,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { SectionCard } from "@/components/SectionCard";
 import { SourceLinks } from "@/components/SourceLinks";
 import { StatCard } from "@/components/StatCard";
+import { RealWorldScenarioCard } from "@/components/RealWorldScenarioCard";
 import {
   calculateSalary,
   type PensionMethod,
@@ -178,7 +180,9 @@ export function TakeHomePayCalculator() {
       <CalculatorShell
       title="Take-Home Pay Calculator UK"
       intro="Estimate your monthly and weekly UK take-home pay after tax, National Insurance, pension and student loan deductions."
+      experienceLine="Built using real UK scenarios including rent, council tax, bills and everyday expenses."
       taxYearBadge={CURRENT_TAX_YEAR_LABEL}
+      methodologyNote="Updated for UK tax year 2026/27. Based on HMRC tax bands, National Insurance thresholds and the kinds of everyday UK spending patterns people usually compare with monthly net pay."
       form={
         <div className="space-y-5">
           <InputField
@@ -305,16 +309,42 @@ export function TakeHomePayCalculator() {
               ))}
             </ul>
           </div>
+          <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white">What this means in real life</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              In many UK cases, monthly take-home pay around this level is what people use to judge rent, council tax,
+              commuting and whether there is enough room left for savings.
+            </p>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              <li>Housing often absorbs 30% to 45% of monthly net pay.</li>
+              <li>Council tax and bills can quickly add another few hundred pounds.</li>
+              <li>Food, transport and small recurring subscriptions can feel modest individually but significant together.</li>
+            </ul>
+          </div>
         </div>
       }
       example={
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
-          <p className="text-sm leading-6 text-slate-400">
-            If your salary is £35,000 per year, this calculator estimates your monthly take-home pay after income tax,
-            National Insurance, pension contributions and student loan deductions. That gives you a fast net-pay figure
-            you can compare with rent, household bills or saving goals.
-          </p>
+          <RealWorldScenarioCard
+            title="Real UK Example"
+            intro="A realistic single-person monthly budget that shows why net pay often matters more than the headline salary."
+            items={[
+              { label: "Rent", value: "£1,325 / month", note: "Shared contributions can reduce the direct burden, but the housing picture still dominates." },
+              { label: "Bills", value: "£230 / month" },
+              { label: "Council tax", value: "£260 / month" },
+              { label: "Transport", value: "£160 / month" },
+              { label: "Groceries", value: "£400 / month" },
+              { label: "Overseas support", value: "£300 / month" },
+              { label: "Online purchases", value: "£100 / month" },
+              { label: "Leisure", value: "£150 / month" },
+            ]}
+            summary={
+              <>
+                That kind of setup can push total outgoings into the <strong>£2,000 to £2,300</strong> range. It is
+                a good reminder that monthly take-home pay is often the more practical number for real planning.
+              </>
+            }
+          />
         </div>
       }
       differences={
@@ -327,13 +357,28 @@ export function TakeHomePayCalculator() {
             <li>Student loan plan selection changes both the threshold and the repayment rate applied.</li>
             <li>Scottish income tax bands differ from the rest of the UK.</li>
           </ul>
-          <a
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4 text-sm leading-6 text-slate-300">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Practical note</h3>
+            <p className="mt-2">
+              When people are working out whether a salary increase really helps, the useful question is often not
+              just “what is my new take-home pay?” but also “what does that leave once rent, council tax and daily life are counted?”
+            </p>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <Link href="/rent-affordability-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                See what rent you can afford on your salary
+              </Link>
+              <Link href="/cost-of-living-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Compare with real UK living costs
+              </Link>
+            </div>
+          </div>
+          <Link
             href="/why-is-my-payslip-different-from-salary-calculator-uk"
             className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
           >
             Read why a payslip can differ
             <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </div>
       }
       resources={

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { BarChart } from "@/components/BarChart";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { DonutChart } from "@/components/DonutChart";
@@ -8,6 +9,7 @@ import { FaqSchema } from "@/components/FaqSchema";
 import { InputField, SearchableSelectField, SelectField } from "@/components/FormField";
 import { RelatedCalculators } from "@/components/RelatedCalculators";
 import { ResultCard } from "@/components/ResultCard";
+import { RealWorldScenarioCard } from "@/components/RealWorldScenarioCard";
 import { SectionCard } from "@/components/SectionCard";
 import { StatCard } from "@/components/StatCard";
 import { councilTaxBandOptions, councilTaxValueForBand, type CouncilTaxBand } from "@/lib/councilTax";
@@ -165,7 +167,10 @@ export function CostOfLivingCalculator() {
       <CalculatorShell
       title="UK Cost of Living Calculator"
       intro="Estimate monthly UK living costs for individuals and families."
+      experienceLine="Built using real UK scenarios including rent, council tax, bills and everyday expenses."
       trustNote="This calculator includes council tax and common UK household costs to give a more realistic monthly estimate."
+      taxYearBadge="Updated for UK tax year 2026/27"
+      methodologyNote="Based on HMRC tax bands, National Insurance thresholds and typical UK cost ranges. The spending side is designed for realistic planning rather than an exact forecast."
       form={
         <div className="space-y-5">
           <SelectField
@@ -299,6 +304,28 @@ export function CostOfLivingCalculator() {
             <li>Your planning total uses the higher of your own figure or the local benchmark in each category.</li>
             <li>This makes the result more useful for forward planning than a single multiplier on the total.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white">What this means in real life</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              At salaries around £40k to £50k, take-home pay typically sits somewhere between roughly £2,600 and
+              £3,000 per month in many UK cases.
+            </p>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              <li>Housing often takes 30% to 45% of the monthly budget.</li>
+              <li>Council tax and bills commonly add another £250 to £400.</li>
+              <li>Food and transport can easily exceed £500 once commuting and grocery prices are counted.</li>
+              <li>This often leaves less flexibility than the headline salary first suggests.</li>
+            </ul>
+          </div>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4">
+            <h3 className="text-xl font-semibold tracking-tight text-white">Common patterns we see</h3>
+            <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
+              <li>Many users underestimate council tax and utility costs when first sketching a monthly budget.</li>
+              <li>Rent or mortgage almost always consumes the largest share of household spending.</li>
+              <li>Small pension contributions reduce take-home slightly, but they often improve the longer-term financial position.</li>
+              <li>Overseas commitments or family support can materially affect affordability in real scenarios.</li>
+            </ul>
+          </div>
           <h3 className="pt-2 text-xl font-semibold tracking-tight text-white">What&apos;s included in this estimate?</h3>
           <ul className="space-y-2 text-sm leading-6 text-slate-400">
             <li>Rent or mortgage</li>
@@ -318,12 +345,27 @@ export function CostOfLivingCalculator() {
       }
       example={
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Example calculation</h2>
-          <p className="text-sm leading-6 text-slate-400">
-            If you choose a single household in an other-UK-city profile and enter rent, council tax, bills, food,
-            transport and other costs, this calculator gives both a monthly total and a yearly total so you can compare
-            your likely lifestyle cost with income and saving goals.
-          </p>
+          <RealWorldScenarioCard
+            title="Real UK Example"
+            intro="A single professional in the UK with a realistic spread of recurring monthly costs."
+            items={[
+              { label: "Rent", value: "£1,325 / month", note: "Shared contribution can still bring the direct burden closer to around £675 in some situations." },
+              { label: "Bills", value: "£230 / month", note: "Electricity, gas, water and other household utilities." },
+              { label: "Council tax", value: "£260 / month", note: "Often forgotten in simpler online budget tools." },
+              { label: "Fuel / transport", value: "£160 / month" },
+              { label: "Groceries", value: "£400 / month" },
+              { label: "Overseas support", value: "£300 / month" },
+              { label: "Online purchases", value: "£100 / month" },
+              { label: "Leisure / entertainment", value: "£150 / month" },
+            ]}
+            summary={
+              <>
+                Total typical monthly outgoings often land around <strong>£2,000 to £2,300</strong> depending on
+                lifestyle. This shows why a decent income can still leave limited disposable room once the full monthly
+                picture is counted.
+              </>
+            }
+          />
         </div>
       }
       differences={
@@ -335,6 +377,21 @@ export function CostOfLivingCalculator() {
             <li>This version uses broad UK planning benchmarks rather than postcode-level prices.</li>
             <li>It is designed to help with planning, not to predict exact future bills.</li>
           </ul>
+          <div className="rounded-[1.35rem] border border-white/10 bg-[#0f1728]/70 px-4 py-4 text-sm leading-6 text-slate-300">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Practical note</h3>
+            <p className="mt-2">
+              In real situations, it is usually safer to budget slightly above the calculated values, especially for
+              energy and council tax because both can change by season and by location.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <Link href="/salary-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Compare costs with your salary
+              </Link>
+              <Link href="/rent-affordability-calculator-uk" className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                See what rent you can afford on your salary
+              </Link>
+            </div>
+          </div>
         </div>
       }
       related={
