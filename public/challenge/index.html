@@ -3,23 +3,21 @@
 <head>
     <title>Sudoku Challenge</title>
     <script type="text/javascript">
-        // 1. Get the puzzle data from the URL parameters
+        // 1. Get the puzzle data from the current link
         const urlParams = new URLSearchParams(window.location.search);
         const p = urlParams.get('p');
         const s = urlParams.get('s');
         const d = urlParams.get('d') || 'MEDIUM';
 
         if (p && s) {
-            // 2. Try to open the app using the "Intent" format (Most reliable for Android)
-            // This forces the app to open and carries the data (p, s, d)
-            const intentUrl = `intent://challenge?p=${p}&s=${s}&d=${d}#Intent;scheme=sudoku;package=chamara.sudoku.ovein;end`;
-            window.location.href = intentUrl;
+            // 2. Try to "kick" the user into the App using the custom scheme
+            window.location.href = `sudoku://challenge?p=${p}&s=${s}&d=${d}`;
         }
 
-        // 3. Fallback: If the app doesn't open in 2 seconds, go to Play Store
+        // 3. Fallback: If the app doesn't open within 1.5 seconds, go to Play Store
         setTimeout(function() {
-            window.location.href = "https://play.google.com/store/apps/details?id=chamara.sudoku.ovein&pcampaignid=web_share";
-        }, 2000);
+            window.location.href = "https://play.google.com/store/apps/details?id=chamara.sudoku.ovein";
+        }, 1500);
     </script>
 </head>
 <body>
