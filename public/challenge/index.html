@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sudoku Offline Challenge</title>
-    <!-- Social Media Preview (WhatsApp/Facebook) -->
-    <meta property="og:title" content="Sudoku Offline Challenge" />
-    <meta property="og:description" content="I challenge you to solve this Sudoku puzzle! Can you beat it?" />
-    <meta property="og:type" content="website" />
-
+    <title>Sudoku Challenge</title>
     <script type="text/javascript">
-        // If the browser reaches this script, it means the app is NOT installed
-        // (because the app would have intercepted the link before the browser opened).
-        
-        // We redirect to the Play Store, and we keep your campaign ID.
-        var playStoreUrl = "https://play.google.com/store/apps/details?id=chamara.sudoku.ovein&pcampaignid=web_share";
-        
-        // Redirect immediately
-        window.location.href = playStoreUrl;
+        // 1. Get the puzzle data from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const p = urlParams.get('p');
+        const s = urlParams.get('s');
+        const d = urlParams.get('d') || 'MEDIUM';
+
+        if (p && s) {
+            // 2. Try to open the app using the "Intent" format (Most reliable for Android)
+            // This forces the app to open and carries the data (p, s, d)
+            const intentUrl = `intent://challenge?p=${p}&s=${s}&d=${d}#Intent;scheme=sudoku;package=chamara.sudoku.ovein;end`;
+            window.location.href = intentUrl;
+        }
+
+        // 3. Fallback: If the app doesn't open in 2 seconds, go to Play Store
+        setTimeout(function() {
+            window.location.href = "https://play.google.com/store/apps/details?id=chamara.sudoku.ovein&pcampaignid=web_share";
+        }, 2000);
     </script>
 </head>
 <body>
-    <p style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-        Redirecting to Sudoku Offline on Play Store...
+    <p style="text-align:center; font-family:sans-serif; margin-top:50px;">
+        Opening Sudoku Challenge...
     </p>
 </body>
 </html>
